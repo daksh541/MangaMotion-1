@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up - MangaMotion AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0F1724;
+            min-height: 100vh;
+            color: #E6EEF6;
+        }
+        
+        .form-card {
+            background: #0B1220;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+        
+        .input-field {
+            background: #0B1220;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+        
+        .input-field:focus {
+            background: #0B1220;
+            border-color: #FF3366;
+            box-shadow: 0 0 0 3px rgba(255, 51, 102, 0.1);
+        }
+        
+        .google-button {
+            background: #0B1220;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+        
+        .google-button:hover {
+            background: rgba(255, 51, 102, 0.1);
+            transform: translateY(-1px);
+            border-color: #FF3366;
+        }
+        
+        .submit-button {
+            background: #FF3366;
+            border-radius: 12px;
+            height: 44px;
+            padding: 0 24px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: none;
+            color: white;
+        }
+        
+        .submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 51, 102, 0.4);
+            background: #ff1a53;
+        }
+        
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -1;
+        }
+        
+        .shape {
+            position: absolute;
+            opacity: 0.1;
+            animation: float 20s infinite linear;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); }
+            100% { transform: translateY(-100vh) rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="flex items-center justify-center p-4">
+    <!-- Floating Background Shapes -->
+    <div class="floating-shapes">
+        <div class="shape w-16 h-16 bg-purple-500 rounded-full" style="left: 10%; animation-delay: 0s;"></div>
+        <div class="shape w-12 h-12 bg-blue-500 rounded-lg" style="left: 20%; animation-delay: 5s;"></div>
+        <div class="shape w-20 h-20 bg-indigo-500 rounded-full" style="left: 70%; animation-delay: 10s;"></div>
+        <div class="shape w-8 h-8 bg-pink-500 rounded-full" style="left: 80%; animation-delay: 15s;"></div>
+    </div>
+
+    <div class="w-full max-w-md">
+        <!-- Logo -->
+        <div class="text-center mb-8">
+            <div class="flex items-center justify-center space-x-2 mb-4">
+                <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
+                    <i class="fas fa-play text-white"></i>
+                </div>
+                <span class="text-2xl font-bold">MangaMotion AI</span>
+            </div>
+            <h1 class="text-3xl font-bold mb-2">Create Your Account</h1>
+            <p class="text-gray-400">Join thousands of creators making animated manga</p>
+        </div>
+
+        <!-- Signup Form -->
+        <div class="form-card rounded-2xl p-8">
+            <form id="signupForm" class="space-y-6">
+                <!-- Email -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-300 mb-2">Email Address</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        name="email" 
+                        required 
+                        class="input-field w-full px-4 py-3 rounded-lg text-white placeholder-gray-400 focus:outline-none"
+                        placeholder="Enter your email"
+                    >
+                </div>
+
+                <!-- Password -->
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-300 mb-2">Password</label>
+                    <div class="relative">
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            required 
+                            minlength="8"
+                            class="input-field w-full px-4 py-3 pr-12 rounded-lg text-white placeholder-gray-400 focus:outline-none"
+                            placeholder="Create a password"
+                        >
+                        <button type="button" onclick="togglePassword()" class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 hover:text-white">
+                            <i id="eyeIcon" class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <p class="text-xs text-gray-500 mt-1">Must be at least 8 characters</p>
+                </div>
+
+                <!-- Confirm Password -->
+                <div>
+                    <label for="confirmPassword" class="block text-sm font-medium text-gray-300 mb-2">Confirm Password</label>
+                    <input 
+                        type="password" 
+                        id="confirmPassword" 
+                        name="confirmPassword" 
+                        required 
+                        class="input-field w-full px-4 py-3 rounded-lg text-white placeholder-gray-400 focus:outline-none"
+                        placeholder="Confirm your password"
+                    >
+                </div>
+
+                <!-- Terms -->
+                <div class="flex items-start space-x-3">
+                    <input 
+                        type="checkbox" 
+                        id="terms" 
+                        name="terms" 
+                        required 
+                        class="mt-1 w-4 h-4 text-purple-600 bg-gray-800 border-gray-600 rounded focus:ring-purple-500"
+                    >
+                    <label for="terms" class="text-sm text-gray-400">
+                        I agree to the <a href="#" class="text-purple-400 hover:text-purple-300">Terms of Service</a> and <a href="#" class="text-purple-400 hover:text-purple-300">Privacy Policy</a>
+                    </label>
+                </div>
+
+                <!-- Submit Button -->
+                <button 
+                    type="submit" 
+                    class="submit-button w-full py-3 rounded-lg text-white font-bold text-lg"
+                >
+                    <i class="fas fa-rocket mr-2"></i>
+                    Create Account
+                </button>
+            </form>
+
+            <!-- Divider -->
+            <div class="relative my-8">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="w-full border-t border-gray-600"></div>
+                </div>
+                <div class="relative flex justify-center text-sm">
+                    <span class="px-2 bg-transparent text-gray-400">Or continue with</span>
+                </div>
+            </div>
+
+            <!-- Google Login -->
+            <button onclick="signUpWithGoogle()" class="google-button w-full py-3 rounded-lg text-white font-medium flex items-center justify-center space-x-3">
+                <div class="w-5 h-5 bg-white rounded-full flex items-center justify-center">
+                    <span class="text-xs font-bold text-blue-600">G</span>
+                </div>
+                <span>Continue with Google</span>
+            </button>
+
+            <!-- Login Link -->
+            <div class="text-center mt-6">
+                <p class="text-gray-400">
+                    Already have an account? 
+                    <a href="login.html" class="text-purple-400 hover:text-purple-300 font-medium">Sign in</a>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword() {
+            const passwordInput = document.getElementById('password');
+            const confirmInput = document.getElementById('confirmPassword');
+            const eyeIcon = document.getElementById('eyeIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                confirmInput.type = 'text';
+                eyeIcon.className = 'fas fa-eye-slash';
+            } else {
+                passwordInput.type = 'password';
+                confirmInput.type = 'password';
+                eyeIcon.className = 'fas fa-eye';
+            }
+        }
+
+        function signUpWithGoogle() {
+            // Simulate Google signup
+            const button = event.target.closest('button');
+            button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Connecting...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 2000);
+        }
+
+        document.getElementById('signupForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+            
+            if (password.length < 8) {
+                alert('Password must be at least 8 characters long!');
+                return;
+            }
+            
+            // Simulate signup
+            const submitButton = document.querySelector('button[type="submit"]');
+            submitButton.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Creating Account...';
+            submitButton.disabled = true;
+            
+            setTimeout(() => {
+                window.location.href = 'dashboard.html';
+            }, 2000);
+        });
+
+        // Animate form on load
+        anime({
+            targets: '.form-card',
+            opacity: [0, 1],
+            translateY: [30, 0],
+            duration: 800,
+            easing: 'easeOutQuart'
+        });
+    </script>
+</body>
+</html>

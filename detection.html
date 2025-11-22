@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Detection - MangaMotion AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0F1724;
+            min-height: 100vh;
+            color: #E6EEF6;
+        }
+        
+        .main-content {
+            background: #0B1220;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+        
+        .panel-item {
+            background: #0B1220;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+            cursor: grab;
+            border-radius: 8px;
+        }
+        
+        .panel-item:hover {
+            border-color: rgba(255, 51, 102, 0.5);
+            transform: translateY(-2px);
+        }
+        
+        .panel-item.dragging {
+            cursor: grabbing;
+            transform: rotate(5deg);
+            opacity: 0.8;
+        }
+        
+        .manga-page {
+            background: linear-gradient(135deg, #FF3366 0%, #1F8FFF 100%);
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        
+        .detected-panel {
+            position: absolute;
+            border: 3px solid #FF3366;
+            background: rgba(255, 51, 102, 0.1);
+            box-shadow: 0 0 20px rgba(255, 51, 102, 0.3);
+        }
+        
+        .action-button {
+            background: #0B1220;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            color: #E6EEF6;
+        }
+        
+        .action-button:hover {
+            background: rgba(255, 51, 102, 0.1);
+            transform: translateY(-1px);
+            border-color: #FF3366;
+        }
+        
+        .continue-button {
+            background: #FF3366;
+            border-radius: 12px;
+            height: 44px;
+            padding: 0 24px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: none;
+            color: white;
+        }
+        
+        .continue-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 51, 102, 0.4);
+            background: #ff1a53;
+        }
+        
+        .sortable-ghost {
+            opacity: 0.4;
+        }
+        
+        .sortable-chosen {
+            transform: scale(1.05);
+        }
+    </style>
+    <script src="main.js"></script>
+</head>
+<body class="min-h-screen text-white">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-black/20 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <button onclick="window.location.href='upload.html'" class="nav-button p-2 rounded-lg hover:bg-white/10 transition-all">
+                        <i class="fas fa-arrow-left text-white"></i>
+                    </button>
+                    <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-play text-white text-sm"></i>
+                    </div>
+                    <span class="text-xl font-bold">MangaMotion AI</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <div class="relative">
+                        <button onclick="toggleProfileMenu()" class="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center">
+                            <i class="fas fa-user text-white"></i>
+                        </button>
+                        <div id="profileMenu" class="absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl border border-gray-700 hidden">
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 rounded-t-lg">Profile</a>
+                            <a href="pricing.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Billing</a>
+                            <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Settings</a>
+                            <hr class="border-gray-700">
+                            <a href="login.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 rounded-b-lg">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-7xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-8">
+                <h1 class="text-4xl font-bold mb-2">Review Detected Panels</h1>
+                <p class="text-gray-400">Drag and reorder panels to match your story flow</p>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Left: Manga Page Preview -->
+                <div class="lg:col-span-2">
+                    <div class="main-content rounded-2xl p-6">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-xl font-bold">Manga Page Preview</h3>
+                            <div class="flex space-x-2">
+                                <button onclick="editPanels()" class="action-button px-4 py-2 rounded-lg text-sm font-medium">
+                                    <i class="fas fa-edit mr-2"></i>Edit Panels
+                                </button>
+                                <button onclick="regeneratePanels()" class="action-button px-4 py-2 rounded-lg text-sm font-medium">
+                                    <i class="fas fa-redo mr-2"></i>Regenerate
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- Manga Page with Detected Panels -->
+                        <div class="manga-page rounded-xl aspect-video relative flex items-center justify-center">
+                            <div class="text-white text-opacity-50 text-center">
+                                <i class="fas fa-book text-6xl mb-4"></i>
+                                <p>Manga Page Sample</p>
+                            </div>
+                            
+                            <!-- Detected Panels -->
+                            <div class="detected-panel" style="top: 10%; left: 5%; width: 40%; height: 35%;"></div>
+                            <div class="detected-panel" style="top: 10%; right: 5%; width: 40%; height: 35%;"></div>
+                            <div class="detected-panel" style="bottom: 10%; left: 5%; width: 90%; height: 40%;"></div>
+                            
+                            <!-- Panel Numbers -->
+                            <div class="absolute top-12 left-12 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-black font-bold text-sm">1</div>
+                            <div class="absolute top-12 right-12 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-black font-bold text-sm">2</div>
+                            <div class="absolute bottom-12 left-1/2 transform -translate-x-1/2 w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-black font-bold text-sm">3</div>
+                        </div>
+                        
+                        <div class="mt-4 text-center">
+                            <p class="text-gray-400 text-sm">3 panels detected automatically</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Panel Order -->
+                <div class="lg:col-span-1">
+                    <div class="main-content rounded-2xl p-6">
+                        <h3 class="text-xl font-bold mb-4">Panel Order</h3>
+                        <p class="text-gray-400 text-sm mb-6">Drag to reorder panels</p>
+                        
+                        <!-- Sortable Panel List -->
+                        <div id="panelList" class="space-y-3">
+                            <div class="panel-item rounded-lg p-4 flex items-center space-x-3" data-panel="1">
+                                <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-black font-bold text-sm">1</div>
+                                <div class="w-12 h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded flex items-center justify-center">
+                                    <i class="fas fa-image text-white text-xs"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium text-sm">Panel 1</p>
+                                    <p class="text-gray-400 text-xs">Top Left</p>
+                                </div>
+                                <i class="fas fa-grip-vertical text-gray-400"></i>
+                            </div>
+                            
+                            <div class="panel-item rounded-lg p-4 flex items-center space-x-3" data-panel="2">
+                                <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-black font-bold text-sm">2</div>
+                                <div class="w-12 h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded flex items-center justify-center">
+                                    <i class="fas fa-image text-white text-xs"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium text-sm">Panel 2</p>
+                                    <p class="text-gray-400 text-xs">Top Right</p>
+                                </div>
+                                <i class="fas fa-grip-vertical text-gray-400"></i>
+                            </div>
+                            
+                            <div class="panel-item rounded-lg p-4 flex items-center space-x-3" data-panel="3">
+                                <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center text-black font-bold text-sm">3</div>
+                                <div class="w-12 h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded flex items-center justify-center">
+                                    <i class="fas fa-image text-white text-xs"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium text-sm">Panel 3</p>
+                                    <p class="text-gray-400 text-xs">Bottom Full</p>
+                                </div>
+                                <i class="fas fa-grip-vertical text-gray-400"></i>
+                            </div>
+                        </div>
+                        
+                        <div class="mt-6 pt-6 border-t border-white/10">
+                            <div class="flex items-center justify-between text-sm text-gray-400 mb-4">
+                                <span>Total Panels:</span>
+                                <span class="font-bold text-white">3</span>
+                            </div>
+                            <button onclick="continueToEditor()" class="continue-button w-full py-3 rounded-lg text-white font-bold">
+                                <i class="fas fa-arrow-right mr-2"></i>
+                                Continue to Editor
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Initialize Sortable for panel reordering
+        // Call mock detection if project present
+        try {
+            const project = JSON.parse(localStorage.getItem('project_current')||'null');
+            if (project && project.pages && project.pages[0]) {
+                fetch('/api/detect-panels', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ imageUrl: project.pages[0].url }) })
+                    .then(r=>r.json()).then(panels => {
+                        project.panels = panels;
+                        localStorage.setItem('project_current', JSON.stringify(project));
+                        if (window.trackEvent) window.trackEvent('panel_detection_completed', { panels: panels.length });
+                    }).catch(()=>{});
+            }
+        } catch(_){}
+
+        // Initialize Sortable for panel reordering
+        const panelList = document.getElementById('panelList');
+        new Sortable(panelList, {
+            animation: 150,
+            ghostClass: 'sortable-ghost',
+            chosenClass: 'sortable-chosen',
+            handle: '.fas.fa-grip-vertical',
+            onEnd: function(evt) {
+                updatePanelNumbers();
+            }
+        });
+
+        function updatePanelNumbers() {
+            const panels = panelList.querySelectorAll('.panel-item');
+            panels.forEach((panel, index) => {
+                const numberElement = panel.querySelector('.w-8.h-8');
+                numberElement.textContent = index + 1;
+            });
+        }
+
+        function editPanels() {
+            // Simulate panel editing
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Editing...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.disabled = false;
+                alert('Panel editing mode activated! You can now adjust panel boundaries.');
+            }, 1500);
+        }
+
+        function regeneratePanels() {
+            // Simulate panel regeneration
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Regenerating...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.disabled = false;
+                
+                // Animate panel regeneration
+                anime({
+                    targets: '.detected-panel',
+                    scale: [1, 1.1, 1],
+                    duration: 600,
+                    delay: anime.stagger(200),
+                    easing: 'easeInOutQuart'
+                });
+                
+                alert('Panels regenerated with improved detection!');
+            }, 2000);
+        }
+
+        function continueToEditor() {
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Loading Editor...';
+            button.disabled = true;
+            const panelCount = document.querySelectorAll('#panelList .panel-item').length;
+            if (window.trackEvent) window.trackEvent('panel_detection_accepted', { panels: panelCount });
+            setTimeout(() => {
+                window.location.href = 'editor.html';
+            }, 1500);
+        }
+
+        function toggleProfileMenu() {
+            const menu = document.getElementById('profileMenu');
+            menu.classList.toggle('hidden');
+        }
+
+        // Close profile menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const profileButton = document.querySelector('[onclick="toggleProfileMenu()"]');
+            const profileMenu = document.getElementById('profileMenu');
+            
+            if (!profileButton.contains(e.target) && !profileMenu.contains(e.target)) {
+                profileMenu.classList.add('hidden');
+            }
+        });
+
+        // Animate elements on load
+        anime({
+            targets: '.main-content',
+            opacity: [0, 1],
+            translateY: [30, 0],
+            duration: 800,
+            delay: anime.stagger(200),
+            easing: 'easeOutQuart'
+        });
+
+        anime({
+            targets: '.detected-panel',
+            scale: [0, 1],
+            duration: 1000,
+            delay: anime.stagger(300, {start: 500}),
+            easing: 'easeOutElastic(1, .8)'
+        });
+
+        // Add hover effects to panel items
+        document.querySelectorAll('.panel-item').forEach(item => {
+            item.addEventListener('mouseenter', function() {
+                anime({
+                    targets: this,
+                    translateX: 5,
+                    duration: 200,
+                    easing: 'easeOutQuart'
+                });
+            });
+            
+            item.addEventListener('mouseleave', function() {
+                anime({
+                    targets: this,
+                    translateX: 0,
+                    duration: 200,
+                    easing: 'easeOutQuart'
+                });
+            });
+        });
+    </script>
+</body>
+</html>

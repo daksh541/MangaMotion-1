@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CSS Gradient Generator</title>
+    <link rel="stylesheet" href="public/css/gradient-generator.css">
+</head>
+<body>
+    <div class="container">
+        <h1>CSS Gradient Generator</h1>
+        <div class="controls">
+            <div class="control-group">
+                <label for="gradient-type">Gradient Type:</label>
+                <select id="gradient-type">
+                    <option value="linear">Linear</option>
+                    <option value="radial">Radial</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="direction">Direction:</label>
+                <select id="direction">
+                    <option value="to right">To Right</option>
+                    <option value="to bottom">To Bottom</option>
+                    <option value="to bottom right">To Bottom Right</option>
+                    <option value="45deg">45 Degrees</option>
+                </select>
+            </div>
+            <div class="control-group">
+                <label for="color1">Start Color:</label>
+                <input type="color" id="color1" value="#ff0000">
+            </div>
+            <div class="control-group">
+                <label for="color2">End Color:</label>
+                <input type="color" id="color2" value="#0000ff">
+            </div>
+            <button id="generate-btn">Generate Gradient</button>
+            <button id="export-btn">Export CSS</button>
+        </div>
+        <div class="preview">
+            <h2>Live Preview</h2>
+            <div id="gradient-preview"></div>
+        </div>
+        <div class="css-output">
+            <h2>Generated CSS</h2>
+            <textarea id="css-code" readonly></textarea>
+        </div>
+    </div>
+    <script src="gradient-generator.js"></script>
+</body>
+</html>

@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editor - MangaMotion AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0F1724;
+            min-height: 100vh;
+            overflow-x: hidden;
+            color: #E6EEF6;
+        }
+        
+        .sidebar {
+            background: #0B1220;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+        
+        .panel-thumbnail {
+            background: linear-gradient(135deg, #FF3366 0%, #1F8FFF 100%);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+        
+        .panel-thumbnail:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 24px rgba(255, 51, 102, 0.3);
+        }
+        
+        .panel-thumbnail.active {
+            border: 2px solid #FF3366;
+            box-shadow: 0 0 20px rgba(255, 51, 102, 0.5);
+        }
+        
+        .canvas-area {
+            background: #0B1220;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+        
+        .canvas-preview {
+            background: linear-gradient(135deg, #FF3366 0%, #1F8FFF 100%);
+            aspect-ratio: 16/9;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        
+        .control-tab {
+            background: #0B1220;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+        
+        .control-tab.active {
+            background: rgba(255, 51, 102, 0.2);
+            border-color: rgba(255, 51, 102, 0.5);
+        }
+        
+        .slider {
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            height: 6px;
+            outline: none;
+        }
+        
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #FF3366;
+            cursor: pointer;
+        }
+        
+        .slider::-moz-range-thumb {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #FF3366;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .timeline {
+            background: #0B1220;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+        }
+        
+        .timeline-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            height: 8px;
+            position: relative;
+        }
+        
+        .timeline-item {
+            background: #FF3366;
+            border-radius: 4px;
+            height: 100%;
+            position: absolute;
+            transition: all 0.3s ease;
+        }
+        
+        .timeline-item:hover {
+            transform: scaleY(1.5);
+        }
+        
+        .play-button {
+            background: #FF3366;
+            transition: all 0.3s ease;
+            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+        }
+        
+        .play-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 24px rgba(255, 51, 102, 0.4);
+            background: #ff1a53;
+        }
+        
+        .dropdown {
+            background: #0B1220;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+        }
+        
+        .dropdown:focus {
+            background: #0B1220;
+            border-color: #FF3366;
+        }
+        
+        .preview-button {
+            background: #1F8FFF;
+            border-radius: 12px;
+            height: 44px;
+            padding: 0 24px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: none;
+            color: white;
+        }
+        
+        .preview-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(31, 143, 255, 0.4);
+            background: #0077e6;
+        }
+        
+        .generate-button {
+            background: #27AE60;
+            border-radius: 12px;
+            height: 44px;
+            padding: 0 24px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: none;
+            color: white;
+        }
+        
+        .generate-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(39, 174, 96, 0.4);
+            background: #219653;
+        }
+    </style>
+    <script src="main.js"></script>
+</head>
+<body class="min-h-screen text-white">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-black/20 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <button onclick="window.location.href='detection.html'" class="p-2 rounded-lg hover:bg-white/10 transition-all">
+                        <i class="fas fa-arrow-left text-white"></i>
+                    </button>
+                    <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-play text-white text-sm"></i>
+                    </div>
+                    <span class="text-xl font-bold">MangaMotion AI</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button onclick="saveProject()" class="px-4 py-2 rounded-lg bg-white/10 hover:bg-white/20 transition-all text-sm font-medium">
+                        <i class="fas fa-save mr-2"></i>Save
+                    </button>
+                    <button onclick="exportVideo()" class="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-blue-500 hover:shadow-lg transition-all text-sm font-medium">
+                        <i class="fas fa-export mr-2"></i>Export
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Layout -->
+    <div class="pt-16 h-screen flex">
+        <!-- Left Sidebar: Panels List -->
+        <div class="w-64 sidebar p-4 overflow-y-auto">
+            <h3 class="text-lg font-bold mb-4">Panels</h3>
+            <div class="space-y-3">
+                <div class="panel-thumbnail w-full h-20 rounded-lg flex items-center justify-center text-white relative active" data-panel="1">
+                    <i class="fas fa-image text-2xl"></i>
+                    <div class="absolute top-1 right-1 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-black text-xs font-bold">1</div>
+                </div>
+                <div class="panel-thumbnail w-full h-20 rounded-lg flex items-center justify-center text-white relative" data-panel="2">
+                    <i class="fas fa-image text-2xl"></i>
+                    <div class="absolute top-1 right-1 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-black text-xs font-bold">2</div>
+                </div>
+                <div class="panel-thumbnail w-full h-20 rounded-lg flex items-center justify-center text-white relative" data-panel="3">
+                    <i class="fas fa-image text-2xl"></i>
+                    <div class="absolute top-1 right-1 w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-black text-xs font-bold">3</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Center: Canvas -->
+        <div class="flex-1 flex flex-col">
+            <!-- Canvas Area -->
+            <div class="flex-1 p-6">
+                <div class="canvas-area rounded-2xl p-6 h-full">
+                    <div class="flex items-center justify-between mb-4">
+                        <h3 class="text-xl font-bold">Canvas Preview</h3>
+                        <div class="flex items-center space-x-4">
+                            <span class="text-sm text-gray-400">Panel 1 of 3</span>
+                            <button class="play-button w-12 h-12 rounded-full flex items-center justify-center" onclick="togglePlayback()">
+                                <i id="playIcon" class="fas fa-play text-white"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Canvas Preview -->
+                    <div class="canvas-preview rounded-xl mb-4 flex items-center justify-center">
+                        <div class="text-white text-opacity-50 text-center">
+                            <i class="fas fa-book text-6xl mb-4"></i>
+                            <p>Panel Preview</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Timeline Scrubber -->
+                    <div class="mb-4">
+                        <input type="range" class="slider w-full" min="0" max="100" value="0" id="timelineScrubber">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Timeline -->
+            <div class="timeline p-4">
+                <div class="flex items-center justify-between mb-2">
+                    <h4 class="font-bold">Timeline</h4>
+                    <span class="text-sm text-gray-400">0:00 / 0:15</span>
+                </div>
+                
+                <div class="space-y-2">
+                    <!-- Panel Track -->
+                    <div class="flex items-center space-x-3">
+                        <span class="text-sm text-gray-400 w-16">Panels</span>
+                        <div class="timeline-track flex-1">
+                            <div class="timeline-item" style="left: 0%; width: 33.33%;"></div>
+                            <div class="timeline-item" style="left: 33.33%; width: 33.33%;"></div>
+                            <div class="timeline-item" style="left: 66.66%; width: 33.34%;"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- Audio Track -->
+                    <div class="flex items-center space-x-3">
+                        <span class="text-sm text-gray-400 w-16">Audio</span>
+                        <div class="timeline-track flex-1">
+                            <div class="timeline-item" style="left: 0%; width: 30%;"></div>
+                            <div class="timeline-item" style="left: 35%; width: 25%;"></div>
+                        </div>
+                    </div>
+                    
+                    <!-- SFX Track -->
+                    <div class="flex items-center space-x-3">
+                        <span class="text-sm text-gray-400 w-16">SFX</span>
+                        <div class="timeline-track flex-1">
+                            <div class="timeline-item" style="left: 45%; width: 5%;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Sidebar: Controls -->
+        <div class="w-80 sidebar p-4 overflow-y-auto">
+            <h3 class="text-lg font-bold mb-4">Controls</h3>
+            
+            <!-- Control Tabs -->
+            <div class="flex space-x-2 mb-6">
+                <button onclick="switchTab('motion')" class="control-tab px-4 py-2 rounded-lg text-sm font-medium flex-1 active" id="motionTab">
+                    <i class="fas fa-running mr-2"></i>Motion
+                </button>
+                <button onclick="switchTab('audio')" class="control-tab px-4 py-2 rounded-lg text-sm font-medium flex-1" id="audioTab">
+                    <i class="fas fa-microphone mr-2"></i>Audio
+                </button>
+                <button onclick="switchTab('sfx')" class="control-tab px-4 py-2 rounded-lg text-sm font-medium flex-1" id="sfxTab">
+                    <i class="fas fa-volume-up mr-2"></i>SFX
+                </button>
+            </div>
+
+            <!-- Motion Controls -->
+            <div id="motionControls" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Motion Style</label>
+                    <select class="dropdown w-full px-4 py-3 rounded-lg text-white focus:outline-none">
+                        <option value="soft-pan">Soft Pan</option>
+                        <option value="dynamic-zoom">Dynamic Zoom</option>
+                        <option value="shake">Shake (Anger)</option>
+                        <option value="slow-drift">Slow Drift (Sad)</option>
+                        <option value="snap-cut">Snap Cut (Shonen)</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Duration: <span id="durationValue">3.0s</span></label>
+                    <input type="range" class="slider w-full" min="1" max="10" value="3" step="0.5" id="durationSlider" oninput="updateDuration(this.value)">
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Emotion Boost: <span id="emotionValue">50%</span></label>
+                    <input type="range" class="slider w-full" min="0" max="100" value="50" id="emotionSlider" oninput="updateEmotion(this.value)">
+                </div>
+                
+                <div class="pt-4 border-t border-white/10">
+                    <button onclick="previewMotion()" class="w-full py-3 rounded-lg bg-gradient-to-r from-purple-500 to-blue-500 text-white font-bold hover:shadow-lg transition-all">
+                        <i class="fas fa-play mr-2"></i>Preview Motion
+                    </button>
+                </div>
+            </div>
+
+            <!-- Audio Controls -->
+            <div id="audioControls" class="space-y-6 hidden">
+                <div class="flex items-center justify-between p-3 rounded-lg bg-white/5">
+                    <span class="text-sm">Voice Credits</span>
+                    <span id="voiceCreditsBadge" class="text-sm font-bold text-green-400">--</span>
+                </div>
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Dialog Text</label>
+                    <textarea class="dropdown w-full px-4 py-3 rounded-lg text-white focus:outline-none resize-none" rows="3" placeholder="Enter character dialog..."></textarea>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">AI Voice</label>
+                    <select class="dropdown w-full px-4 py-3 rounded-lg text-white focus:outline-none">
+                        <option value="male-hero">Male Hero</option>
+                        <option value="female-hero">Female Hero</option>
+                        <option value="villain">Villain</option>
+                        <option value="narrator">Narrator</option>
+                        <option value="child">Child</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Voice Emotion: <span id="voiceEmotionValue">Neutral</span></label>
+                    <input type="range" class="slider w-full" min="0" max="100" value="50" id="voiceEmotionSlider" oninput="updateVoiceEmotion(this.value)">
+                </div>
+                
+                <div class="flex space-x-3">
+                    <button onclick="generateVoice()" class="flex-1 py-3 rounded-lg bg-gradient-to-r from-green-500 to-blue-500 text-white font-bold hover:shadow-lg transition-all">
+                        <i class="fas fa-magic mr-2"></i>Generate
+                    </button>
+                    <button onclick="playAudio()" class="flex-1 py-3 rounded-lg bg-white/10 hover:bg-white/20 text-white font-bold transition-all">
+                        <i class="fas fa-play mr-2"></i>Play
+                    </button>
+                </div>
+            </div>
+
+            <!-- SFX Controls -->
+            <div id="sfxControls" class="space-y-6 hidden">
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Sound Effects</label>
+                    <div class="space-y-2 max-h-64 overflow-y-auto">
+                        <div class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all cursor-pointer">
+                            <span class="text-sm">Punch Impact</span>
+                            <button class="text-purple-400 hover:text-purple-300">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all cursor-pointer">
+                            <span class="text-sm">Sword Slash</span>
+                            <button class="text-purple-400 hover:text-purple-300">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all cursor-pointer">
+                            <span class="text-sm">Explosion</span>
+                            <button class="text-purple-400 hover:text-purple-300">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                        <div class="flex items-center justify-between p-3 rounded-lg bg-white/5 hover:bg-white/10 transition-all cursor-pointer">
+                            <span class="text-sm">Wind Gust</span>
+                            <button class="text-purple-400 hover:text-purple-300">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-2">Background Music</label>
+                    <select class="dropdown w-full px-4 py-3 rounded-lg text-white focus:outline-none">
+                        <option value="none">None</option>
+                        <option value="epic-battle">Epic Battle</option>
+                        <option value="emotional">Emotional</option>
+                        <option value="suspense">Suspense</option>
+                        <option value="comedy">Comedy</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let isPlaying = false;
+
+        function switchTab(tab) {
+            // Hide all control panels
+            document.getElementById('motionControls').classList.add('hidden');
+            document.getElementById('audioControls').classList.add('hidden');
+            document.getElementById('sfxControls').classList.add('hidden');
+            
+            // Remove active class from all tabs
+            document.getElementById('motionTab').classList.remove('active');
+            document.getElementById('audioTab').classList.remove('active');
+            document.getElementById('sfxTab').classList.remove('active');
+            
+            // Show selected panel and activate tab
+            document.getElementById(tab + 'Controls').classList.remove('hidden');
+            document.getElementById(tab + 'Tab').classList.add('active');
+        }
+
+        function updateDuration(value) {
+            document.getElementById('durationValue').textContent = value + 's';
+        }
+
+        function updateEmotion(value) {
+            document.getElementById('emotionValue').textContent = value + '%';
+        }
+
+        function updateVoiceEmotion(value) {
+            const emotions = ['Angry', 'Serious', 'Neutral', 'Happy', 'Excited'];
+            const emotionIndex = Math.floor(value / 25);
+            document.getElementById('voiceEmotionValue').textContent = emotions[emotionIndex] || 'Neutral';
+        }
+
+        function togglePlayback() {
+            const playIcon = document.getElementById('playIcon');
+            isPlaying = !isPlaying;
+            
+            if (isPlaying) {
+                playIcon.className = 'fas fa-pause text-white';
+                startPlayback();
+            } else {
+                playIcon.className = 'fas fa-play text-white';
+                stopPlayback();
+            }
+        }
+
+        function startPlayback() {
+            const scrubber = document.getElementById('timelineScrubber');
+            let progress = parseInt(scrubber.value);
+            
+            const playbackInterval = setInterval(() => {
+                if (!isPlaying) {
+                    clearInterval(playbackInterval);
+                    return;
+                }
+                
+                progress += 1;
+                scrubber.value = progress;
+                
+                if (progress >= 100) {
+                    togglePlayback();
+                    scrubber.value = 0;
+                }
+            }, 150);
+        }
+
+        function stopPlayback() {
+            // Playback stopped
+        }
+
+        function previewMotion() {
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Previewing...';
+            button.disabled = true;
+            
+            // Animate canvas preview
+            anime({
+                targets: '.canvas-preview',
+                scale: [1, 1.05, 1],
+                duration: 1000,
+                easing: 'easeInOutQuart'
+            });
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.disabled = false;
+            }, 2000);
+        }
+
+        let voiceGenInterval;
+        function generateVoice() {
+            const text = (document.querySelector('#audioControls textarea')||{}).value || 'This is a demo line.';
+            const voiceSel = (document.querySelector('#audioControls select')||{}).value || 'female-hero';
+            const emotion = (document.getElementById('voiceEmotionValue')||{}).textContent || 'Neutral';
+
+            const credits = parseInt(localStorage.getItem('voice_credits') || '5', 10);
+            if (credits <= 0) {
+                alert('You are out of voice credits. Please upgrade to continue.');
+                if (window.trackEvent) window.trackEvent('voice_generate_blocked_no_credits');
+                return;
+            }
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Generating...';
+            button.disabled = true;
+            // Progress + ETA
+            let progress = 0;
+            const start = Date.now();
+            const progressBar = document.createElement('div');
+            progressBar.className = 'w-full h-2 bg-white/10 rounded my-3';
+            progressBar.innerHTML = '<div id="voiceProgressFill" class="h-2 bg-green-500 rounded" style="width:0%"></div>';
+            const etaEl = document.createElement('div');
+            etaEl.id = 'voiceEta';
+            etaEl.className = 'text-xs text-gray-400 mb-2';
+            etaEl.textContent = 'ETA: --';
+            const controls = document.getElementById('audioControls');
+            controls.insertBefore(etaEl, controls.children[controls.children.length-1]);
+            controls.insertBefore(progressBar, controls.children[controls.children.length-1]);
+            if (window.trackEvent) window.trackEvent('voice_generated', { preset: 'single_line' });
+            // Call backend mock
+            fetch('/api/generate-voice', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ text, voiceId: voiceSel, emotion }) })
+                .then(r=>r.json()).then(resp => {
+                    if (window.trackEvent) window.trackEvent('voice_generated', { preset: 'single_line', cost: resp.costEstimate });
+                }).catch(()=>{});
+
+            voiceGenInterval = setInterval(() => {
+                progress += Math.random() * 20;
+                if (progress > 100) progress = 100;
+                const fill = document.getElementById('voiceProgressFill');
+                if (fill) fill.style.width = progress + '%';
+                const elapsed = (Date.now() - start) / 1000;
+                const totalEst = elapsed / Math.max(progress/100, 0.01);
+                const remaining = Math.max(totalEst - elapsed, 0);
+                const m = Math.floor(remaining / 60);
+                const s = Math.floor(remaining % 60);
+                etaEl.textContent = `ETA: ${m}:${s.toString().padStart(2,'0')}`;
+                if (progress >= 100) {
+                    clearInterval(voiceGenInterval);
+                    // Deduct credit
+                    const newCredits = Math.max(credits - 1, 0);
+                    localStorage.setItem('voice_credits', String(newCredits));
+                    updateVoiceCredits();
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                    alert('Voice generated successfully!');
+                }
+            }, 250);
+        }
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Generating...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.disabled = false;
+                alert('Voice generated successfully!');
+            }, 2000);
+        }
+
+        function playAudio() {
+            // Simulate audio playback
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-stop mr-2"></i>Stop';
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+            }, 3000);
+        }
+
+        function saveProject() {
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Saving...';
+            button.disabled = true;
+            
+            setTimeout(() => {
+                button.innerHTML = originalText;
+                button.disabled = false;
+                alert('Project saved successfully!');
+            }, 1500);
+        }
+
+        function exportVideo() {
+            window.location.href = 'export.html';
+        }
+
+        // New timeline functions
+        function zoomTimeline(direction) {
+            // Simulate zoom functionality
+            const tracks = document.querySelectorAll('.timeline-track');
+            tracks.forEach(track => {
+                if (direction === 'in') {
+                    track.style.height = '12px';
+                } else {
+                    track.style.height = '8px';
+                }
+            });
+        }
+
+        function rewindTimeline() {
+            document.getElementById('timelineScrubber').value = 0;
+        }
+
+        function stepBackward() {
+            const scrubber = document.getElementById('timelineScrubber');
+            scrubber.value = Math.max(0, parseInt(scrubber.value) - 10);
+        }
+
+        function stepForward() {
+            const scrubber = document.getElementById('timelineScrubber');
+            scrubber.value = Math.min(100, parseInt(scrubber.value) + 10);
+        }
+
+        function fastForwardTimeline() {
+            document.getElementById('timelineScrubber').value = 100;
+        }
+
+        // Add keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+
+            switch(e.key) {
+                case ' ':
+                    e.preventDefault();
+                    togglePlayback();
+                    break;
+                case 'ArrowLeft':
+                    if (e.ctrlKey || e.metaKey) {
+                        e.preventDefault();
+                        stepBackward();
+                    }
+                    break;
+                case 'ArrowRight':
+                    if (e.ctrlKey || e.metaKey) {
+                        e.preventDefault();
+                        stepForward();
+                    }
+                    break;
+                case 'Home':
+                    e.preventDefault();
+                    rewindTimeline();
+                    break;
+                case 'End':
+                    e.preventDefault();
+                    fastForwardTimeline();
+                    break;
+            }
+        });
+
+        // Panel thumbnail selection
+        document.querySelectorAll('.panel-thumbnail').forEach(thumbnail => {
+            thumbnail.addEventListener('click', function() {
+                document.querySelectorAll('.panel-thumbnail').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        function updateVoiceCredits() {
+            const badge = document.getElementById('voiceCreditsBadge');
+            const credits = parseInt(localStorage.getItem('voice_credits') || '5', 10);
+            badge.textContent = credits + ' left';
+            badge.className = 'text-sm font-bold ' + (credits > 0 ? 'text-green-400' : 'text-red-400');
+        }
+        document.addEventListener('DOMContentLoaded', updateVoiceCredits);
+
+        // Animate elements on load
+        anime({
+            targets: '.sidebar',
+            opacity: [0, 1],
+            translateX: [30, 0],
+            duration: 800,
+            delay: anime.stagger(200),
+            easing: 'easeOutQuart'
+        });
+
+        anime({
+            targets: '.canvas-area',
+            opacity: [0, 1],
+            scale: [0.9, 1],
+            duration: 1000,
+            easing: 'easeOutQuart'
+        });
+
+        anime({
+            targets: '.timeline',
+            opacity: [0, 1],
+            translateY: [30, 0],
+            duration: 800,
+            delay: 400,
+            easing: 'easeOutQuart'
+        });
+    </script>
+</body>
+</html>

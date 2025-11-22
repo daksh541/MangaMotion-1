@@ -1,0 +1,283 @@
+version: '3.9'
+
+services:
+  # ===== Core Infrastructure =====
+  
+  redis:
+    image: redis:7-alpine
+    container_name: mangamotion-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mangamotion
+    command: redis-server --appendonly yes
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: mangamotion-postgres
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-mangamotion}
+      POSTGRES_USER: ${POSTGRES_USER:-mmuser}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-mmsecret}
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./mangamotion/backend/migrations:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-mmuser}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mangamotion
+
+  minio:
+    image: minio/minio:latest
+    container_name: mangamotion-minio
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-minioadmin}
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - mangamotion
+
+  # ===== Application Services =====
+
+  api:
+    build:
+      context: ./mangamotion/backend
+      dockerfile: Dockerfile
+    container_name: mangamotion-api
+    env_file:
+      - .env
+    environment:
+      NODE_ENV: development
+      PORT: 3000
+      REDIS_URL: redis://redis:6379
+      PGHOST: postgres
+      PGUSER: ${POSTGRES_USER:-mmuser}
+      PGPASSWORD: ${POSTGRES_PASSWORD:-mmsecret}
+      PGDATABASE: ${POSTGRES_DB:-mangamotion}
+      PGPORT: 5432
+      S3_ENDPOINT: http://minio:9000
+      S3_ACCESS_KEY: ${MINIO_ROOT_USER:-minioadmin}
+      S3_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin}
+      S3_REGION: us-east-1
+      S3_BUCKET: ${S3_BUCKET:-mm-bucket}
+      S3_FORCE_PATH_STYLE: "true"
+      CLAMAV_HOST: clamav
+      CLAMAV_PORT: 3310
+      JAEGER_HOST: jaeger
+      JAEGER_PORT: 6831
+      TRACING_ENABLED: "true"
+    ports:
+      - "3000:3000"
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    volumes:
+      - ./mangamotion/backend/src:/usr/src/app/src
+      - ./mangamotion/backend/uploads:/usr/src/app/uploads
+    networks:
+      - mangamotion
+    restart: unless-stopped
+
+  worker:
+    build:
+      context: .
+      dockerfile: mangamotion/worker/Dockerfile
+    container_name: mangamotion-worker
+    env_file:
+      - .env
+    environment:
+      REDIS_URL: redis://redis:6379
+      PGHOST: postgres
+      PGUSER: ${POSTGRES_USER:-mmuser}
+      PGPASSWORD: ${POSTGRES_PASSWORD:-mmsecret}
+      PGDATABASE: ${POSTGRES_DB:-mangamotion}
+      PGPORT: 5432
+      S3_ENDPOINT: http://minio:9000
+      S3_ACCESS_KEY: ${MINIO_ROOT_USER:-minioadmin}
+      S3_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin}
+      S3_REGION: us-east-1
+      S3_BUCKET: ${S3_BUCKET:-mm-bucket}
+      S3_FORCE_PATH_STYLE: "true"
+      MINIO_ENDPOINT: minio
+      MINIO_PORT: 9000
+      MINIO_USE_SSL: "false"
+      MINIO_ACCESS_KEY: ${MINIO_ROOT_USER:-minioadmin}
+      MINIO_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-minioadmin}
+      WORKER_SECRET: ${WORKER_SECRET:-dev-secret}
+    depends_on:
+      redis:
+        condition: service_healthy
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+    volumes:
+      - /tmp:/tmp
+      - ./mangamotion/worker:/usr/src/app
+    networks:
+      - mangamotion
+    restart: unless-stopped
+
+  # ===== Monitoring & Observability =====
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: mangamotion-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./mangamotion/backend/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      - ./mangamotion/backend/alert_rules.yml:/etc/prometheus/alert_rules.yml:ro
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    networks:
+      - mangamotion
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: mangamotion-grafana
+    ports:
+      - "3001:3000"
+    environment:
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:-admin}
+      GF_SECURITY_ADMIN_USER: ${GRAFANA_USER:-admin}
+      GF_INSTALL_PLUGINS: grafana-piechart-panel
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ./mangamotion/backend/GRAFANA_DASHBOARD.json:/etc/grafana/provisioning/dashboards/dashboard.json:ro
+    depends_on:
+      - prometheus
+    networks:
+      - mangamotion
+    restart: unless-stopped
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    container_name: mangamotion-jaeger
+    ports:
+      - "6831:6831/udp"
+      - "16686:16686"
+    environment:
+      COLLECTOR_ZIPKIN_HOST_PORT: ":9411"
+    volumes:
+      - jaeger_data:/badger/data
+    networks:
+      - mangamotion
+    restart: unless-stopped
+
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: mangamotion-alertmanager
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./mangamotion/backend/alertmanager.yml:/etc/alertmanager/alertmanager.yml:ro
+      - alertmanager_data:/alertmanager
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+      - '--storage.path=/alertmanager'
+    networks:
+      - mangamotion
+    restart: unless-stopped
+
+  # ===== Optional: ClamAV Malware Scanner =====
+
+  clamav:
+    image: clamav/clamav:latest
+    container_name: mangamotion-clamav
+    ports:
+      - "3310:3310"
+    environment:
+      CLAMAV_NO_FRESHCLAM: "true"
+    volumes:
+      - clamav_data:/var/lib/clamav
+    healthcheck:
+      test: ["CMD", "clamdscan", "--version"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - mangamotion
+    restart: unless-stopped
+    profiles:
+      - with-clamav
+
+  # ===== Development Tools =====
+
+  # Redis Commander for Redis inspection
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    container_name: mangamotion-redis-commander
+    environment:
+      REDIS_HOSTS: local:redis:6379
+    ports:
+      - "8081:8081"
+    depends_on:
+      - redis
+    networks:
+      - mangamotion
+    restart: unless-stopped
+    profiles:
+      - dev-tools
+
+  # pgAdmin for PostgreSQL inspection
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: mangamotion-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_EMAIL:-admin@example.com}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_PASSWORD:-admin}
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - mangamotion
+    restart: unless-stopped
+    profiles:
+      - dev-tools
+
+networks:
+  mangamotion:
+    driver: bridge
+
+volumes:
+  redis_data:
+  postgres_data:
+  minio_data:
+  prometheus_data:
+  grafana_data:
+  jaeger_data:
+  alertmanager_data:
+  clamav_data:

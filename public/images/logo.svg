@@ -1,0 +1,17 @@
+<svg width="160" height="40" viewBox="0 0 160 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="logo-gradient" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#FF3366"/>
+      <stop offset="100%" stop-color="#1F8FFF"/>
+    </linearGradient>
+  </defs>
+  
+  <path d="M10 5 C15 5 15 15 20 15 C25 15 25 5 30 5" stroke="url(#logo-gradient)" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <animate attributeName="d" values="M10 5 C15 5 15 15 20 15 C25 15 25 5 30 5;M10 15 C15 15 15 5 20 5 C25 5 25 15 30 15;M10 5 C15 5 15 15 20 15 C25 15 25 5 30 5" dur="4s" repeatCount="indefinite" />
+  </path>
+  
+  <text x="40" y="28" font-family="Inter, sans-serif" font-size="20" font-weight="800" fill="white">
+    Manga
+    <tspan fill="url(#logo-gradient)">Motion</tspan>
+  </text>
+</svg>

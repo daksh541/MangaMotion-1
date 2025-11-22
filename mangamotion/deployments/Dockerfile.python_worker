@@ -1,0 +1,7 @@
+# Python worker Dockerfile
+FROM python:3.10-slim
+WORKDIR /app
+COPY python-worker/requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+COPY python-worker ./python-worker
+CMD ["python3", "python-worker/worker_main.py", "{}"]

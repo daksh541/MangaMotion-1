@@ -1,0 +1,156 @@
+name: Tests
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [14.x, 16.x, 18.x]
+    
+    services:
+      redis:
+        image: redis:7-alpine
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 6379:6379
+      
+      postgres:
+        image: postgres:14-alpine
+        env:
+          POSTGRES_DB: mangamotion_test
+          POSTGRES_USER: test
+          POSTGRES_PASSWORD: test
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+        ports:
+          - 5432:5432
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+        cache-dependency-path: 'mangamotion/backend/package-lock.json'
+    
+    - name: Install dependencies
+      working-directory: ./mangamotion/backend
+      run: npm ci
+    
+    - name: Run linter
+      working-directory: ./mangamotion/backend
+      run: npm run lint --if-present
+      continue-on-error: true
+    
+    - name: Run unit tests
+      working-directory: ./mangamotion/backend
+      run: npm run test:unit -- --coverage
+      env:
+        NODE_ENV: test
+        REDIS_URL: redis://localhost:6379
+        DATABASE_URL: postgres://test:test@localhost:5432/mangamotion_test
+    
+    - name: Run integration tests
+      working-directory: ./mangamotion/backend
+      run: npm run test:integration -- --coverage
+      env:
+        NODE_ENV: test
+        REDIS_URL: redis://localhost:6379
+        DATABASE_URL: postgres://test:test@localhost:5432/mangamotion_test
+    
+    - name: Run all tests with coverage
+      working-directory: ./mangamotion/backend
+      run: npm test
+      env:
+        NODE_ENV: test
+        REDIS_URL: redis://localhost:6379
+        DATABASE_URL: postgres://test:test@localhost:5432/mangamotion_test
+    
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v3
+      with:
+        files: ./mangamotion/backend/coverage/lcov.info
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: false
+        working-directory: ./mangamotion/backend
+    
+    - name: Archive test results
+      if: always()
+      uses: actions/upload-artifact@v3
+      with:
+        name: test-results-${{ matrix.node-version }}
+        path: mangamotion/backend/coverage/
+        retention-days: 30
+    
+    - name: Comment PR with test results
+      if: github.event_name == 'pull_request'
+      uses: actions/github-script@v6
+      with:
+        script: |
+          const fs = require('fs');
+          const coverage = fs.readFileSync('./mangamotion/backend/coverage/coverage-summary.json', 'utf8');
+          const data = JSON.parse(coverage);
+          const total = data.total;
+          
+          const comment = `## Test Results
+          
+          | Metric | Coverage |
+          |--------|----------|
+          | Lines | ${total.lines.pct}% |
+          | Statements | ${total.statements.pct}% |
+          | Functions | ${total.functions.pct}% |
+          | Branches | ${total.branches.pct}% |
+          
+          ✅ All tests passed!`;
+          
+          github.rest.issues.createComment({
+            issue_number: context.issue.number,
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            body: comment
+          });
+      continue-on-error: true
+
+  lint:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+        cache: 'npm'
+        cache-dependency-path: 'mangamotion/backend/package-lock.json'
+    
+    - name: Install dependencies
+      working-directory: ./mangamotion/backend
+      run: npm ci
+    
+    - name: Run ESLint
+      working-directory: ./mangamotion/backend
+      run: npm run lint --if-present
+      continue-on-error: true
+    
+    - name: Check code formatting
+      working-directory: ./mangamotion/backend
+      run: npm run format:check --if-present
+      continue-on-error: true

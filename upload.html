@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Upload - MangaMotion AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="/public/css/main.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    animation: {
+                        'pulse-slow': 'pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="relative min-h-screen">
+    <!-- Animated Background -->
+    <div class="fixed inset-0 -z-10">
+        <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900 opacity-95"></div>
+        <div class="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-primary/10 via-transparent to-transparent opacity-30"></div>
+        <div class="absolute inset-0 opacity-30">
+            <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTM2IDM0VjIwYzAtMy4zMi0yLjY4LTYtNi02cy02IDIuNjgtNiA2djE0YzAgMy4zMiAyLjY4IDYgNiA2czYtMi42OCA2LTZ6bS0yIDBjMCAyLjIxLTEuNzkgNC00IDRzLTQtMS43OS00LTRWMTljMC0yLjIxIDEuNzktNCA0LTRzNCAxLjc5IDQgNHYxNXoiLz48L2c+PC9nPjwvc3ZnPg==')]"></div>
+        </div>
+    </div>
+
+    <!-- Topbar -->
+    <header class="flex items-center justify-between h-16 px-6 border-b border-white/10 bg-surface/70 backdrop-blur-md sticky top-0 z-10">
+        <div class="flex items-center">
+            <a href="dashboard.html" class="mr-4 text-textMuted hover:text-white transition-colors">
+                <i class="fas fa-arrow-left text-xl"></i>
+            </a>
+            <h1 class="text-xl font-bold bg-gradient-to-r from-primary to-blue-400 bg-clip-text text-transparent">New Project</h1>
+        </div>
+        <div class="flex items-center space-x-4">
+            <div class="w-px h-8 bg-white/10"></div>
+            <div class="flex items-center space-x-2 cursor-pointer group">
+                <div class="relative">
+                    <img src="https://i.pravatar.cc/40" alt="User Avatar" class="w-8 h-8 rounded-full border-2 border-transparent group-hover:border-primary transition-colors">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="py-8 px-4 sm:px-6 lg:px-8 max-w-5xl mx-auto">
+        <div class="bg-surface/70 backdrop-blur-sm rounded-2xl border border-white/10 shadow-xl overflow-hidden">
+            <!-- Progress Steps -->
+            <div class="px-8 pt-8">
+                <div class="flex justify-between items-center mb-8">
+                    <div class="flex-1 relative">
+                        <div class="absolute inset-0 flex items-center">
+                            <div class="w-full border-t-2 border-primary"></div>
+                        </div>
+                        <div class="relative flex justify-between">
+                            <div class="flex flex-col items-center">
+                                <div class="w-10 h-10 rounded-full bg-primary text-white flex items-center justify-center font-bold border-4 border-surface">1</div>
+                                <span class="mt-2 text-sm font-medium text-primary">Upload</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <div class="w-10 h-10 rounded-full bg-white/5 text-textMuted flex items-center justify-center font-bold border-2 border-white/10">2</div>
+                                <span class="mt-2 text-sm text-textMuted">Review</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <div class="w-10 h-10 rounded-full bg-white/5 text-textMuted flex items-center justify-center font-bold border-2 border-white/10">3</div>
+                                <span class="mt-2 text-sm text-textMuted">Animate</span>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <div class="w-10 h-10 rounded-full bg-white/5 text-textMuted flex items-center justify-center font-bold border-2 border-white/10">4</div>
+                                <span class="mt-2 text-sm text-textMuted">Export</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content -->
+            <div class="px-8 pb-8">
+                <!-- Header with Demo Overlay -->
+                <div class="relative text-center mb-8 group">
+                    <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black/30 rounded-xl overflow-hidden">
+                        <video id="demoVideo" class="w-full h-full object-cover opacity-0 group-hover:opacity-20 transition-opacity duration-500" loop muted>
+                            <source src="/resources/hero-demo.mp4" type="video/mp4">
+                        </video>
+                    </div>
+                    <div class="relative z-10">
+                        <h1 class="text-3xl font-bold text-white mb-3">Upload Your Manga</h1>
+                        <p class="text-textMuted mb-4">Upload manga pages or panels to start creating motion. We support PNG, JPG, and WebP formats.</p>
+                        <button id="watchDemoBtn" class="inline-flex items-center text-primary hover:text-white transition-colors text-sm font-medium group-hover:bg-white/10 px-4 py-2 rounded-full">
+                            <i class="fas fa-play-circle mr-2"></i> Watch 20s Demo
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Trust Signals -->
+                <div class="flex flex-wrap justify-center gap-6 text-sm text-textMuted mb-8">
+                    <div class="flex items-center">
+                        <i class="fas fa-users text-primary mr-2"></i>
+                        <span>Used by 10k+ creators</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-shield-alt text-green-400 mr-2"></i>
+                        <span>GDPR compliant</span>
+                    </div>
+                    <div class="flex items-center">
+                        <i class="fas fa-tag text-blue-300 mr-2"></i>
+                        <span>Free plan available</span>
+                    </div>
+                </div>
+
+                <!-- Case Study Carousel -->
+                <div class="bg-white/5 backdrop-blur-sm rounded-xl p-6 mb-8 border border-white/10">
+                    <h3 class="text-lg font-semibold text-white mb-4 flex items-center">
+                        <i class="fas fa-star text-yellow-400 mr-2"></i>
+                        Success Stories
+                    </h3>
+                    <div class="relative overflow-hidden">
+                        <div id="caseStudyCarousel" class="flex transition-transform duration-500 ease-in-out">
+                            <!-- Case studies will be populated by JavaScript -->
+                        </div>
+                        <button id="prevCase" class="absolute left-0 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full ml-2">
+                            <i class="fas fa-chevron-left"></i>
+                        </button>
+                        <button id="nextCase" class="absolute right-0 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full mr-2">
+                            <i class="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Enhanced Upload Section -->
+                <div class="mb-8">
+                    <!-- Drag and Drop Zone -->
+                    <div id="upload-zone" class="border-2 border-dashed border-primary/30 rounded-2xl p-12 text-center transition-all duration-300 hover:border-primary/60 hover:bg-primary/5 mb-8">
+                        <div class="max-w-md mx-auto">
+                            <div class="w-20 h-20 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-primary/20">
+                                <i class="fas fa-cloud-upload-alt text-3xl text-primary"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-2">Drag & Drop Manga Pages Here</h3>
+                            <p class="text-gray-400 text-sm mb-6">Or click to browse files (JPG, PNG, WEBP)</p>
+                            <input type="file" id="file-input" class="hidden" multiple accept="image/jpeg,image/png,image/webp">
+                            <button id="select-files" class="px-6 py-3 bg-gradient-to-r from-primary to-secondary text-white rounded-xl font-medium hover:opacity-90 transition-all transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-primary/30">
+                                Select Files
+                            </button>
+                            <button id="try-demo" class="mt-4 px-6 py-2 text-sm text-primary hover:text-white font-medium transition-colors">
+                                <i class="fas fa-magic mr-2"></i>Try a Demo Project (No Upload Needed)
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- File Preview Area -->
+                    <div id="file-preview" class="hidden">
+                        <div class="flex justify-between items-center mb-4">
+                            <h4 class="font-medium text-white">Selected Files</h4>
+                            <div class="text-sm text-gray-400">
+                                <span id="file-count">0</span> files • <span id="total-size">0 MB</span>
+                            </div>
+                        </div>
+                        <div id="file-list" class="space-y-3 max-h-64 overflow-y-auto pr-2 custom-scrollbar">
+                            <!-- Files will be added here dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Pro Tips (Collapsible) -->
+                    <div class="mt-8 pt-6 border-t border-white/5">
+                        <div class="flex items-center justify-between cursor-pointer group" id="pro-tips-toggle">
+                            <div class="flex items-center">
+                                <i class="fas fa-lightbulb text-yellow-400 mr-2"></i>
+                                <span class="font-medium text-white">Pro Tips</span>
+                            </div>
+                            <i class="fas fa-chevron-down text-gray-500 text-xs transform transition-transform duration-200 group-hover:text-white" id="pro-tips-icon"></i>
+                        </div>
+                        <div id="pro-tips-content" class="mt-3 text-sm text-gray-400 space-y-2 hidden">
+                            <p>• For best results, use high-quality images (min 1000px on the shortest side)</p>
+                            <p>• Keep file names in the correct order (e.g., page01.jpg, page02.jpg)</p>
+                            <p>• Supported formats: JPG, PNG, WEBP (Max 50MB per file)</p>
+                            <p>• Upload in the correct reading order (left to right, top to bottom)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Next Button -->
+                <div class="flex justify-between items-center mt-8 pt-6 border-t border-white/5">
+                    <a href="dashboard.html" class="px-6 py-3 rounded-lg text-textMuted hover:text-white transition-colors">
+                        <i class="fas fa-arrow-left mr-2"></i> Back to Dashboard
+                    </a>
+                    <div class="flex items-center space-x-4">
+                        <span id="fileStatus" class="text-sm text-textMuted hidden sm:block">0 files selected</span>
+                        <button 
+                            id="nextButton" 
+                            class="px-6 py-3 bg-gradient-to-r from-primary to-blue-500 hover:from-blue-500 hover:to-primary text-white font-medium rounded-lg transition-all duration-300 transform hover:-translate-y-0.5 shadow-lg hover:shadow-primary/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:shadow-none"
+                            disabled
+                        >
+                            <span class="flex items-center">
+                                <span>Continue to Review</span>
+                                <i class="fas fa-arrow-right ml-2"></i>
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Floating Decorative Elements -->
+    <div class="fixed -left-20 -top-20 w-64 h-64 bg-blue-400/10 rounded-full filter blur-3xl -z-10"></div>
+    <div class="fixed -right-40 top-1/3 w-80 h-80 bg-purple-400/10 rounded-full filter blur-3xl -z-10"></div>
+    <div class="fixed bottom-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full filter blur-3xl -z-10"></div>
+
+    <!-- Demo Video Modal -->
+    <div id="demoModal" class="fixed inset-0 bg-black/80 z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-surface/90 backdrop-blur-lg rounded-2xl max-w-4xl w-full overflow-hidden shadow-2xl">
+            <div class="flex justify-between items-center p-4 border-b border-white/10">
+                <h3 class="text-lg font-semibold">MangaMotion Demo</h3>
+                <button id="closeDemoModal" class="text-textMuted hover:text-white">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div class="aspect-video bg-black">
+                <video id="modalVideo" class="w-full h-full" controls autoplay>
+                    <source src="/resources/hero-demo.mp4" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Track page view
+            if (window.trackEvent) window.trackEvent('upload_page_viewed');
+            
+            // Get DOM elements
+            const uploadZone = document.getElementById('upload-zone');
+            const fileInput = document.getElementById('file-input');
+            const selectFilesBtn = document.getElementById('select-files');
+            const filePreview = document.getElementById('file-preview');
+            const fileList = document.getElementById('file-list');
+            const fileCount = document.getElementById('file-count');
+            const totalSize = document.getElementById('total-size');
+            const proTipsToggle = document.getElementById('pro-tips-toggle');
+            const proTipsContent = document.getElementById('pro-tips-content');
+            const proTipsIcon = document.getElementById('pro-tips-icon');
+            const tryDemoBtn = document.getElementById('try-demo');
+            const nextButton = document.getElementById('nextButton');
+            const fileStatus = document.getElementById('fileStatus');
+            const demoVideo = document.getElementById('demoVideo');
+            const modalVideo = document.getElementById('modalVideo');
+            const demoModal = document.getElementById('demoModal');
+            const closeDemoModal = document.getElementById('closeDemoModal');
+            const watchDemoBtn = document.getElementById('watchDemoBtn');
+            const caseStudyCarousel = document.getElementById('caseStudyCarousel');
+            const prevCaseBtn = document.getElementById('prevCase');
+            const nextCaseBtn = document.getElementById('nextCase');
+
+            // Case studies data
+            const caseStudies = [
+                {
+                    title: 'Manga Artist Boosts Engagement by 200%',
+                    description: 'See how Sarah transformed her manga series with motion effects',
+                    cta: 'Watch Case Study',
+                    video: '/resources/case-study-1.mp4'
+                },
+                {
+                    title: 'From Zero to 50K Followers in 3 Months',
+                    description: 'How indie creator Alex grew their audience with animated manga',
+                    cta: 'View Success Story',
+                    video: '/resources/case-study-2.mp4'
+                },
+                {
+                    title: 'Professional Studio Saves 10+ Hours Weekly',
+                    description: 'Learn how Studio K saved time with our automated workflow',
+                    cta: 'See How',
+                    video: '/resources/case-study-3.mp4'
+                }
+            ];
+
+            // Initialize case study carousel
+            function initCaseStudyCarousel() {
+                caseStudyCarousel.innerHTML = caseStudies.map((study, index) => `
+                    <div class="min-w-full p-4" data-index="${index}">
+                        <div class="bg-white/5 rounded-xl p-6 h-full border border-white/10 hover:border-primary/50 transition-colors cursor-pointer case-study-item">
+                            <h4 class="font-semibold text-white mb-2">${study.title}</h4>
+                            <p class="text-sm text-textMuted mb-4">${study.description}</p>
+                            <button class="text-primary text-sm font-medium hover:text-white transition-colors flex items-center">
+                                ${study.cta} <i class="fas fa-arrow-right ml-2 text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Add click handlers for case study items
+                document.querySelectorAll('.case-study-item').forEach((item, index) => {
+                    item.addEventListener('click', () => {
+                        // In a real implementation, this would open the case study modal
+                        // For now, we'll just log it
+                        console.log('Opening case study:', caseStudies[index].title);
+                        // You can implement the modal opening logic here
+                    });
+                });
+            }
+
+            // Initialize carousel
+            initCaseStudyCarousel();
+            let currentCaseIndex = 0;
+
+            // Handle carousel navigation
+            function updateCarousel() {
+                caseStudyCarousel.style.transform = `translateX(-${currentCaseIndex * 100}%)`;
+            }
+
+            nextCaseBtn.addEventListener('click', () => {
+                currentCaseIndex = (currentCaseIndex + 1) % caseStudies.length;
+                updateCarousel();
+            });
+
+            prevCaseBtn.addEventListener('click', () => {
+                currentCaseIndex = (currentCaseIndex - 1 + caseStudies.length) % caseStudies.length;
+                updateCarousel();
+            });
+
+            // Auto-advance carousel
+            setInterval(() => {
+                currentCaseIndex = (currentCaseIndex + 1) % caseStudies.length;
+                updateCarousel();
+            }, 8000);
+
+            // Demo video hover effect
+            uploadZone.addEventListener('mouseenter', () => {
+                if (demoVideo) demoVideo.play().catch(e => console.log('Video play failed:', e));
+            });
+
+            uploadZone.addEventListener('mouseleave', () => {
+                if (demoVideo) {
+                    demoVideo.pause();
+                    demoVideo.currentTime = 0;
+                }
+            });
+
+            // Demo modal functionality
+            watchDemoBtn.addEventListener('click', () => {
+                demoModal.classList.remove('hidden');
+                modalVideo.play().catch(e => console.log('Modal video play failed:', e));
+                document.body.style.overflow = 'hidden';
+            });
+
+            closeDemoModal.addEventListener('click', () => {
+                demoModal.classList.add('hidden');
+                modalVideo.pause();
+                document.body.style.overflow = '';
+            });
+
+            // Close modal when clicking outside the video
+            demoModal.addEventListener('click', (e) => {
+                if (e.target === demoModal) {
+                    demoModal.classList.add('hidden');
+                    modalVideo.pause();
+                    document.body.style.overflow = '';
+                }
+            });
+
+            // Toggle Pro Tips
+            proTipsToggle.addEventListener('click', () => {
+                const isOpen = proTipsContent.classList.toggle('hidden');
+                proTipsIcon.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+            });
+
+            // Handle file selection
+            selectFilesBtn.addEventListener('click', () => fileInput.click());
+
+            // Handle drag and drop
+            ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+                uploadZone.addEventListener(eventName, preventDefaults, false);
+            });
+
+            function preventDefaults(e) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+
+            ['dragenter', 'dragover'].forEach(eventName => {
+                uploadZone.addEventListener(eventName, highlight, false);
+            });
+
+            ['dragleave', 'drop'].forEach(eventName => {
+                uploadZone.addEventListener(eventName, unhighlight, false);
+            });
+
+            function highlight() {
+                uploadZone.classList.add('border-primary/60', 'bg-primary/5');
+                uploadZone.classList.remove('border-primary/30');
+            }
+
+            function unhighlight() {
+                uploadZone.classList.remove('border-primary/60', 'bg-primary/5');
+                uploadZone.classList.add('border-primary/30');
+            }
+
+            // Handle dropped files
+            uploadZone.addEventListener('drop', handleDrop, false);
+            fileInput.addEventListener('change', handleFiles, false);
+
+            function handleDrop(e) {
+                const dt = e.dataTransfer;
+                const files = dt.files;
+                handleFiles({ target: { files } });
+            }
+
+            function handleFiles(e) {
+                const files = e.target.files;
+                if (files.length === 0) return;
+
+                // Show file preview
+                filePreview.classList.remove('hidden');
+                fileList.innerHTML = '';
+                
+                let totalFileSize = 0;
+                
+                Array.from(files).forEach((file, index) => {
+                    // Calculate file size
+                    const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+                    totalFileSize += parseFloat(fileSizeMB);
+                    
+                    // Create file preview item
+                    const fileItem = document.createElement('div');
+                    fileItem.className = 'flex items-center justify-between p-3 bg-slate-800/50 rounded-xl border border-white/5 hover:border-primary/30 transition-colors';
+                    fileItem.innerHTML = `
+                        <div class="flex items-center space-x-3">
+                            <div class="w-10 h-10 bg-slate-700/50 rounded-lg flex items-center justify-center text-gray-400">
+                                <i class="fas fa-file-image"></i>
+                            </div>
+                            <div>
+                                <p class="text-sm font-medium truncate max-w-[180px]" title="${file.name}">${file.name}</p>
+                                <p class="text-xs text-gray-500">${fileSizeMB} MB</p>
+                            </div>
+                        </div>
+                        <button class="text-gray-400 hover:text-red-400 transition-colors" data-index="${index}">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    fileList.appendChild(fileItem);
+                });
+
+                // Update file count and total size
+                fileCount.textContent = files.length;
+                totalSize.textContent = `${totalFileSize.toFixed(2)} MB`;
+                fileStatus.textContent = `${files.length} ${files.length === 1 ? 'file' : 'files'} selected`;
+                fileStatus.classList.remove('hidden');
+                nextButton.disabled = files.length === 0;
+
+                // Add event listeners to remove buttons
+                document.querySelectorAll('#file-list button').forEach(btn => {
+                    btn.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        const index = parseInt(btn.getAttribute('data-index'));
+                        removeFile(index);
+                    });
+                });
+            }
+
+            function removeFile(index) {
+                // This is a simplified version - in a real app, you'd update the FileList
+                const items = fileList.querySelectorAll('.bg-slate-800\/50');
+                if (items[index]) {
+                    items[index].classList.add('opacity-0', 'h-0', 'p-0', 'border-0', 'm-0');
+                    setTimeout(() => {
+                        items[index].remove();
+                        const newCount = fileList.children.length;
+                        fileCount.textContent = newCount;
+                        fileStatus.textContent = `${newCount} ${newCount === 1 ? 'file' : 'files'} selected`;
+                        nextButton.disabled = newCount === 0;
+                        
+                        if (newCount === 0) {
+                            filePreview.classList.add('hidden');
+                        }
+                    }, 300);
+                }
+            }
+
+            // Try Demo functionality
+            tryDemoBtn.addEventListener('click', () => {
+                // Show loading state
+                const originalHtml = tryDemoBtn.innerHTML;
+                tryDemoBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Loading Demo...';
+                tryDemoBtn.disabled = true;
+
+                // Simulate loading
+                setTimeout(() => {
+                    // In a real app, this would load a demo project
+                    const demoFiles = [
+                        { name: 'demo-page-01.jpg', size: 1024 * 1024 * 1.5 },
+                        { name: 'demo-page-02.jpg', size: 1024 * 1024 * 1.2 },
+                        { name: 'demo-page-03.jpg', size: 1024 * 1024 * 1.7 }
+                    ];
+
+                    // Show file preview
+                    filePreview.classList.remove('hidden');
+                    fileList.innerHTML = '';
+
+                    let totalFileSize = 0;
+
+                    demoFiles.forEach((file, index) => {
+                        const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
+                        totalFileSize += parseFloat(fileSizeMB);
+
+                        const fileItem = document.createElement('div');
+                        fileItem.className = 'flex items-center justify-between p-3 bg-slate-800/50 rounded-xl border border-white/5 hover:border-primary/30 transition-colors';
+                        fileItem.innerHTML = `
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-slate-700/50 rounded-lg flex items-center justify-center text-gray-400">
+                                    <i class="fas fa-file-image"></i>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-medium truncate max-w-[180px]" title="${file.name}">${file.name}</p>
+                                    <p class="text-xs text-gray-500">${fileSizeMB} MB</p>
+                                </div>
+                            </div>
+                            <div class="text-xs px-2 py-1 bg-green-900/30 text-green-400 rounded">
+                                Demo
+                            </div>
+                        `;
+                        fileList.appendChild(fileItem);
+                    });
+
+                    // Update file count and total size
+                    fileCount.textContent = demoFiles.length;
+                    totalSize.textContent = `${totalFileSize.toFixed(2)} MB`;
+                    fileStatus.textContent = `${demoFiles.length} ${demoFiles.length === 1 ? 'file' : 'files'} selected`;
+                    fileStatus.classList.remove('hidden');
+                    nextButton.disabled = false;
+
+                    // Reset button
+                    tryDemoBtn.innerHTML = '<i class="fas fa-check-circle mr-2"></i>Demo Loaded';
+                    setTimeout(() => {
+                        tryDemoBtn.innerHTML = originalHtml;
+                        tryDemoBtn.disabled = false;
+                    }, 2000);
+                }, 1500);
+            });
+
+            // Auto-load demo if URL parameter is present
+            if (window.location.search.includes('demo=true')) {
+                tryDemoBtn.click();
+            }
+            
+            // Next button click handler
+            nextButton.addEventListener('click', async () => {
+                try {
+                    // Get uploaded files
+                    const files = fileInput.files;
+                    if (!files || files.length === 0) {
+                        alert('Please upload at least one file first');
+                        return;
+                    }
+
+                    // Show loading state
+                    const originalContent = nextButton.innerHTML;
+                    nextButton.innerHTML = `
+                        <span class="flex items-center">
+                            <i class="fas fa-circle-notch fa-spin mr-2"></i>
+                            <span>Processing...</span>
+                        </span>
+                    `;
+                    nextButton.disabled = true;
+
+                    // Prepare files data for storage
+                    const fileData = [];
+                    for (let i = 0; i < files.length; i++) {
+                        const file = files[i];
+                        fileData.push({
+                            name: file.name,
+                            size: file.size,
+                            type: file.type,
+                            lastModified: file.lastModified
+                        });
+                    }
+
+                    // Create project object
+                    const project = {
+                        id: 'project_' + Date.now(),
+                        name: 'New Project',
+                        createdAt: new Date().toISOString(),
+                        updatedAt: new Date().toISOString(),
+                        files: fileData,
+                        panels: [],
+                        audio: [],
+                        motionPreset: 'soft-pan',
+                        output: { 
+                            fps: 30, 
+                            width: 1280, 
+                            height: 720 
+                        },
+                        currentStep: 'upload',
+                        status: 'processing'
+                    };
+                    
+                    // Save project to localStorage
+                    localStorage.setItem('project_current', JSON.stringify(project));
+                    
+                    // Track the event if analytics is available
+                    if (window.trackEvent) {
+                        window.trackEvent('upload_next_clicked', { fileCount: files.length });
+                    }
+                    
+                    // Simulate processing time (in a real app, this would be an actual file upload/processing)
+                    await new Promise(resolve => setTimeout(resolve, 1000));
+                    
+                    // Navigate to the next page
+                    window.location.href = 'detection.html';
+                    
+                } catch (err) {
+                    console.error('Error in next button handler:', err);
+                    alert('An error occurred. Please try again.');
+                    
+                    // Reset button state
+                    nextButton.innerHTML = 'Continue to Review <i class="fas fa-arrow-right ml-2"></i>';
+                    nextButton.disabled = false;
+                }
+            });
+
+            // Add keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter' && !nextButton.disabled) {
+                    nextButton.click();
+                }
+            });
+        });
+    </script>
+    <style>
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+        
+        /* Smooth transitions */
+        * {
+            transition: background-color 0.2s ease, border-color 0.2s ease;
+        }
+        
+        /* Focus states for better accessibility */
+        button:focus, a:focus, input:focus {
+            outline: 2px solid rgba(99, 102, 241, 0.5);
+            outline-offset: 2px;
+        }
+    </style>
+</body>
+</html>

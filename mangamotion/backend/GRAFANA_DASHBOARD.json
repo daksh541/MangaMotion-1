@@ -1,0 +1,214 @@
+{
+  "dashboard": {
+    "title": "MangaMotion Job Processing",
+    "description": "Real-time monitoring of job throughput, errors, and performance",
+    "tags": ["mangamotion", "jobs", "processing"],
+    "timezone": "browser",
+    "panels": [
+      {
+        "title": "Job Throughput (jobs/min)",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(job_processed_total[1m]) * 60",
+            "legendFormat": "Jobs/min",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 0
+        }
+      },
+      {
+        "title": "Error Rate (%)",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "(rate(job_failed_total[1m]) / rate(job_processed_total[1m])) * 100",
+            "legendFormat": "Error %",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 0
+        }
+      },
+      {
+        "title": "Average Processing Time (seconds)",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(job_processing_seconds_sum[5m]) / rate(job_processing_seconds_count[5m])",
+            "legendFormat": "Avg Duration",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 0,
+          "y": 8
+        }
+      },
+      {
+        "title": "P95 Processing Time (seconds)",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "histogram_quantile(0.95, rate(job_processing_seconds_bucket[5m]))",
+            "legendFormat": "P95",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 12,
+          "y": 8
+        }
+      },
+      {
+        "title": "Queue Length",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "queue_length",
+            "legendFormat": "Queue Length",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "h": 4,
+          "w": 6,
+          "x": 0,
+          "y": 16
+        }
+      },
+      {
+        "title": "Active Jobs",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "active_jobs",
+            "legendFormat": "Active",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "h": 4,
+          "w": 6,
+          "x": 6,
+          "y": 16
+        }
+      },
+      {
+        "title": "Failed Jobs (DLQ)",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "failed_jobs_dlq",
+            "legendFormat": "DLQ",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "h": 4,
+          "w": 6,
+          "x": 12,
+          "y": 16
+        }
+      },
+      {
+        "title": "Malware Detection Rate",
+        "type": "graph",
+        "targets": [
+          {
+            "expr": "rate(scan_infected_total[1m]) / (rate(scan_clean_total[1m]) + rate(scan_infected_total[1m]))",
+            "legendFormat": "Detection Rate",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "h": 8,
+          "w": 12,
+          "x": 18,
+          "y": 16
+        }
+      },
+      {
+        "title": "Total Jobs Processed",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "job_processed_total",
+            "legendFormat": "Total",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "h": 4,
+          "w": 6,
+          "x": 0,
+          "y": 20
+        }
+      },
+      {
+        "title": "Total Jobs Failed",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "job_failed_total",
+            "legendFormat": "Failed",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "h": 4,
+          "w": 6,
+          "x": 6,
+          "y": 20
+        }
+      },
+      {
+        "title": "Clean Scans",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "scan_clean_total",
+            "legendFormat": "Clean",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "h": 4,
+          "w": 6,
+          "x": 12,
+          "y": 20
+        }
+      },
+      {
+        "title": "Infected Files",
+        "type": "stat",
+        "targets": [
+          {
+            "expr": "scan_infected_total",
+            "legendFormat": "Infected",
+            "refId": "A"
+          }
+        ],
+        "gridPos": {
+          "h": 4,
+          "w": 6,
+          "x": 18,
+          "y": 20
+        }
+      }
+    ]
+  }
+}

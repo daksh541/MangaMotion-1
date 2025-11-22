@@ -1,0 +1,83 @@
+groups:
+  - name: mangamotion_alerts
+    interval: 30s
+    rules:
+      # High error rate alert
+      - alert: HighJobErrorRate
+        expr: (rate(job_failed_total[5m]) / rate(job_processed_total[5m])) > 0.05
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High job error rate detected"
+          description: "Job error rate is {{ $value | humanizePercentage }} (threshold: 5%)"
+
+      # Queue backup alert
+      - alert: QueueBackup
+        expr: queue_length > 100
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Job queue is backing up"
+          description: "Queue length is {{ $value }} jobs (threshold: 100)"
+
+      # High processing time alert
+      - alert: HighProcessingTime
+        expr: histogram_quantile(0.95, rate(job_processing_seconds_bucket[5m])) > 60
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High job processing time"
+          description: "P95 processing time is {{ $value | humanizeDuration }} (threshold: 60s)"
+
+      # Malware detection spike
+      - alert: MalwareDetectionSpike
+        expr: rate(scan_infected_total[5m]) > 0.1
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Malware detection spike detected"
+          description: "Infection rate is {{ $value | humanize }}/sec"
+
+      # DLQ accumulation
+      - alert: DLQAccumulation
+        expr: failed_jobs_dlq > 50
+        for: 10m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Dead letter queue is accumulating"
+          description: "DLQ has {{ $value }} jobs (threshold: 50)"
+
+      # No jobs processed
+      - alert: NoJobsProcessed
+        expr: rate(job_processed_total[5m]) == 0
+        for: 15m
+        labels:
+          severity: critical
+        annotations:
+          summary: "No jobs being processed"
+          description: "No jobs have been processed in the last 15 minutes"
+
+      # High attempt count
+      - alert: HighRetryRate
+        expr: histogram_quantile(0.95, rate(job_attempts_bucket[5m])) > 2
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High job retry rate"
+          description: "P95 attempt count is {{ $value | humanize }} (threshold: 2)"
+
+      # Skipped jobs (ClamAV unavailable)
+      - alert: ClamAVUnavailable
+        expr: rate(job_skipped_total[5m]) > 0
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "ClamAV scanning is unavailable"
+          description: "Jobs are being skipped due to ClamAV unavailability"

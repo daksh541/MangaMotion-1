@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Export - MangaMotion AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0F1724;
+            min-height: 100vh;
+            color: #E6EEF6;
+        }
+        
+        .export-card {
+            background: #0B1220;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+        
+        .export-card:hover {
+            background: rgba(255, 51, 102, 0.1);
+            transform: translateY(-5px);
+            border-color: #FF3366;
+        }
+        
+        .quality-option {
+            background: #0B1220;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+        
+        .quality-option:hover:not(.locked) {
+            border-color: rgba(255, 51, 102, 0.5);
+            background: rgba(255, 51, 102, 0.1);
+        }
+        
+        .quality-option.selected {
+            border-color: #FF3366;
+            background: rgba(255, 51, 102, 0.2);
+        }
+        
+        .quality-option.locked {
+            opacity: 0.5;
+            cursor: not-allowed;
+            position: relative;
+        }
+        
+        .quality-option.locked::after {
+            content: 'PRO';
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background: #E74C3C;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 10px;
+            font-weight: bold;
+        }
+        
+        .export-button {
+            background: #FF3366;
+            border-radius: 12px;
+            height: 44px;
+            padding: 0 24px;
+            font-weight: 600;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            border: none;
+            color: white;
+        }
+        
+        .export-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(255, 51, 102, 0.4);
+            background: #ff1a53;
+        }
+        
+        .share-button {
+            background: #0B1220;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+            border-radius: 8px;
+        }
+        
+        .share-button:hover {
+            background: rgba(255, 51, 102, 0.1);
+            transform: translateY(-1px);
+            border-color: #FF3366;
+        }
+        
+        .watermark-toggle {
+            background: #0B1220;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+        }
+        
+        .preview-area {
+            background: linear-gradient(135deg, #FF3366 0%, #1F8FFF 100%);
+            aspect-ratio: 16/9;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+        
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: #FF3366;
+            height: 100%;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+        
+        .floating-icon {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+    </style>
+    <script src="main.js"></script>
+</head>
+<body class="min-h-screen text-white">
+    <!-- Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-black/20 backdrop-blur-md border-b border-white/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <button onclick="window.location.href='editor.html'" class="p-2 rounded-lg hover:bg-white/10 transition-all">
+                        <i class="fas fa-arrow-left text-white"></i>
+                    </button>
+                    <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
+                        <i class="fas fa-play text-white text-sm"></i>
+                    </div>
+                    <span class="text-xl font-bold">MangaMotion AI</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span class="text-sm text-gray-400">Free Plan</span>
+                    <button onclick="window.location.href='pricing.html'" class="px-4 py-2 rounded-lg bg-gradient-to-r from-purple-500 to-blue-500 hover:shadow-lg transition-all text-sm font-medium">
+                        <i class="fas fa-rocket mr-2"></i>Upgrade
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="pt-24 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto">
+            <!-- Header -->
+            <div class="text-center mb-12">
+                <h1 class="text-4xl font-bold mb-4">Export Your Motion Manga</h1>
+                <p class="text-gray-400 text-lg">Choose your export settings and share with the world</p>
+            </div>
+
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Left: Preview & Settings -->
+                <div class="lg:col-span-2">
+                    <!-- Preview -->
+                    <div class="export-card rounded-2xl p-6 mb-6">
+                        <h3 class="text-xl font-bold mb-4">Preview</h3>
+                        <div class="preview-area rounded-xl mb-4 flex items-center justify-center">
+                            <div class="text-white text-opacity-50 text-center">
+                                <i class="fas fa-play text-6xl mb-4"></i>
+                                <p>Final Preview</p>
+                                <p class="text-sm mt-2">My Hero Academia - Chapter 1</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between text-sm text-gray-400">
+                            <span>Duration: 2:34</span>
+                            <span>3 Panels</span>
+                            <span>Estimated Size: 45MB</span>
+                        </div>
+                    </div>
+
+                    <!-- Quality Settings -->
+                    <div class="export-card rounded-2xl p-6">
+                        <h3 class="text-xl font-bold mb-6">Export Quality</h3>
+                        
+                        <div class="grid grid-cols-3 gap-4 mb-6">
+                            <div class="quality-option rounded-xl p-4 text-center selected" onclick="selectQuality('720p')">
+                                <div class="text-2xl mb-2">🎥</div>
+                                <h4 class="font-bold mb-1">720p</h4>
+                                <p class="text-sm text-gray-400">HD</p>
+                                <p class="text-xs text-green-400 mt-2">Free</p>
+                            </div>
+                            
+                            <div class="quality-option rounded-xl p-4 text-center locked" onclick="showUpgradeModal()">
+                                <div class="text-2xl mb-2">🎬</div>
+                                <h4 class="font-bold mb-1">1080p</h4>
+                                <p class="text-sm text-gray-400">Full HD</p>
+                                <p class="text-xs text-purple-400 mt-2">Pro</p>
+                            </div>
+                            
+                            <div class="quality-option rounded-xl p-4 text-center locked" onclick="showUpgradeModal()">
+                                <div class="text-2xl mb-2">🚀</div>
+                                <h4 class="font-bold mb-1">4K</h4>
+                                <p class="text-sm text-gray-400">Ultra HD</p>
+                                <p class="text-xs text-orange-400 mt-2">Studio</p>
+                            </div>
+                        </div>
+
+                        <!-- Watermark Toggle -->
+                        <div class="flex items-center justify-between p-4 rounded-xl watermark-toggle mb-6">
+                            <div>
+                                <h4 class="font-medium">Watermark</h4>
+                                <p class="text-sm text-gray-400">Include MangaMotion AI branding</p>
+                            </div>
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" class="sr-only peer" checked disabled>
+                                <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                            </label>
+                        </div>
+
+                        <!-- Export Button -->
+                        <button onclick="startExport()" class="export-button w-full py-4 rounded-xl text-white font-bold text-lg">
+                            <i class="fas fa-download mr-2"></i>
+                            Export Video (720p)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Right: Share Options -->
+                <div class="lg:col-span-1">
+                    <div class="export-card rounded-2xl p-6">
+                        <h3 class="text-xl font-bold mb-6">Share Your Creation</h3>
+                        
+                        <div class="space-y-4">
+                            <button onclick="shareToYouTube()" class="share-button w-full p-4 rounded-xl flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-red-500 rounded-lg flex items-center justify-center">
+                                    <i class="fab fa-youtube text-white"></i>
+                                </div>
+                                <div class="text-left">
+                                    <p class="font-medium">Share to YouTube</p>
+                                    <p class="text-sm text-gray-400">Upload directly</p>
+                                </div>
+                            </button>
+                            
+                            <button onclick="shareToInstagram()" class="share-button w-full p-4 rounded-xl flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+                                    <i class="fab fa-instagram text-white"></i>
+                                </div>
+                                <div class="text-left">
+                                    <p class="font-medium">Instagram Reel</p>
+                                    <p class="text-sm text-gray-400">Optimize for mobile</p>
+                                </div>
+                            </button>
+                            
+                            <button onclick="copyLink()" class="share-button w-full p-4 rounded-xl flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-blue-500 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-link text-white"></i>
+                                </div>
+                                <div class="text-left">
+                                    <p class="font-medium">Copy Link</p>
+                                    <p class="text-sm text-gray-400">Share anywhere</p>
+                                </div>
+                            </button>
+                            
+                            <button onclick="downloadFile()" class="share-button w-full p-4 rounded-xl flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-green-500 rounded-lg flex items-center justify-center">
+                                    <i class="fas fa-download text-white"></i>
+                                </div>
+                                <div class="text-left">
+                                    <p class="font-medium">Download</p>
+                                    <p class="text-sm text-gray-400">Save to device</p>
+                                </div>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Export Progress -->
+                    <div id="exportProgress" class="export-card rounded-2xl p-6 mt-6 hidden">
+                        <h3 class="text-xl font-bold mb-4">Exporting...</h3>
+                        
+                        <div class="mb-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <span class="text-sm text-gray-400">Progress</span>
+                                <span id="progressPercent" class="text-sm text-white">0%</span>
+                            </div>
+                            <div class="progress-bar h-2">
+                                <div id="progressFill" class="progress-fill" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="text-center">
+                            <div class="floating-icon inline-block mb-2">
+                                <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center">
+                                    <i class="fas fa-magic text-white"></i>
+                                </div>
+                            </div>
+                            <p class="text-gray-400 text-sm">Creating your motion manga...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Upgrade Modal -->
+    <div id="upgradeModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-gray-800 rounded-2xl p-8 max-w-md w-full mx-4">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-crown text-white text-2xl"></i>
+                </div>
+                <h3 class="text-2xl font-bold mb-2">Upgrade to Pro</h3>
+                <p class="text-gray-400">Get access to higher quality exports and more features</p>
+            </div>
+            
+            <div class="space-y-3 mb-6">
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-check text-green-400"></i>
+                    <span>1080p & 4K exports</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-check text-green-400"></i>
+                    <span>No watermark</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-check text-green-400"></i>
+                    <span>Priority processing</span>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <i class="fas fa-check text-green-400"></i>
+                    <span>More voice options</span>
+                </div>
+            </div>
+            
+            <div class="flex space-x-3">
+                <button onclick="closeUpgradeModal()" class="flex-1 py-3 rounded-lg bg-white/10 hover:bg-white/20 text-white font-medium transition-all">
+                    Maybe Later
+                </button>
+                <button onclick="window.location.href='pricing.html'" class="flex-1 py-3 rounded-lg bg-gradient-to-r from-purple-500 to-blue-500 text-white font-medium hover:shadow-lg transition-all">
+                    Upgrade Now
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let selectedQuality = '720p';
+
+        function selectQuality(quality) {
+            document.querySelectorAll('.quality-option').forEach(option => {
+                option.classList.remove('selected');
+            });
+            
+            if (!event.target.closest('.quality-option').classList.contains('locked')) {
+                event.target.closest('.quality-option').classList.add('selected');
+                selectedQuality = quality;
+                updateExportButton();
+            }
+        }
+
+        function updateExportButton() {
+            const button = document.querySelector('.export-button');
+            button.innerHTML = `<i class="fas fa-download mr-2"></i>Export Video (${selectedQuality})`;
+        }
+
+        function showUpgradeModal() {
+            document.getElementById('upgradeModal').classList.remove('hidden');
+        }
+
+        function closeUpgradeModal() {
+            document.getElementById('upgradeModal').classList.add('hidden');
+        }
+
+        function startExport() {
+            try {
+                const project = JSON.parse(localStorage.getItem('project_current')||'null');
+                fetch('/api/start-render', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ project, settings: { quality: selectedQuality, watermark: true } }) })
+                    .then(r=>r.json()).then(({jobId}) => {
+                        if (!jobId) return;
+                        const poll = () => {
+                            fetch(`/api/render-status?jobId=${jobId}`).then(r=>r.json()).then(st => {
+                                if (st.progress!=null) {
+                                   document.getElementById('progressPercent').textContent = Math.floor(st.progress) + '%';
+                                   document.getElementById('progressFill').style.width = st.progress + '%';
+                                }
+                                let etaEl = document.getElementById('exportEta');
+                                if (!etaEl) { etaEl = document.createElement('div'); etaEl.id='exportEta'; etaEl.className='text-xs text-gray-400 mt-2'; document.getElementById('exportProgress').appendChild(etaEl); }
+                                etaEl.textContent = 'ETA: ' + (st.etaSec || 0) + 's';
+                                if (st.status === 'success') {
+                                   document.getElementById('exportProgress').innerHTML = `
+                                        <h3 class="text-xl font-bold mb-4">Export Complete!</h3>
+                                        <div class="text-center">
+                                            <div class="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                                                <i class="fas fa-check text-white text-2xl"></i>
+                                            </div>
+                                            <p class="text-gray-400 mb-4">Your motion manga is ready!</p>
+                                            <a href="${st.downloadUrl}" class="w-full py-3 rounded-lg bg-gradient-to-r from-green-500 to-blue-500 text-white font-bold block text-center" download>
+                                                <i class="fas fa-download mr-2"></i>Download Now
+                                            </a>
+                                        </div>`;
+                                   if (window.trackEvent) window.trackEvent('export_finished', { quality: selectedQuality });
+                                } else {
+                                   setTimeout(poll, 500);
+                                }
+                            }).catch(()=>setTimeout(poll, 800));
+                        };
+                        poll();
+                    }).catch(()=>{});
+            } catch(_) {}
+
+            const progressCard = document.getElementById('exportProgress');
+            progressCard.classList.remove('hidden');
+            if (window.trackEvent) window.trackEvent('export_started', { quality: selectedQuality });
+            let progress = 0;
+            const start = Date.now();
+            const interval = setInterval(() => {
+                progress += Math.random() * 15;
+                if (progress > 100) progress = 100;
+                document.getElementById('progressPercent').textContent = Math.floor(progress) + '%';
+                document.getElementById('progressFill').style.width = progress + '%';
+                // ETA display
+                let etaEl = document.getElementById('exportEta');
+                if (!etaEl) {
+                    etaEl = document.createElement('div');
+                    etaEl.id = 'exportEta';
+                    etaEl.className = 'text-xs text-gray-400 mt-2';
+                    progressCard.appendChild(etaEl);
+                }
+                const elapsed = (Date.now() - start) / 1000;
+                const totalEst = elapsed / Math.max(progress/100, 0.01);
+                const remaining = Math.max(totalEst - elapsed, 0);
+                const m = Math.floor(remaining / 60);
+                const s = Math.floor(remaining % 60);
+                etaEl.textContent = `ETA: ${m}:${s.toString().padStart(2,'0')}`;
+                if (progress >= 100) {
+                    clearInterval(interval);
+                    setTimeout(() => {
+                        progressCard.innerHTML = `
+                            <h3 class=\"text-xl font-bold mb-4\">Export Complete!</h3>
+                            <div class=\"text-center\">
+                                <div class=\"w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mx-auto mb-4\">
+                                    <i class=\"fas fa-check text-white text-2xl\"></i>
+                                </div>
+                                <p class=\"text-gray-400 mb-4\">Your motion manga is ready!</p>
+                                <button onclick=\"downloadFile()\" class=\"w-full py-3 rounded-lg bg-gradient-to-r from-green-500 to-blue-500 text-white font-bold\">
+                                    <i class=\"fas fa-download mr-2\"></i>Download Now
+                                </button>
+                            </div>
+                        `;
+                        if (window.trackEvent) window.trackEvent('export_finished', { quality: selectedQuality });
+                    }, 1000);
+                }
+            }, 200);
+        }
+
+        function shareToYouTube() {
+            if (window.trackEvent) window.trackEvent('share_clicked', { platform: 'YouTube' });
+            alert('Connecting to YouTube...\n\nThis would normally open the YouTube upload dialog with your video pre-loaded.');
+        }
+            alert('Connecting to YouTube...\n\nThis would normally open the YouTube upload dialog with your video pre-loaded.');
+        }
+
+        function shareToInstagram() {
+            if (window.trackEvent) window.trackEvent('share_clicked', { platform: 'Instagram' });
+            alert('Preparing Instagram Reel...\n\nThis would normally optimize your video for Instagram and open the share dialog.');
+        }
+            alert('Preparing Instagram Reel...\n\nThis would normally optimize your video for Instagram and open the share dialog.');
+        }
+
+        function copyLink() {
+            const link = 'https://mangamotion.ai/share/abc123';
+            navigator.clipboard.writeText(link).then(() => {
+                if (window.trackEvent) window.trackEvent('share_clicked', { platform: 'Link' });
+                alert('Link copied to clipboard!\n\n' + link);
+            });
+        }
+            const link = 'https://mangamotion.ai/share/abc123';
+            navigator.clipboard.writeText(link).then(() => {
+                alert('Link copied to clipboard!\n\n' + link);
+            });
+        }
+
+        function downloadFile() {
+            if (window.trackEvent) window.trackEvent('share_clicked', { platform: 'Download' });
+            alert('Download started!\n\nYour motion manga will be saved to your device.');
+        }
+            alert('Download started!\n\nYour motion manga will be saved to your device.');
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('upgradeModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeUpgradeModal();
+            }
+        });
+
+        // Animate elements on load
+        anime({
+            targets: '.export-card',
+            opacity: [0, 1],
+            translateY: [30, 0],
+            duration: 800,
+            delay: anime.stagger(200),
+            easing: 'easeOutQuart'
+        });
+
+        anime({
+            targets: '.quality-option',
+            opacity: [0, 1],
+            scale: [0.9, 1],
+            duration: 600,
+            delay: anime.stagger(100, {start: 400}),
+            easing: 'easeOutQuart'
+        });
+    </script>
+</body>
+</html>
