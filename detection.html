@@ -4,139 +4,154 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Panel Detection - MangaMotion AI</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="/public/css/design-system.css" as="style">
+    <link rel="preload" href="/public/css/main.css" as="style">
+    <link rel="preload" href="/public/css/animations.css" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" as="style">
+
+    <link rel="stylesheet" href="/public/css/design-system.css?v=2">
+    <link rel="stylesheet" href="/public/css/main.css?v=2">
+    <link rel="stylesheet" href="/public/css/animations.css?v=2">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #0F1724;
-            min-height: 100vh;
-            color: #E6EEF6;
-        }
-        
-        .main-content {
-            background: #0B1220;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-        }
-        
-        .panel-item {
-            background: #0B1220;
-            border: 2px solid transparent;
-            transition: all 0.3s ease;
-            cursor: grab;
-            border-radius: 8px;
-        }
-        
-        .panel-item:hover {
-            border-color: rgba(255, 51, 102, 0.5);
-            transform: translateY(-2px);
-        }
-        
-        .panel-item.dragging {
-            cursor: grabbing;
-            transform: rotate(5deg);
-            opacity: 0.8;
-        }
-        
-        .manga-page {
-            background: linear-gradient(135deg, #FF3366 0%, #1F8FFF 100%);
-            position: relative;
-            overflow: hidden;
-            border-radius: 8px;
-        }
-        
-        .detected-panel {
-            position: absolute;
-            border: 3px solid #FF3366;
-            background: rgba(255, 51, 102, 0.1);
-            box-shadow: 0 0 20px rgba(255, 51, 102, 0.3);
-        }
-        
-        .action-button {
-            background: #0B1220;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            transition: all 0.3s ease;
-            border-radius: 8px;
-            color: #E6EEF6;
-        }
-        
-        .action-button:hover {
-            background: rgba(255, 51, 102, 0.1);
-            transform: translateY(-1px);
-            border-color: #FF3366;
-        }
-        
-        .continue-button {
-            background: #FF3366;
-            border-radius: 12px;
-            height: 44px;
-            padding: 0 24px;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            border: none;
-            color: white;
-        }
-        
-        .continue-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(255, 51, 102, 0.4);
-            background: #ff1a53;
-        }
-        
-        .sortable-ghost {
-            opacity: 0.4;
-        }
-        
-        .sortable-chosen {
-            transform: scale(1.05);
-        }
-    </style>
-    <script src="main.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.15.0/Sortable.min.js"></script>
+
+    <link rel="icon" type="image/svg+xml" href="/public/images/logo.svg">
 </head>
-<body class="min-h-screen text-white">
-    <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 bg-black/20 backdrop-blur-md border-b border-white/10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center space-x-2">
-                    <button onclick="window.location.href='upload.html'" class="nav-button p-2 rounded-lg hover:bg-white/10 transition-all">
-                        <i class="fas fa-arrow-left text-white"></i>
+<body class="dark-mode">
+    <!-- Skip to main content -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Innovative Navigation -->
+    <nav class="nav-modern">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="index.html" class="logo-animated">
+                    <div class="logo-icon">
+                        <img src="/public/images/logo.svg" alt="MangaMotion Logo">
+                        <div class="logo-pulse"></div>
+                    </div>
+                    <span class="logo-text">MangaMotion</span>
+                </a>
+            </div>
+
+            <div class="nav-main">
+                <div class="nav-links">
+                    <a href="index.html#features" class="nav-link" data-tooltip="Discover features">
+                        <i class="fas fa-sparkles"></i>
+                        <span>Features</span>
+                    </a>
+                    <a href="pricing.html" class="nav-link" data-tooltip="View pricing">
+                        <i class="fas fa-crown"></i>
+                        <span>Pricing</span>
+                    </a>
+                    <a href="#api" class="nav-link" data-tooltip="API docs">
+                        <i class="fas fa-code"></i>
+                        <span>API</span>
+                    </a>
+                    <a href="#docs" class="nav-link" data-tooltip="Documentation">
+                        <i class="fas fa-book"></i>
+                        <span>Docs</span>
+                    </a>
+                </div>
+
+                <div class="nav-actions">
+                    <a href="dashboard.html" class="btn btn-primary btn-glow">
+                        <i class="fas fa-tachometer-alt"></i>
+                        Dashboard
+                    </a>
+                </div>
+            </div>
+
+            <!-- Mobile Menu Trigger -->
+            <button class="mobile-menu-trigger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu-overlay">
+            <div class="mobile-menu">
+                <div class="mobile-menu-header">
+                    <div class="logo-mobile">
+                        <img src="/public/images/logo.svg" alt="MangaMotion">
+                        <span>MangaMotion</span>
+                    </div>
+                    <button class="mobile-menu-close" aria-label="Close menu">
+                        <i class="fas fa-times"></i>
                     </button>
-                    <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
-                        <i class="fas fa-play text-white text-sm"></i>
-                    </div>
-                    <span class="text-xl font-bold">MangaMotion AI</span>
                 </div>
-                <div class="flex items-center space-x-4">
-                    <div class="relative">
-                        <button onclick="toggleProfileMenu()" class="w-10 h-10 rounded-full bg-gradient-to-r from-purple-500 to-blue-500 flex items-center justify-center">
-                            <i class="fas fa-user text-white"></i>
-                        </button>
-                        <div id="profileMenu" class="absolute right-0 mt-2 w-48 bg-gray-800 rounded-lg shadow-xl border border-gray-700 hidden">
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 rounded-t-lg">Profile</a>
-                            <a href="pricing.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Billing</a>
-                            <a href="#" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700">Settings</a>
-                            <hr class="border-gray-700">
-                            <a href="login.html" class="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 rounded-b-lg">Logout</a>
-                        </div>
-                    </div>
-                </div>
+                <nav class="mobile-nav">
+                    <a href="index.html#features" class="mobile-nav-link">
+                        <i class="fas fa-sparkles"></i>
+                        <span>Features</span>
+                    </a>
+                    <a href="pricing.html" class="mobile-nav-link">
+                        <i class="fas fa-crown"></i>
+                        <span>Pricing</span>
+                    </a>
+                    <a href="#api" class="mobile-nav-link">
+                        <i class="fas fa-code"></i>
+                        <span>API</span>
+                    </a>
+                    <a href="#docs" class="mobile-nav-link">
+                        <i class="fas fa-book"></i>
+                        <span>Docs</span>
+                    </a>
+                    <div class="mobile-nav-divider"></div>
+                    <a href="dashboard.html" class="mobile-nav-link primary">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </a>
+                </nav>
             </div>
         </div>
     </nav>
 
     <!-- Main Content -->
-    <main class="pt-24 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-7xl mx-auto">
+    <main id="main-content">
+
+    <!-- Detection Hero Section -->
+    <header class="hero-section" style="min-height: 40vh; background: linear-gradient(135deg, #0F0F23 0%, #1A1A2E 50%, #0F0F23 100%);">
+        <!-- Animated Background Elements -->
+        <div class="hero-bg-elements">
+            <div class="floating-shape shape-1"></div>
+            <div class="floating-shape shape-2"></div>
+            <div class="particle particle-1"></div>
+            <div class="particle particle-2"></div>
+            <div class="particle particle-3"></div>
+        </div>
+
+        <!-- Gradient Overlay -->
+        <div class="hero-gradient-overlay"></div>
+
+        <div class="hero-container" style="align-items: center;">
+            <div class="hero-content" style="text-align: center; max-width: 600px;">
+                <h1 class="hero-heading">
+                    Panel <span class="hero-accent">Detection</span>
+                </h1>
+                <p class="hero-subheading">
+                    AI-powered panel detection with drag-and-drop reordering
+                </p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <section class="features-section" style="padding: var(--spacing-xxxl) 0;">
+        <div class="container">
             <!-- Header -->
-            <div class="text-center mb-8">
-                <h1 class="text-4xl font-bold mb-2">Review Detected Panels</h1>
-                <p class="text-gray-400">Drag and reorder panels to match your story flow</p>
+            <div class="text-center" style="margin-bottom: var(--spacing-xl);">
+                <h2>Review Detected Panels</h2>
+                <p class="text-muted" style="font-size: var(--font-size-h5); margin-top: var(--spacing-md);">
+                    Drag and reorder panels to match your story flow
+                </p>
             </div>
 
             <div class="grid lg:grid-cols-3 gap-8">
@@ -238,40 +253,187 @@
                 </div>
             </div>
         </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+    <div class="footer-content">
+        <div class="footer-section">
+            <h4>MangaMotion</h4>
+            <p>Transform your manga into cinematic animations with AI-powered technology.</p>
+            <div class="social-links">
+                <a href="#" aria-label="Facebook" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" aria-label="Twitter" class="social-icon"><i class="fab fa-twitter"></i></a>
+                <a href="#" aria-label="Instagram" class="social-icon"><i class="fab fa-instagram"></i></a>
+                <a href="#" aria-label="YouTube" class="social-icon"><i class="fab fa-youtube"></i></a>
+            </div>
+        </div>
+
+        <div class="footer-section">
+            <h4>Product</h4>
+            <ul class="footer-links">
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="pricing.html">Pricing</a></li>
+                <li><a href="#api">API</a></li>
+                <li><a href="#docs">Docs</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h4>Company</h4>
+            <ul class="footer-links">
+                <li><a href="#">About</a></li>
+                <li><a href="#">Blog</a></li>
+                <li><a href="#">Careers</a></li>
+                <li><a href="#">Contact</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h4>Support</h4>
+            <ul class="footer-links">
+                <li><a href="#">Help Center</a></li>
+                <li><a href="#">Documentation</a></li>
+                <li><a href="#">Community</a></li>
+                <li><a href="#">Status</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h4>Stay Updated</h4>
+            <p>Get the latest updates and features.</p>
+            <div class="newsletter-signup">
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Enter your email" aria-label="Email address">
+                    <button type="submit">Subscribe</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer-divider"></div>
+
+    <div class="footer-bottom">
+        <p>&copy; 2024 MangaMotion AI. All rights reserved.</p>
+        <div class="footer-legal">
+            <a href="#">Privacy Policy</a>
+            <a href="#">Terms of Service</a>
+            <a href="#">Cookie Policy</a>
+        </div>
+    </div>
+    </footer>
     </main>
 
     <script>
-        // Initialize Sortable for panel reordering
-        // Call mock detection if project present
-        try {
-            const project = JSON.parse(localStorage.getItem('project_current')||'null');
-            if (project && project.pages && project.pages[0]) {
-                fetch('/api/detect-panels', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ imageUrl: project.pages[0].url }) })
-                    .then(r=>r.json()).then(panels => {
-                        project.panels = panels;
-                        localStorage.setItem('project_current', JSON.stringify(project));
-                        if (window.trackEvent) window.trackEvent('panel_detection_completed', { panels: panels.length });
-                    }).catch(()=>{});
-            }
-        } catch(_){}
+        // Enhanced Navigation Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu functionality
+            const mobileMenuTrigger = document.querySelector('.mobile-menu-trigger');
+            const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
+            const mobileMenuClose = document.querySelector('.mobile-menu-close');
 
-        // Initialize Sortable for panel reordering
-        const panelList = document.getElementById('panelList');
-        new Sortable(panelList, {
-            animation: 150,
-            ghostClass: 'sortable-ghost',
-            chosenClass: 'sortable-chosen',
-            handle: '.fas.fa-grip-vertical',
-            onEnd: function(evt) {
-                updatePanelNumbers();
+            if (mobileMenuTrigger && mobileMenuOverlay) {
+                mobileMenuTrigger.addEventListener('click', () => {
+                    mobileMenuOverlay.classList.add('active');
+                });
+
+                mobileMenuClose.addEventListener('click', () => {
+                    mobileMenuOverlay.classList.remove('active');
+                });
+
+                mobileMenuOverlay.addEventListener('click', (e) => {
+                    if (e.target === mobileMenuOverlay) {
+                        mobileMenuOverlay.classList.remove('active');
+                    }
+                });
             }
+
+            // Newsletter form submission
+            const newsletterForm = document.querySelector('.newsletter-form');
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const email = newsletterForm.querySelector('input').value;
+                    if (email) {
+                        const button = newsletterForm.querySelector('button');
+                        const originalText = button.textContent;
+                        button.textContent = 'Subscribed!';
+                        button.style.background = '#10B981';
+
+                        setTimeout(() => {
+                            button.textContent = originalText;
+                            button.style.background = '';
+                            newsletterForm.reset();
+                        }, 2000);
+                    }
+                });
+            }
+
+            // Initialize Sortable for panel reordering
+            const panelList = document.getElementById('panelList');
+            if (panelList) {
+                new Sortable(panelList, {
+                    animation: 150,
+                    ghostClass: 'sortable-ghost',
+                    chosenClass: 'sortable-chosen',
+                    handle: '.fas.fa-grip-vertical',
+                    onEnd: function(evt) {
+                        updatePanelNumbers();
+                    }
+                });
+            }
+
+            // Add tooltip functionality
+            const navLinks = document.querySelectorAll('.nav-link[data-tooltip]');
+            navLinks.forEach(link => {
+                const tooltip = document.createElement('div');
+                tooltip.className = 'nav-tooltip';
+                tooltip.textContent = link.dataset.tooltip;
+                link.appendChild(tooltip);
+            });
+
+            // Add scroll effect to navigation
+            let lastScrollTop = 0;
+            const nav = document.querySelector('.nav-modern');
+
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+                if (scrollTop > lastScrollTop && scrollTop > 100) {
+                    if (nav) nav.style.transform = 'translateY(-100%)';
+                } else {
+                    if (nav) nav.style.transform = 'translateY(0)';
+                }
+
+                lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+            });
+
+            // Intersection Observer for animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-in');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe elements for animation
+            document.querySelectorAll('.main-content, .detected-panel').forEach(card => {
+                observer.observe(card);
+            });
         });
 
+        // Panel detection functions
         function updatePanelNumbers() {
-            const panels = panelList.querySelectorAll('.panel-item');
+            const panels = document.querySelectorAll('#panelList .panel-item');
             panels.forEach((panel, index) => {
                 const numberElement = panel.querySelector('.w-8.h-8');
-                numberElement.textContent = index + 1;
+                if (numberElement) numberElement.textContent = index + 1;
             });
         }
 
@@ -281,7 +443,7 @@
             const originalText = button.innerHTML;
             button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Editing...';
             button.disabled = true;
-            
+
             setTimeout(() => {
                 button.innerHTML = originalText;
                 button.disabled = false;
@@ -295,20 +457,20 @@
             const originalText = button.innerHTML;
             button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Regenerating...';
             button.disabled = true;
-            
+
             setTimeout(() => {
                 button.innerHTML = originalText;
                 button.disabled = false;
-                
+
                 // Animate panel regeneration
-                anime({
-                    targets: '.detected-panel',
-                    scale: [1, 1.1, 1],
-                    duration: 600,
-                    delay: anime.stagger(200),
-                    easing: 'easeInOutQuart'
+                const panels = document.querySelectorAll('.detected-panel');
+                panels.forEach((panel, index) => {
+                    setTimeout(() => {
+                        panel.style.transform = 'scale(1.1)';
+                        setTimeout(() => panel.style.transform = 'scale(1)', 300);
+                    }, index * 200);
                 });
-                
+
                 alert('Panels regenerated with improved detection!');
             }, 2000);
         }
@@ -319,65 +481,10 @@
             button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Loading Editor...';
             button.disabled = true;
             const panelCount = document.querySelectorAll('#panelList .panel-item').length;
-            if (window.trackEvent) window.trackEvent('panel_detection_accepted', { panels: panelCount });
             setTimeout(() => {
                 window.location.href = 'editor.html';
             }, 1500);
         }
-
-        function toggleProfileMenu() {
-            const menu = document.getElementById('profileMenu');
-            menu.classList.toggle('hidden');
-        }
-
-        // Close profile menu when clicking outside
-        document.addEventListener('click', function(e) {
-            const profileButton = document.querySelector('[onclick="toggleProfileMenu()"]');
-            const profileMenu = document.getElementById('profileMenu');
-            
-            if (!profileButton.contains(e.target) && !profileMenu.contains(e.target)) {
-                profileMenu.classList.add('hidden');
-            }
-        });
-
-        // Animate elements on load
-        anime({
-            targets: '.main-content',
-            opacity: [0, 1],
-            translateY: [30, 0],
-            duration: 800,
-            delay: anime.stagger(200),
-            easing: 'easeOutQuart'
-        });
-
-        anime({
-            targets: '.detected-panel',
-            scale: [0, 1],
-            duration: 1000,
-            delay: anime.stagger(300, {start: 500}),
-            easing: 'easeOutElastic(1, .8)'
-        });
-
-        // Add hover effects to panel items
-        document.querySelectorAll('.panel-item').forEach(item => {
-            item.addEventListener('mouseenter', function() {
-                anime({
-                    targets: this,
-                    translateX: 5,
-                    duration: 200,
-                    easing: 'easeOutQuart'
-                });
-            });
-            
-            item.addEventListener('mouseleave', function() {
-                anime({
-                    targets: this,
-                    translateX: 0,
-                    duration: 200,
-                    easing: 'easeOutQuart'
-                });
-            });
-        });
     </script>
 </body>
 </html>

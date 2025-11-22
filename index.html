@@ -3,700 +3,933 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MangaMotion AI - Turn Manga into Anime-Style Motion | AI Animation Tool</title>
-
-    <!-- Resource Hints -->
+    <title>MangaMotion AI - Turn Manga into Anime-Style Motion</title>
+    
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-
-    <!-- Preload Critical Resources -->
-    <link rel="preload" href="/public/css/main.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link rel="stylesheet" href="/public/css/main.css"></noscript>
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"></noscript>
-
-    <!-- Primary Meta Tags -->
-    <meta name="title" content="MangaMotion AI - Turn Manga into Anime-Style Motion">
-    <meta name="description" content="Transform your manga panels into stunning anime-style animations with AI. Create professional animations 10x faster with our intuitive AI-powered tool. Start with a free trial today!">
-    <meta name="keywords" content="manga animation, AI animation, anime creator, manga to anime, AI video, animation software, digital art, manga artist tools">
-    <meta name="author" content="MangaMotion AI">
-    <meta name="robots" content="index, follow">
-
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://mangamotion.ai/">
-    <meta property="og:title" content="MangaMotion AI - Turn Manga into Anime-Style Motion">
-    <meta property="og:description" content="Transform your manga panels into stunning anime-style animations with AI. Create professional animations 10x faster.">
-    <meta property="og:image" content="https://mangamotion.ai/images/og-image.jpg">
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://mangamotion.ai/">
-    <meta property="twitter:title" content="MangaMotion AI - Turn Manga into Anime-Style Motion">
-    <meta property="twitter:description" content="Transform your manga panels into stunning anime-style animations with AI. Create professional animations 10x faster.">
-    <meta property="twitter:image" content="https://mangamotion.ai/images/twitter-card.jpg">
-
-    <!-- Favicon -->
+    <link rel="preload" href="/public/css/design-system.css" as="style">
+    <link rel="preload" href="/public/css/main.css" as="style">
+    <link rel="preload" href="/public/css/animations.css" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" as="style">
+    
+    <link rel="stylesheet" href="/public/css/design-system.css?v=2">
+    <link rel="stylesheet" href="/public/css/main.css?v=2">
+    <link rel="stylesheet" href="/public/css/animations.css?v=2">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <link rel="icon" type="image/svg+xml" href="/public/images/logo.svg">
-    <link rel="apple-touch-icon" href="/public/images/apple-touch-icon.png">
-
-    <!-- Canonical URL -->
-    <link rel="canonical" href="https://mangamotion.ai/" />
-    <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "SoftwareApplication",
-      "name": "MangaMotion AI",
-      "applicationCategory": "MultimediaApplication",
-      "operatingSystem": "Web, Windows, macOS",
-      "offers": {
-        "@type": "AggregateOffer",
-        "lowPrice": "0",
-        "highPrice": "99",
-        "priceCurrency": "USD",
-        "offerCount": "3"
-      },
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.8",
-        "ratingCount": "1247"
-      },
-      "description": "AI-powered tool that transforms manga panels into anime-style animations with professional quality.",
-      "screenshot": [
-        "https://mangamotion.ai/images/screenshot1.jpg",
-        "https://mangamotion.ai/images/screenshot2.jpg"
-      ],
-      "creator": {
-        "@type": "Organization",
-        "name": "MangaMotion AI"
-      },
-      "pricingPlans": [
-        {
-          "@type": "PriceSpecification",
-          "name": "Free",
-          "price": "0",
-          "priceCurrency": "USD",
-          "description": "Basic features with watermark"
-        },
-        {
-          "@type": "PriceSpecification",
-          "name": "Creator",
-          "price": "29",
-          "priceCurrency": "USD",
-          "billingIncrement": "monthly",
-          "description": "For individual creators"
-        },
-        {
-          "@type": "PriceSpecification",
-          "name": "Studio",
-          "price": "99",
-          "priceCurrency": "USD",
-          "billingIncrement": "monthly",
-          "description": "For professional studios and teams"
-        }
-      ],
-      "softwareVersion": "2.0",
-      "releaseNotes": "https://mangamotion.ai/changelog"
-    }
-    </script>
-
-    <!-- Defer non-critical JavaScript -->
-    <script src="https://cdn.tailwindcss.com" defer></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" defer></script>
-    <!-- Fonts with font-display: swap -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'" />
-
-    <!-- Theme CSS (already preloaded) -->
-    <link rel="stylesheet" href="/public/css/theme.css" media="print" onload="this.media='all'">
-    <link rel="stylesheet" href="/public/css/animations.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.6/lottie.min.js"></script>
-
-    <!-- A/B Testing -->
-    <script src="/public/js/ab-testing.js" defer></script>
-    <script>
-        // Check for saved theme preference or use system preference
-        const savedTheme = localStorage.getItem('theme') || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-        document.documentElement.setAttribute('data-theme', savedTheme);
-
-        // Function to toggle between light and dark theme
-        function toggleTheme() {
-            const currentTheme = document.documentElement.getAttribute('data-theme');
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            document.documentElement.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            updateThemeIcon(newTheme);
-        }
-
-        // Update the theme icon based on current theme
-        function updateThemeIcon(theme) {
-            const icon = document.getElementById('theme-icon');
-            if (theme === 'dark') {
-                icon.className = 'fas fa-moon';
-            } else {
-                icon.className = 'fas fa-sun';
-            }
-        }
-
-        // Initialize theme icon on page load
-        document.addEventListener('DOMContentLoaded', () => {
-            updateThemeIcon(savedTheme);
-        });
-    </script>
 </head>
-<body class="min-h-screen text-white home-background">
-    <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 glass border-b border-white/10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center">
-                    <img src="/public/images/logo.svg" alt="MangaMotion Logo" class="h-10">
+<body class="dark-mode">
+    <!-- Skip to main content -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Innovative Navigation -->
+    <nav class="nav-modern">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="#" class="logo-animated">
+                    <div class="logo-icon">
+                        <img src="/public/images/logo.svg" alt="MangaMotion Logo">
+                        <div class="logo-pulse"></div>
+                    </div>
+                    <span class="logo-text">MangaMotion</span>
+                </a>
+            </div>
+
+            <div class="nav-main">
+                <div class="nav-links">
+                    <a href="#features" class="nav-link" data-tooltip="Discover our features">
+                        <i class="fas fa-sparkles"></i>
+                        <span>Features</span>
+                    </a>
+                    <a href="#pricing" class="nav-link" data-tooltip="View pricing plans">
+                        <i class="fas fa-crown"></i>
+                        <span>Pricing</span>
+                    </a>
+                    <a href="#api" class="nav-link" data-tooltip="API documentation">
+                        <i class="fas fa-code"></i>
+                        <span>API</span>
+                    </a>
+                    <a href="#docs" class="nav-link" data-tooltip="Documentation">
+                        <i class="fas fa-book"></i>
+                        <span>Docs</span>
+                    </a>
                 </div>
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#features" class="text-gray-300 hover:text-white transition-colors font-medium">Features</a>
-                    <a href="#how-it-works" class="text-gray-300 hover:text-white transition-colors font-medium">How It Works</a>
-                    <a href="#pricing" class="text-gray-300 hover:text-white transition-colors font-medium">Pricing</a>
-                    <a href="login.html" class="text-gray-300 hover:text-white transition-colors font-medium">Login</a>
-                    <button onclick="toggleTheme()" class="theme-toggle ml-4" aria-label="Toggle theme">
-                        <i id="theme-icon" class="fas fa-moon"></i>
+
+                <div class="nav-actions">
+                    <a href="login.html" class="nav-link login-link">
+                        <span>Login</span>
+                    </a>
+                    <a href="signup.html" class="btn btn-primary btn-glow">
+                        <i class="fas fa-rocket"></i>
+                        Start Creating
+                    </a>
+                </div>
+            </div>
+
+            <!-- Mobile Menu Trigger -->
+            <button class="mobile-menu-trigger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu-overlay">
+            <div class="mobile-menu">
+                <div class="mobile-menu-header">
+                    <div class="logo-mobile">
+                        <img src="/public/images/logo.svg" alt="MangaMotion">
+                        <span>MangaMotion</span>
+                    </div>
+                    <button class="mobile-menu-close" aria-label="Close menu">
+                        <i class="fas fa-times"></i>
                     </button>
-                    <a href="signup.html" class="cta-button ml-4">Get Started Free</a>
                 </div>
-                <!-- Mobile menu button -->
-                <div class="md:hidden">
-                    <button class="text-white p-2">
-                        <i class="fas fa-bars"></i>
-                    </button>
-                </div>
+                <nav class="mobile-nav">
+                    <a href="#features" class="mobile-nav-link">
+                        <i class="fas fa-sparkles"></i>
+                        <span>Features</span>
+                    </a>
+                    <a href="#pricing" class="mobile-nav-link">
+                        <i class="fas fa-crown"></i>
+                        <span>Pricing</span>
+                    </a>
+                    <a href="#api" class="mobile-nav-link">
+                        <i class="fas fa-code"></i>
+                        <span>API</span>
+                    </a>
+                    <a href="#docs" class="mobile-nav-link">
+                        <i class="fas fa-book"></i>
+                        <span>Docs</span>
+                    </a>
+                    <div class="mobile-nav-divider"></div>
+                    <a href="login.html" class="mobile-nav-link">
+                        <span>Login</span>
+                    </a>
+                    <a href="signup.html" class="mobile-nav-link primary">
+                        <i class="fas fa-rocket"></i>
+                        <span>Start Creating</span>
+                    </a>
+                </nav>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="relative min-h-screen flex items-center justify-center overflow-hidden pt-16">
-        <!-- Enhanced Animated Background -->
-        <div class="absolute inset-0">
-            <div class="absolute inset-0 bg-gradient-to-br from-slate-900 via-purple-900/20 to-pink-900/20"></div>
-            <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_50%)]"></div>
-            <div class="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(236,72,153,0.1),transparent_50%)]"></div>
-            <div class="absolute top-20 left-20 w-96 h-96 bg-purple-500/5 rounded-full blur-3xl animate-pulse"></div>
-            <div class="absolute bottom-20 right-20 w-80 h-80 bg-pink-500/5 rounded-full blur-3xl animate-pulse delay-1000"></div>
-            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-orange-500/5 rounded-full blur-3xl animate-pulse delay-500"></div>
-        </div>
-
-        <!-- Floating Elements -->
-        <div class="absolute inset-0 pointer-events-none">
-            <div class="absolute top-1/4 left-1/4 w-3 h-3 bg-purple-400/20 rounded-full animate-float opacity-60"></div>
-            <div class="absolute top-3/4 right-1/4 w-2 h-2 bg-pink-400/20 rounded-full animate-float delay-1000 opacity-40"></div>
-            <div class="absolute top-1/2 left-3/4 w-1 h-1 bg-orange-400/20 rounded-full animate-float delay-500 opacity-80"></div>
-            <div class="absolute bottom-1/4 left-1/3 w-2 h-2 bg-cyan-400/20 rounded-full animate-float delay-1500 opacity-50"></div>
-        </div>
-
-        <!-- Content -->
-        <div class="relative z-10 text-center px-6 sm:px-8 lg:px-12 max-w-6xl mx-auto">
-            <!-- Badge -->
-            <div class="inline-flex items-center px-4 py-2 rounded-full glass text-sm font-medium mb-8 animate-fade-in border border-purple-500/20">
-                <i class="fas fa-sparkles mr-2 text-purple-400"></i>
-                <span class="bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent font-semibold">AI-Powered Anime Animation</span>
-                <span class="ml-3 px-2 py-0.5 bg-green-500/20 text-green-400 text-xs rounded-full font-medium">Free Trial</span>
+    <!-- Main Content -->
+    <main id="main-content">
+        <!-- Innovative Hero Section -->
+        <header class="hero-section">
+            <!-- Animated Background Elements -->
+            <div class="hero-bg-elements">
+                <div class="floating-shape shape-1"></div>
+                <div class="floating-shape shape-2"></div>
+                <div class="floating-shape shape-3"></div>
+                <div class="floating-shape shape-4"></div>
+                <div class="particle particle-1"></div>
+                <div class="particle particle-2"></div>
+                <div class="particle particle-3"></div>
             </div>
-
-            <!-- Main Headline -->
-            <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 animate-fade-in delay-200 leading-tight">
-                Transform Manga into
-                <span class="block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 via-pink-400 to-orange-400 animate-pulse">
-                    Cinematic Motion
-                </span>
-            </h1>
-
-            <!-- Subheadline -->
-            <p class="text-xl md:text-2xl lg:text-3xl text-gray-300 mb-12 max-w-4xl mx-auto animate-fade-in delay-400 leading-relaxed font-light">
-                Upload → Detect Panels → Add Voices → Export<br>
-                <span class="text-white font-medium">Create professional anime animations in seconds with AI</span>
-            </p>
-
-            <!-- Social Proof -->
-            <div class="flex flex-wrap justify-center items-center gap-6 mb-12 animate-fade-in delay-600">
-                <div class="flex items-center space-x-2 glass px-4 py-2 rounded-lg">
-                    <div class="flex -space-x-2">
-                        <div class="w-6 h-6 rounded-full bg-gradient-to-r from-purple-400 to-pink-400"></div>
-                        <div class="w-6 h-6 rounded-full bg-gradient-to-r from-pink-400 to-orange-400"></div>
-                        <div class="w-6 h-6 rounded-full bg-gradient-to-r from-orange-400 to-yellow-400"></div>
+    
+            <!-- Gradient Overlay -->
+            <div class="hero-gradient-overlay"></div>
+    
+            <div class="hero-container">
+                <div class="hero-content">
+                    <!-- Badge -->
+                    <div class="hero-badge">
+                        <i class="fas fa-sparkles"></i>
+                        AI-Powered Animation Tool
                     </div>
-                    <span class="text-sm text-gray-300">10,000+ creators</span>
+    
+                    <h1 class="hero-heading">
+                        Turn Manga into <span class="hero-accent">Cinematic Motion</span>
+                    </h1>
+                    <p class="hero-subheading">
+                        AI-powered anime animation generator
+                    </p>
+    
+                    <!-- Feature Highlights -->
+                    <div class="hero-features">
+                        <div class="feature-highlight">
+                            <i class="fas fa-bolt"></i>
+                            <span>Lightning Fast</span>
+                        </div>
+                        <div class="feature-highlight">
+                            <i class="fas fa-brain"></i>
+                            <span>AI-Powered</span>
+                        </div>
+                        <div class="feature-highlight">
+                            <i class="fas fa-magic"></i>
+                            <span>Professional Quality</span>
+                        </div>
+                    </div>
+    
+                    <div class="hero-cta-group">
+                        <a href="signup.html" class="btn btn-primary btn-large">
+                            <i class="fas fa-magic"></i>
+                            Generate Now
+                        </a>
+                        <a href="#features" class="btn btn-outline btn-large">
+                            <i class="fas fa-play"></i>
+                            Watch Demo
+                        </a>
+                    </div>
+    
+                    <!-- Social Proof -->
+                    <div class="hero-social-proof">
+                        <div class="user-avatars">
+                            <img src="/public/images/logo.svg" alt="User 1" class="avatar-small">
+                            <img src="/public/images/logo.svg" alt="User 2" class="avatar-small">
+                            <img src="/public/images/logo.svg" alt="User 3" class="avatar-small">
+                            <div class="avatar-placeholder">+2K</div>
+                        </div>
+                        <div class="social-text">
+                            <span class="rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <strong>4.9</strong>
+                            </span>
+                            <span class="users-text">from 2,000+ creators</span>
+                        </div>
+                    </div>
                 </div>
-                <div class="flex items-center space-x-2 glass px-4 py-2 rounded-lg">
-                    <i class="fas fa-star text-yellow-400"></i>
-                    <span class="text-sm text-gray-300">4.9/5 rating</span>
-                </div>
-                <div class="flex items-center space-x-2 glass px-4 py-2 rounded-lg">
-                    <i class="fas fa-clock text-green-400"></i>
-                    <span class="text-sm text-gray-300">10x faster</span>
+    
+                <div class="hero-visual">
+                    <!-- Interactive Preview Card -->
+                    <div class="preview-card">
+                        <div class="preview-header">
+                            <div class="preview-tabs">
+                                <div class="tab active">Before</div>
+                                <div class="tab">After</div>
+                            </div>
+                            <div class="preview-controls">
+                                <button class="preview-btn">
+                                    <i class="fas fa-play"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="preview-content">
+                            <div class="manga-panel">
+                                <img src="/public/images/logo.svg" alt="Manga Panel" class="panel-image">
+                                <div class="animation-overlay">
+                                    <div class="motion-lines">
+                                        <div class="motion-line"></div>
+                                        <div class="motion-line"></div>
+                                        <div class="motion-line"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+    
+                    <!-- Floating Stats -->
+                    <div class="floating-stats">
+                        <div class="stat-bubble bubble-1">
+                            <div class="stat-number">99%</div>
+                            <div class="stat-label">Accuracy</div>
+                        </div>
+                        <div class="stat-bubble bubble-2">
+                            <div class="stat-number">5s</div>
+                            <div class="stat-label">Processing</div>
+                        </div>
+                        <div class="stat-bubble bubble-3">
+                            <div class="stat-number">4K</div>
+                            <div class="stat-label">Resolution</div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <!-- CTA Buttons -->
-            <div class="flex flex-col sm:flex-row gap-6 justify-center mb-16 animate-fade-in delay-800">
-                <button onclick="window.location.href='signup.html'" class="cta-button px-10 py-5 text-xl group transform hover:scale-105 transition-all duration-300 shadow-2xl">
-                    <i class="fas fa-rocket mr-3 group-hover:animate-bounce"></i>
-                    Start Creating Free
-                    <span class="ml-3 text-base opacity-90">No credit card required</span>
-                </button>
-                <button onclick="playDemo()" class="glass px-10 py-5 text-xl rounded-xl hover:bg-white/10 transition-all duration-300 group border border-white/20">
-                    <i class="fas fa-play mr-3 group-hover:scale-110 transition-transform"></i>
-                    Watch 30s Demo
-                </button>
-                <button onclick="window.location.href='upload.html?demo=true'" class="glass px-10 py-5 text-xl rounded-xl hover:bg-white/10 transition-all duration-300 group border border-white/20">
-                    <i class="fas fa-magic mr-3 group-hover:scale-110 transition-transform"></i>
-                    Try a Demo Project (No Upload Needed)
-                </button>
-            </div>
-
-            <!-- Trust Indicators -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto animate-fade-in delay-1000">
-                <div class="flex items-center justify-center glass px-6 py-4 rounded-xl">
-                    <i class="fas fa-shield-alt text-green-400 mr-3 text-lg"></i>
-                    <span class="text-sm font-medium">99.9% Uptime</span>
-                </div>
-                <div class="flex items-center justify-center glass px-6 py-4 rounded-xl">
-                    <i class="fas fa-lock text-blue-400 mr-3 text-lg"></i>
-                    <span class="text-sm font-medium">Enterprise Security</span>
-                </div>
-                <div class="flex items-center justify-center glass px-6 py-4 rounded-xl">
-                    <i class="fas fa-headset text-purple-400 mr-3 text-lg"></i>
-                    <span class="text-sm font-medium">24/7 Support</span>
-                </div>
-            </div>
-
+    
             <!-- Scroll Indicator -->
-            <div class="absolute bottom-12 left-1/2 transform -translate-x-1/2 animate-bounce">
-                <div class="flex flex-col items-center text-gray-400">
-                    <span class="text-sm mb-3 font-medium">Discover more</span>
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
-                    </svg>
+            <div class="scroll-indicator">
+                <div class="scroll-mouse">
+                    <div class="scroll-wheel"></div>
                 </div>
+                <span>Scroll to explore</span>
             </div>
-        </div>
-    </section>
+        </header>
 
     <!-- How It Works -->
-    <section id="how-it-works" class="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-transparent to-slate-900/20">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-20">
-                <h2 class="text-4xl md:text-5xl font-bold mb-6">How It Works</h2>
-                <p class="text-xl text-gray-400 max-w-3xl mx-auto">Four simple steps to transform your manga into stunning animations</p>
+    <section id="how-it-works" class="how-it-works-section">
+        <div class="container">
+            <div class="text-center" style="margin-bottom: var(--spacing-xl);">
+                <h2>How It Works</h2>
+                <p class="text-muted" style="font-size: var(--font-size-h5); margin-top: var(--spacing-md);">
+                    A simple, four-step process to bring your manga to life
+                </p>
             </div>
-
-            <div class="grid md:grid-cols-4 gap-8">
-                <div class="text-center group">
-                    <div class="relative mb-8">
-                        <div class="w-20 h-20 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform shadow-lg">
-                            <i class="fas fa-upload text-white text-2xl"></i>
-                        </div>
-                        <div class="absolute -top-2 -right-2 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-sm">1</div>
+            <div class="grid grid-cols-4">
+                <div class="card text-center how-it-works-card">
+                    <div class="step-icon-wrapper">
+                        <i class="fas fa-upload"></i>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4">Upload</h3>
-                    <p class="text-gray-400 leading-relaxed">Upload your manga panels or pages. Support for JPG, PNG, and PDF formats.</p>
+                    <h3>1. Upload</h3>
+                    <p>Upload your manga panels in JPG, PNG, or PDF format.</p>
                 </div>
-
-                <div class="text-center group">
-                    <div class="relative mb-8">
-                        <div class="w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform shadow-lg">
-                            <i class="fas fa-search text-white text-2xl"></i>
-                        </div>
-                        <div class="absolute -top-2 -right-2 w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold text-sm">2</div>
+                <div class="card text-center how-it-works-card">
+                    <div class="step-icon-wrapper">
+                        <i class="fas fa-search"></i>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4">AI Detection</h3>
-                    <p class="text-gray-400 leading-relaxed">Our AI automatically detects panels, speech bubbles, and text with 99% accuracy.</p>
+                    <h3>2. AI Detection</h3>
+                    <p>Our AI automatically detects panels and text with high accuracy.</p>
                 </div>
-
-                <div class="text-center group">
-                    <div class="relative mb-8">
-                        <div class="w-20 h-20 bg-gradient-to-r from-pink-500 to-orange-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform shadow-lg">
-                            <i class="fas fa-microphone text-white text-2xl"></i>
-                        </div>
-                        <div class="absolute -top-2 -right-2 w-8 h-8 bg-pink-500 rounded-full flex items-center justify-center text-white font-bold text-sm">3</div>
+                <div class="card text-center how-it-works-card">
+                    <div class="step-icon-wrapper">
+                        <i class="fas fa-magic"></i>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4">Add Voices</h3>
-                    <p class="text-gray-400 leading-relaxed">Choose from 50+ AI voices or upload your own. Perfect emotion matching.</p>
+                    <h3>3. Generate Motion</h3>
+                    <p>AI-powered animation brings your manga to life with cinematic motion.</p>
                 </div>
-
-                <div class="text-center group">
-                    <div class="relative mb-8">
-                        <div class="w-20 h-20 bg-gradient-to-r from-orange-500 to-yellow-600 rounded-2xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform shadow-lg">
-                            <i class="fas fa-download text-white text-2xl"></i>
-                        </div>
-                        <div class="absolute -top-2 -right-2 w-8 h-8 bg-orange-500 rounded-full flex items-center justify-center text-white font-bold text-sm">4</div>
+                <div class="card text-center how-it-works-card">
+                    <div class="step-icon-wrapper">
+                        <i class="fas fa-download"></i>
                     </div>
-                    <h3 class="text-2xl font-bold mb-4">Export</h3>
-                    <p class="text-gray-400 leading-relaxed">Download your professional animation in MP4, GIF, or share directly to social media.</p>
+                    <h3>4. Export</h3>
+                    <p>Download your animation in MP4 or GIF format.</p>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Core Features -->
-    <section id="features" class="py-24 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-20">
-                <h2 class="text-4xl md:text-5xl font-bold mb-6">Powerful Features</h2>
-                <p class="text-xl text-gray-400 max-w-3xl mx-auto">Everything you need to create professional anime animations</p>
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="testimonials-section">
+        <div class="container">
+            <div class="text-center" style="margin-bottom: var(--spacing-xl);">
+                <h2>What Our Users Say</h2>
+                <p class="text-muted" style="font-size: var(--font-size-h5); margin-top: var(--spacing-md);">
+                    Join thousands of creators who trust MangaMotion
+                </p>
             </div>
-
-            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                <div class="feature-card p-8 rounded-2xl group hover:-translate-y-2 transition-all duration-300">
-                    <div class="w-16 h-16 bg-gradient-to-r from-green-400 to-blue-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fas fa-search text-white text-2xl"></i>
+            <div class="grid grid-cols-3">
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar">
+                        <img src="/public/images/logo.svg" alt="Manga Character Avatar" class="manga-avatar">
                     </div>
-                    <h3 class="text-2xl font-bold mb-4">Smart Panel Detection</h3>
-                    <p class="text-gray-300 leading-relaxed mb-4">
-                        Advanced AI detects manga panels with 99% accuracy. Handles complex layouts, irregular shapes, and multiple panels per page automatically.
-                    </p>
-                    <div class="text-sm text-purple-400 font-medium">99% accuracy rate</div>
-                </div>
-
-                <div class="feature-card p-8 rounded-2xl group hover:-translate-y-2 transition-all duration-300">
-                    <div class="w-16 h-16 bg-gradient-to-r from-purple-400 to-pink-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fas fa-microphone text-white text-2xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4">AI Voice Generation</h3>
-                    <p class="text-gray-300 leading-relaxed mb-4">
-                        Generate realistic anime-style voices with perfect emotion matching. Choose from 50+ voice types or upload custom audio.
-                    </p>
-                    <div class="text-sm text-purple-400 font-medium">50+ voice options</div>
-                </div>
-
-                <div class="feature-card p-8 rounded-2xl group hover:-translate-y-2 transition-all duration-300">
-                    <div class="w-16 h-16 bg-gradient-to-r from-orange-400 to-red-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fas fa-heart text-white text-2xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4">Emotion-Driven Motion</h3>
-                    <p class="text-gray-300 leading-relaxed mb-4">
-                        Motion that adapts to scene emotion. Angry scenes get sharp cuts, sad moments flow slowly - automatic storytelling through movement.
-                    </p>
-                    <div class="text-sm text-purple-400 font-medium">Smart animation</div>
-                </div>
-
-                <div class="feature-card p-8 rounded-2xl group hover:-translate-y-2 transition-all duration-300">
-                    <div class="w-16 h-16 bg-gradient-to-r from-cyan-400 to-blue-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fas fa-palette text-white text-2xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4">Custom Styling</h3>
-                    <p class="text-gray-300 leading-relaxed mb-4">
-                        Customize animation styles, transitions, and effects. Apply filters, adjust timing, and create your unique visual signature.
-                    </p>
-                    <div class="text-sm text-purple-400 font-medium">Endless possibilities</div>
-                </div>
-
-                <div class="feature-card p-8 rounded-2xl group hover:-translate-y-2 transition-all duration-300">
-                    <div class="w-16 h-16 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fas fa-share-alt text-white text-2xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4">Social Media Ready</h3>
-                    <p class="text-gray-300 leading-relaxed mb-4">
-                        Optimized export formats for all platforms. One-click sharing to YouTube, TikTok, Instagram, and more with perfect aspect ratios.
-                    </p>
-                    <div class="text-sm text-purple-400 font-medium">Multi-platform support</div>
-                </div>
-
-                <div class="feature-card p-8 rounded-2xl group hover:-translate-y-2 transition-all duration-300">
-                    <div class="w-16 h-16 bg-gradient-to-r from-pink-400 to-purple-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                        <i class="fas fa-cloud text-white text-2xl"></i>
-                    </div>
-                    <h3 class="text-2xl font-bold mb-4">Cloud Processing</h3>
-                    <p class="text-gray-300 leading-relaxed mb-4">
-                        Fast, secure cloud processing. No heavy lifting on your device. Automatic backups and version history included.
-                    </p>
-                    <div class="text-sm text-purple-400 font-medium">Lightning fast</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Testimonials -->
-    <section class="py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-slate-900/20 to-transparent">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-20">
-                <h2 class="text-4xl md:text-5xl font-bold mb-6">Loved by Creators</h2>
-                <p class="text-xl text-gray-400">See what our community is saying</p>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-8">
-                <div class="glass p-8 rounded-2xl">
-                    <div class="flex items-center mb-4">
-                        <div class="flex text-yellow-400">
+                    <div class="speech-bubble">
+                        <p>"MangaMotion transformed my static artwork into dynamic animations. The AI detection is incredibly accurate, and the results are professional quality."</p>
+                        <div class="testimonial-stars">
                             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                         </div>
                     </div>
-                    <p class="text-gray-300 mb-6 italic">"MangaMotion saved me weeks of work. What used to take days now takes minutes. The AI voices are incredibly realistic!"</p>
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 bg-gradient-to-r from-purple-400 to-pink-400 rounded-full flex items-center justify-center text-white font-bold mr-4">S</div>
-                        <div>
-                            <div class="font-semibold">Sarah Chen</div>
-                            <div class="text-sm text-gray-400">Webtoon Artist</div>
-                        </div>
+                    <div class="testimonial-info">
+                        <h4>Sarah Chen</h4>
+                        <p>Manga Artist</p>
                     </div>
                 </div>
-
-                <div class="glass p-8 rounded-2xl">
-                    <div class="flex items-center mb-4">
-                        <div class="flex text-yellow-400">
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar">
+                        <img src="/public/images/logo.svg" alt="Manga Character Avatar" class="manga-avatar">
+                    </div>
+                    <div class="speech-bubble">
+                        <p>"The voice generation feature is amazing. My animations now have personality and emotion that engages viewers like never before."</p>
+                        <div class="testimonial-stars">
                             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                         </div>
                     </div>
-                    <p class="text-gray-300 mb-6 italic">"The emotion-driven motion is genius. My animations now tell stories better than ever. This is the future of manga animation."</p>
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 bg-gradient-to-r from-blue-400 to-cyan-400 rounded-full flex items-center justify-center text-white font-bold mr-4">M</div>
-                        <div>
-                            <div class="font-semibold">Mike Rodriguez</div>
-                            <div class="text-sm text-gray-400">Indie Animator</div>
-                        </div>
+                    <div class="testimonial-info">
+                        <h4>Alex Rodriguez</h4>
+                        <p>Content Creator</p>
                     </div>
                 </div>
-
-                <div class="glass p-8 rounded-2xl">
-                    <div class="flex items-center mb-4">
-                        <div class="flex text-yellow-400">
+                <div class="testimonial-card">
+                    <div class="testimonial-avatar">
+                        <img src="/public/images/logo.svg" alt="Manga Character Avatar" class="manga-avatar">
+                    </div>
+                    <div class="speech-bubble">
+                        <p>"Using MangaMotion in my classroom has made learning more engaging. Students love seeing their manga come to life with just a few clicks."</p>
+                        <div class="testimonial-stars">
                             <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                         </div>
                     </div>
-                    <p class="text-gray-300 mb-6 italic">"As a studio, we needed speed and quality. MangaMotion delivers both. Our production time dropped by 80%."</p>
-                    <div class="flex items-center">
-                        <div class="w-12 h-12 bg-gradient-to-r from-green-400 to-blue-400 rounded-full flex items-center justify-center text-white font-bold mr-4">A</div>
-                        <div>
-                            <div class="font-semibold">Anime Studios Inc.</div>
-                            <div class="text-sm text-gray-400">Production Studio</div>
-                        </div>
+                    <div class="testimonial-info">
+                        <h4>Maya Patel</h4>
+                        <p>Educator</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Pricing -->
-    <section id="pricing" class="py-24 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-7xl mx-auto">
-            <div class="text-center mb-20">
-                <h2 class="text-4xl md:text-5xl font-bold mb-6">Choose Your Plan</h2>
-                <p class="text-xl text-gray-400 max-w-3xl mx-auto">Start free and scale as you grow. All plans include our core AI features.</p>
+    <!-- Interactive Features Section -->
+    <section id="features" class="features-section">
+        <div class="container">
+            <div class="text-center" style="margin-bottom: var(--spacing-xl);">
+                <h2>Powerful Features</h2>
+                <p class="text-muted" style="font-size: var(--font-size-h5); margin-top: var(--spacing-md);">
+                    Everything you need for professional anime production
+                </p>
             </div>
 
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- Free Plan -->
-                <div class="glass p-8 rounded-2xl relative hover:-translate-y-2 transition-all duration-300">
-                    <div class="text-center mb-8">
-                        <h3 class="text-2xl font-bold mb-2">Free</h3>
-                        <div class="text-4xl font-bold mb-2">₹0</div>
-                        <p class="text-gray-400">Forever free</p>
-                    </div>
-
-                    <ul class="space-y-4 mb-8">
-                        <li class="flex items-center"><i class="fas fa-check text-green-400 mr-3"></i>5 projects per month</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-400 mr-3"></i>720p export quality</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-400 mr-3"></i>3 AI voices</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-400 mr-3"></i>Basic motion styles</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-400 mr-3"></i>Watermark included</li>
-                    </ul>
-
-                    <button class="w-full py-4 px-6 rounded-xl border-2 border-gray-600 text-gray-300 hover:bg-gray-700 transition-colors font-semibold">
-                        Current Plan
-                    </button>
-                </div>
-
-                <!-- Creator Plan -->
-                <div class="glass p-8 rounded-2xl relative border-2 border-purple-500/50 hover:-translate-y-2 transition-all duration-300">
-                    <div class="absolute -top-4 left-1/2 transform -translate-x-1/2">
-                        <span class="bg-gradient-to-r from-purple-500 to-pink-500 text-white px-6 py-2 rounded-full text-sm font-semibold shadow-lg">Most Popular</span>
-                    </div>
-                    <div class="text-center mb-8">
-                        <h3 class="text-2xl font-bold mb-2">Creator</h3>
-                        <div class="text-4xl font-bold mb-2">₹499</div>
-                        <p class="text-gray-400">per month</p>
-                    </div>
-
-                    <ul class="space-y-4 mb-8">
-                        <li class="flex items-center"><i class="fas fa-check text-green-400 mr-3"></i>Unlimited projects</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-400 mr-3"></i>1080p export quality</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-400 mr-3"></i>20 AI voices</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-400 mr-3"></i>All motion styles</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-400 mr-3"></i>No watermark</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-400 mr-3"></i>Priority support</li>
-                    </ul>
-
-                    <button class="w-full py-4 px-6 rounded-xl cta-button font-semibold shadow-lg">
-                        <i class="fas fa-rocket mr-2"></i>Start Free Trial
-                    </button>
-                </div>
-
-                <!-- Studio Plan -->
-                <div class="glass p-8 rounded-2xl relative hover:-translate-y-2 transition-all duration-300">
-                    <div class="text-center mb-8">
-                        <h3 class="text-2xl font-bold mb-2">Studio</h3>
-                        <div class="text-4xl font-bold mb-2">₹2999</div>
-                        <p class="text-gray-400">per month</p>
-                    </div>
-
-                    <ul class="space-y-4 mb-8">
-                        <li class="flex items-center"><i class="fas fa-check text-green-400 mr-3"></i>Everything in Creator</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-400 mr-3"></i>4K export quality</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-400 mr-3"></i>Custom AI voices</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-400 mr-3"></i>Team collaboration</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-400 mr-3"></i>24/7 priority support</li>
-                        <li class="flex items-center"><i class="fas fa-check text-green-400 mr-3"></i>Custom integrations</li>
-                    </ul>
-
-                    <button class="w-full py-4 px-6 rounded-xl cta-button font-semibold shadow-lg">
-                        <i class="fas fa-crown mr-2"></i>Contact Sales
-                    </button>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Final CTA -->
-    <section class="py-24 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-r from-purple-900/20 via-pink-900/20 to-orange-900/20"></div>
-        <div class="absolute inset-0">
-            <div class="absolute top-10 left-10 w-32 h-32 bg-purple-500/10 rounded-full blur-3xl animate-pulse"></div>
-            <div class="absolute bottom-10 right-10 w-40 h-40 bg-pink-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
-            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-48 h-48 bg-orange-500/10 rounded-full blur-3xl animate-pulse delay-500"></div>
-        </div>
-        <div class="max-w-5xl mx-auto text-center relative z-10">
-            <h2 class="text-4xl md:text-6xl font-bold mb-8">Ready to Bring Your Manga to Life?</h2>
-            <p class="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl mx-auto">Join thousands of creators who trust MangaMotion to transform their static art into dynamic animations</p>
-            <div class="flex flex-col sm:flex-row gap-6 justify-center">
-                <button class="cta-button px-10 py-5 text-xl shadow-2xl transform hover:scale-105 transition-all duration-300">
-                    <i class="fas fa-rocket mr-3"></i>Start Creating Free Today
+            <!-- Feature Categories -->
+            <div class="feature-categories">
+                <button class="category-tab active" data-category="ai">
+                    <i class="fas fa-brain"></i>
+                    AI Features
                 </button>
-                <button class="glass px-10 py-5 text-xl rounded-xl hover:bg-white/10 transition-all duration-300 border border-white/20">
-                    <i class="fas fa-play mr-3"></i>Watch Full Demo
+                <button class="category-tab" data-category="design">
+                    <i class="fas fa-palette"></i>
+                    Design Tools
+                </button>
+                <button class="category-tab" data-category="export">
+                    <i class="fas fa-download"></i>
+                    Export Options
                 </button>
             </div>
-            <div class="mt-12 text-center">
-                <p class="text-gray-400 text-lg">No credit card required • Cancel anytime • 30-day money-back guarantee</p>
+
+            <div class="feature-showcase">
+                <!-- AI Features -->
+                <div class="feature-grid active" data-category="ai">
+                    <div class="feature-card interactive-card" data-feature="detection">
+                        <div class="feature-visual">
+                            <div class="ai-scan-animation">
+                                <div class="scan-line"></div>
+                                <div class="scan-line"></div>
+                                <div class="scan-line"></div>
+                            </div>
+                            <img src="/public/images/logo.svg" alt="Smart Panel Detection" class="feature-card-image">
+                        </div>
+                        <div class="feature-card-content">
+                            <h3>Smart Panel Detection</h3>
+                            <p>Advanced AI detects manga panels with 99% accuracy, handling complex layouts automatically.</p>
+                            <div class="feature-stats">
+                                <span class="stat">99% Accuracy</span>
+                                <span class="stat">Multi-layout Support</span>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="action-btn primary">Try Demo</button>
+                            <button class="action-btn secondary">Learn More</button>
+                        </div>
+                    </div>
+
+                    <div class="feature-card interactive-card" data-feature="voice">
+                        <div class="feature-visual">
+                            <div class="voice-waveform">
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                                <div class="wave-bar"></div>
+                            </div>
+                            <img src="/public/images/logo.svg" alt="AI Voice Generation" class="feature-card-image">
+                        </div>
+                        <div class="feature-card-content">
+                            <h3>AI Voice Generation</h3>
+                            <p>Generate realistic anime-style voices with perfect emotion matching from 50+ voice types.</p>
+                            <div class="feature-stats">
+                                <span class="stat">50+ Voices</span>
+                                <span class="stat">Emotion Matching</span>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="action-btn primary">Try Voices</button>
+                            <button class="action-btn secondary">Learn More</button>
+                        </div>
+                    </div>
+
+                    <div class="feature-card interactive-card" data-feature="motion">
+                        <div class="feature-visual">
+                            <div class="motion-trails">
+                                <div class="motion-trail"></div>
+                                <div class="motion-trail"></div>
+                                <div class="motion-trail"></div>
+                            </div>
+                            <img src="/public/images/logo.svg" alt="Emotion-Driven Motion" class="feature-card-image">
+                        </div>
+                        <div class="feature-card-content">
+                            <h3>Emotion-Driven Motion</h3>
+                            <p>Motion that adapts to the scene's emotion for automatic storytelling through movement.</p>
+                            <div class="feature-stats">
+                                <span class="stat">Smart Animation</span>
+                                <span class="stat">Context Aware</span>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="action-btn primary">See Examples</button>
+                            <button class="action-btn secondary">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Design Tools -->
+                <div class="feature-grid" data-category="design">
+                    <div class="feature-card interactive-card">
+                        <div class="feature-visual">
+                            <div class="design-tools-grid">
+                                <div class="tool-icon"><i class="fas fa-cut"></i></div>
+                                <div class="tool-icon"><i class="fas fa-paint-brush"></i></div>
+                                <div class="tool-icon"><i class="fas fa-magic"></i></div>
+                            </div>
+                        </div>
+                        <div class="feature-card-content">
+                            <h3>Advanced Editing Tools</h3>
+                            <p>Professional-grade editing tools for fine-tuning your animations with precision.</p>
+                            <div class="feature-stats">
+                                <span class="stat">Precision Tools</span>
+                                <span class="stat">Layer Support</span>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="action-btn primary">Open Editor</button>
+                            <button class="action-btn secondary">Learn More</button>
+                        </div>
+                    </div>
+
+                    <div class="feature-card interactive-card">
+                        <div class="feature-visual">
+                            <div class="color-palette">
+                                <div class="color-swatch" style="background: #6366F1;"></div>
+                                <div class="color-swatch" style="background: #0D9488;"></div>
+                                <div class="color-swatch" style="background: #EC4899;"></div>
+                                <div class="color-swatch" style="background: #F59E0B;"></div>
+                            </div>
+                        </div>
+                        <div class="feature-card-content">
+                            <h3>Smart Color Correction</h3>
+                            <p>AI-powered color grading and correction for consistent, professional results.</p>
+                            <div class="feature-stats">
+                                <span class="stat">Auto Correction</span>
+                                <span class="stat">Style Matching</span>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="action-btn primary">Try Colors</button>
+                            <button class="action-btn secondary">Learn More</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Export Options -->
+                <div class="feature-grid" data-category="export">
+                    <div class="feature-card interactive-card">
+                        <div class="feature-visual">
+                            <div class="export-formats">
+                                <div class="format-badge">MP4</div>
+                                <div class="format-badge">GIF</div>
+                                <div class="format-badge">WebM</div>
+                                <div class="format-badge">PNG</div>
+                            </div>
+                        </div>
+                        <div class="feature-card-content">
+                            <h3>Multiple Export Formats</h3>
+                            <p>Export your animations in various formats optimized for different platforms and uses.</p>
+                            <div class="feature-stats">
+                                <span class="stat">4K Support</span>
+                                <span class="stat">Platform Optimized</span>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="action-btn primary">Export Guide</button>
+                            <button class="action-btn secondary">Learn More</button>
+                        </div>
+                    </div>
+
+                    <div class="feature-card interactive-card">
+                        <div class="feature-visual">
+                            <div class="cloud-sync">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <div class="sync-particles">
+                                    <div class="sync-particle"></div>
+                                    <div class="sync-particle"></div>
+                                    <div class="sync-particle"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="feature-card-content">
+                            <h3>Cloud Storage & Sync</h3>
+                            <p>Seamlessly store, sync, and access your projects from anywhere, on any device.</p>
+                            <div class="feature-stats">
+                                <span class="stat">Auto Sync</span>
+                                <span class="stat">Cross-Platform</span>
+                            </div>
+                        </div>
+                        <div class="card-actions">
+                            <button class="action-btn primary">View Storage</button>
+                            <button class="action-btn secondary">Learn More</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="py-16 px-4 sm:px-6 lg:px-8 border-t border-white/10">
-        <div class="max-w-7xl mx-auto">
-            <div class="grid md:grid-cols-4 gap-8 mb-12">
-                <div>
-                    <div class="flex items-center space-x-2 mb-6">
-                        <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
-                            <i class="fas fa-play text-white text-lg"></i>
+        <!-- Modern Cinematic Footer -->
+        <footer class="footer">
+            <!-- Top Row: Brand + Social -->
+            <div class="footer-top">
+                <div class="footer-brand">
+                    <div class="footer-logo">
+                        <div class="logo-icon">
+                            <img src="/public/images/logo.svg" alt="MangaMotion Logo">
                         </div>
-                        <span class="text-2xl font-bold">MangaMotion AI</span>
+                        <span class="logo-text">MangaMotion</span>
                     </div>
-                    <p class="text-gray-400 text-sm leading-relaxed mb-6">Transform manga panels into stunning anime-style animations with AI. Create professional content 10x faster.</p>
-                    <div class="flex space-x-4">
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-twitter text-lg"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-discord text-lg"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-github text-lg"></i></a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors"><i class="fab fa-youtube text-lg"></i></a>
-                    </div>
+                    <p class="footer-tagline">Transform manga into cinematic animation with AI.</p>
                 </div>
-                <div>
-                    <h4 class="font-semibold mb-6 text-lg">Product</h4>
-                    <ul class="space-y-3 text-sm text-gray-400">
-                        <li><a href="#features" class="hover:text-white transition-colors">Features</a></li>
-                        <li><a href="#how-it-works" class="hover:text-white transition-colors">How It Works</a></li>
-                        <li><a href="#pricing" class="hover:text-white transition-colors">Pricing</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">API</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Integrations</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-semibold mb-6 text-lg">Resources</h4>
-                    <ul class="space-y-3 text-sm text-gray-400">
-                        <li><a href="#" class="hover:text-white transition-colors">Documentation</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Tutorials</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Blog</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Community</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Support</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h4 class="font-semibold mb-6 text-lg">Company</h4>
-                    <ul class="space-y-3 text-sm text-gray-400">
-                        <li><a href="#" class="hover:text-white transition-colors">About</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Careers</a></li>
-                        <li><a href="login.html" class="hover:text-white transition-colors">Login</a></li>
-                        <li><a href="signup.html" class="hover:text-white transition-colors">Sign Up</a></li>
-                        <li><a href="#" class="hover:text-white transition-colors">Contact</a></li>
-                    </ul>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook" class="social-icon">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" aria-label="Twitter" class="social-icon">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" aria-label="Instagram" class="social-icon">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" aria-label="YouTube" class="social-icon">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="#" aria-label="Discord" class="social-icon">
+                        <i class="fab fa-discord"></i>
+                    </a>
                 </div>
             </div>
-            <div class="flex flex-col md:flex-row justify-between items-center pt-8 border-t border-white/10">
-                <p class="text-sm text-gray-500">© 2024 MangaMotion AI. All rights reserved.</p>
-                <div class="flex items-center space-x-6 mt-4 md:mt-0">
-                    <a href="#" class="text-sm text-gray-400 hover:text-white transition-colors">Privacy Policy</a>
-                    <a href="#" class="text-sm text-gray-400 hover:text-white transition-colors">Terms of Service</a>
-                    <a href="#" class="text-sm text-gray-400 hover:text-white transition-colors">Cookie Policy</a>
-                </div>
-            </div>
-        </div>
-    </footer>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.9.1/lottie.min.js"></script>
+            <!-- Middle Row: 4 Glass Cards -->
+            <div class="footer-middle">
+                <div class="footer-card">
+                    <h4 class="footer-heading">
+                        <span class="heading-accent">P</span>roduct
+                    </h4>
+                    <ul class="footer-links">
+                        <li><a href="#features" class="footer-link">Features</a></li>
+                        <li><a href="#pricing" class="footer-link">Pricing</a></li>
+                        <li><a href="#api" class="footer-link">API</a></li>
+                        <li><a href="#docs" class="footer-link">Documentation</a></li>
+                        <li><a href="#" class="footer-link">Tutorials</a></li>
+                        <li><a href="#" class="footer-link">Showcase</a></li>
+                    </ul>
+                </div>
+                <div class="footer-card">
+                    <h4 class="footer-heading">
+                        <span class="heading-accent">C</span>ompany
+                    </h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">About Us</a></li>
+                        <li><a href="#" class="footer-link">Blog</a></li>
+                        <li><a href="#" class="footer-link">Careers</a></li>
+                        <li><a href="#" class="footer-link">Contact</a></li>
+                        <li><a href="#" class="footer-link">Press Kit</a></li>
+                        <li><a href="#" class="footer-link">Partners</a></li>
+                    </ul>
+                </div>
+                <div class="footer-card">
+                    <h4 class="footer-heading">
+                        <span class="heading-accent">S</span>upport
+                    </h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">Help Center</a></li>
+                        <li><a href="#" class="footer-link">Community</a></li>
+                        <li><a href="#" class="footer-link">System Status</a></li>
+                        <li><a href="#" class="footer-link">Contact Support</a></li>
+                        <li><a href="#" class="footer-link">FAQ</a></li>
+                        <li><a href="#" class="footer-link">Live Chat</a></li>
+                    </ul>
+                </div>
+                <div class="footer-card">
+                    <h4 class="footer-heading">
+                        <span class="heading-accent">R</span>esources
+                    </h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">API Docs</a></li>
+                        <li><a href="#" class="footer-link">SDK</a></li>
+                        <li><a href="#" class="footer-link">Integrations</a></li>
+                        <li><a href="#" class="footer-link">Webhooks</a></li>
+                        <li><a href="#" class="footer-link">Changelog</a></li>
+                        <li><a href="#" class="footer-link">Status Page</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Bottom Row: Subscription + Legal + Copyright -->
+            <div class="footer-bottom">
+                <div class="newsletter-signup">
+                    <form class="newsletter-form">
+                        <div class="input-group">
+                            <input type="email" placeholder="Enter your email" aria-label="Email address" class="newsletter-input">
+                            <button type="submit" class="newsletter-btn">
+                                <span>Subscribe</span>
+                            </button>
+                        </div>
+                    </form>
+                    <p class="newsletter-note">No spam — unsubscribe anytime.</p>
+                </div>
+                <div class="footer-legal">
+                    <a href="#" class="legal-link">Privacy Policy</a>
+                    <span class="legal-separator">•</span>
+                    <a href="#" class="legal-link">Terms of Service</a>
+                    <span class="legal-separator">•</span>
+                    <a href="#" class="legal-link">Cookie Policy</a>
+                </div>
+                <div class="footer-copyright">
+                    <p>&copy; 2024 MangaMotion AI. All rights reserved.</p>
+                </div>
+            </div>
+        </footer>
+    </main>
+
     <script>
-        // Smooth scrolling for navigation
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    target.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                }
-            });
-        });
+        // Enhanced Navigation Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Theme toggling
+            const themeToggle = document.getElementById('theme-toggle');
+            const body = document.body;
 
-        // Animate elements on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = '1';
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, observerOptions);
-
-        // Observe feature cards
-        document.querySelectorAll('.feature-card').forEach(card => {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(30px)';
-            card.style.transition = 'all 0.6s ease';
-            observer.observe(card);
-        });
-
-        // Add scroll effect to navigation
-        window.addEventListener('scroll', () => {
-            const nav = document.querySelector('nav');
-            if (window.scrollY > 100) {
-                nav.classList.add('bg-black/40');
-            } else {
-                nav.classList.remove('bg-black/40');
+            function updateThemeIcon() {
+                const isDarkMode = body.classList.contains('dark-mode');
+                // Icons are handled by CSS now
             }
-        });
 
-        // Demo play function
-        function playDemo() {
-            // Add demo video modal or redirect to demo page
-            console.log('Playing demo...');
-        }
+            if (themeToggle) {
+                themeToggle.addEventListener('click', () => {
+                    body.classList.toggle('dark-mode');
+                    updateThemeIcon();
+                });
+            }
+
+            // Set initial theme based on preference
+            if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                body.classList.add('dark-mode');
+                updateThemeIcon();
+            }
+
+            // Search functionality
+            const searchTrigger = document.querySelector('.search-trigger');
+            const searchOverlay = document.querySelector('.search-overlay');
+            const searchClose = document.querySelector('.search-close');
+            const searchInput = document.querySelector('.search-input');
+
+            if (searchTrigger && searchOverlay) {
+                searchTrigger.addEventListener('click', () => {
+                    searchOverlay.classList.add('active');
+                    if (searchInput) searchInput.focus();
+                });
+
+                searchClose.addEventListener('click', () => {
+                    searchOverlay.classList.remove('active');
+                });
+
+                searchOverlay.addEventListener('click', (e) => {
+                    if (e.target === searchOverlay) {
+                        searchOverlay.classList.remove('active');
+                    }
+                });
+
+                // Close on escape
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape' && searchOverlay.classList.contains('active')) {
+                        searchOverlay.classList.remove('active');
+                    }
+                });
+            }
+
+            // Mobile menu functionality
+            const mobileMenuTrigger = document.querySelector('.mobile-menu-trigger');
+            const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
+            const mobileMenuClose = document.querySelector('.mobile-menu-close');
+
+            if (mobileMenuTrigger && mobileMenuOverlay) {
+                mobileMenuTrigger.addEventListener('click', () => {
+                    mobileMenuOverlay.classList.add('active');
+                });
+
+                mobileMenuClose.addEventListener('click', () => {
+                    mobileMenuOverlay.classList.remove('active');
+                });
+
+                mobileMenuOverlay.addEventListener('click', (e) => {
+                    if (e.target === mobileMenuOverlay) {
+                        mobileMenuOverlay.classList.remove('active');
+                    }
+                });
+            }
+
+            // Newsletter form submission
+            const newsletterForm = document.querySelector('.newsletter-form');
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const email = newsletterForm.querySelector('input').value;
+                    if (email) {
+                        // Show success animation
+                        const button = newsletterForm.querySelector('button');
+                        const originalText = button.textContent;
+                        button.textContent = 'Subscribed!';
+                        button.style.background = '#10B981';
+
+                        setTimeout(() => {
+                            button.textContent = originalText;
+                            button.style.background = '';
+                            newsletterForm.reset();
+                        }, 2000);
+                    }
+                });
+            }
+
+            // Enhanced smooth scrolling
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    const href = this.getAttribute('href');
+                    if (href !== '#') {
+                        e.preventDefault();
+                        const target = document.querySelector(href);
+                        if (target) {
+                            // Close mobile menu if open
+                            if (mobileMenuOverlay) {
+                                mobileMenuOverlay.classList.remove('active');
+                            }
+
+                            target.scrollIntoView({
+                                behavior: 'smooth',
+                                block: 'start',
+                                inline: 'nearest'
+                            });
+                        }
+                    }
+                });
+            });
+
+            // Add scroll effect to navigation
+            let lastScrollTop = 0;
+            const nav = document.querySelector('.nav-modern');
+
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+                if (scrollTop > lastScrollTop && scrollTop > 100) {
+                    // Scrolling down
+                    nav.style.transform = 'translateY(-100%)';
+                } else {
+                    // Scrolling up
+                    nav.style.transform = 'translateY(0)';
+                }
+
+                // Add background blur on scroll
+                if (scrollTop > 50) {
+                    nav.style.background = 'rgba(255, 255, 255, 0.98)';
+                    nav.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.1)';
+                } else {
+                    nav.style.background = 'rgba(255, 255, 255, 0.95)';
+                    nav.style.boxShadow = '0 1px 3px rgba(0, 0, 0, 0.1)';
+                }
+
+                lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+            });
+
+            // Add tooltip functionality
+            const navLinks = document.querySelectorAll('.nav-link[data-tooltip]');
+            navLinks.forEach(link => {
+                const tooltip = document.createElement('div');
+                tooltip.className = 'nav-tooltip';
+                tooltip.textContent = link.dataset.tooltip;
+                link.appendChild(tooltip);
+            });
+
+            // Feature category switching
+            const categoryTabs = document.querySelectorAll('.category-tab');
+            const featureGrids = document.querySelectorAll('.feature-grid');
+
+            categoryTabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const category = tab.dataset.category;
+
+                    // Update active tab
+                    categoryTabs.forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+
+                    // Update active grid
+                    featureGrids.forEach(grid => {
+                        if (grid.dataset.category === category) {
+                            grid.classList.add('active');
+                        } else {
+                            grid.classList.remove('active');
+                        }
+                    });
+                });
+            });
+
+            // Interactive card hover effects
+            const interactiveCards = document.querySelectorAll('.interactive-card');
+            interactiveCards.forEach(card => {
+                const visual = card.querySelector('.feature-visual');
+
+                card.addEventListener('mouseenter', () => {
+                    visual.style.transform = 'scale(1.05)';
+                });
+
+                card.addEventListener('mouseleave', () => {
+                    visual.style.transform = 'scale(1)';
+                });
+            });
+
+            // Action button interactions
+            const actionButtons = document.querySelectorAll('.action-btn');
+            actionButtons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+
+                    // Add click feedback
+                    this.style.transform = 'scale(0.95)';
+                    setTimeout(() => {
+                        this.style.transform = '';
+                    }, 150);
+
+                    // Show different feedback based on button type
+                    if (this.classList.contains('primary')) {
+                        showNotification('Feature demo opened!', 'success');
+                    } else {
+                        showNotification('Learn more content loading...', 'info');
+                    }
+                });
+            });
+
+            // Notification system
+            function showNotification(message, type = 'info') {
+                const notification = document.createElement('div');
+                notification.className = `notification notification-${type}`;
+                notification.innerHTML = `
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
+                    <span>${message}</span>
+                `;
+
+                document.body.appendChild(notification);
+
+                // Animate in
+                setTimeout(() => notification.classList.add('show'), 10);
+
+                // Auto remove
+                setTimeout(() => {
+                    notification.classList.remove('show');
+                    setTimeout(() => notification.remove(), 300);
+                }, 3000);
+            }
+
+            // Intersection Observer for animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-in');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe elements for animation
+            document.querySelectorAll('.feature-card, .interactive-card').forEach(card => {
+                observer.observe(card);
+            });
+        });
     </script>
 </body>
 </html>

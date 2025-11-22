@@ -1,31 +1,17 @@
 {
-  "name": "mangamotion-1",
-  "version": "0.1.0",
-  "private": true,
+  "name": "mangamotion-server",
+  "version": "1.0.0",
+  "description": "Simple server for MangaMotion AI static site",
+  "main": "server.js",
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "next lint"
+    "start": "node server.js",
+    "dev": "node server.js"
   },
   "dependencies": {
-    "@tanstack/react-query": "^5.8.4",
-    "jsonwebtoken": "^9.0.2",
-    "minio": "^8.0.6",
-    "next": "^14.0.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "zustand": "^4.4.6"
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
   },
-  "devDependencies": {
-    "@types/node": "^20.8.9",
-    "@types/react": "^18.2.33",
-    "@types/react-dom": "^18.2.14",
-    "autoprefixer": "^10.4.16",
-    "eslint": "^8.52.0",
-    "eslint-config-next": "^14.0.0",
-    "postcss": "^8.4.31",
-    "tailwindcss": "^3.3.5",
-    "typescript": "^5.2.2"
-  }
+  "keywords": ["mangamotion", "ai", "animation", "server"],
+  "author": "MangaMotion AI",
+  "license": "MIT"
 }

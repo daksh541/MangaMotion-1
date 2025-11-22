@@ -1,408 +1,149 @@
-# MangaMotion - Distributed Manga Processing System
+# MangaMotion AI - Setup Guide
 
-A production-ready, distributed system for processing manga/comic files with comprehensive monitoring, alerting, and SLO tracking.
+Transform your manga panels into stunning anime-style animations with AI. Create professional animations 10x faster with our intuitive AI-powered tool.
 
 ## 🚀 Quick Start
 
-Get up and running in 5 minutes:
+### Option 1: One-Click Setup (Recommended)
+
+**For Linux/Mac:**
+```bash
+chmod +x start.sh
+./start.sh
+```
+
+**For Windows:**
+- Double-click `start.bat`
+
+### Option 2: Manual Setup
 
 ```bash
-# 1. Clone repository
-git clone https://github.com/mangamotion/mangamotion.git
-cd mangamotion
+# Install dependencies
+npm install
 
-# 2. Start all services
-docker-compose up -d
-
-# 3. Verify services
-docker-compose ps
-
-# 4. Test API
-curl http://localhost:3000/api/health
-
-# 5. Upload and process a file
-curl -X POST \
-  -H "X-User-ID: dev-user" \
-  -F "pages=@test-image.jpg" \
-  http://localhost:3000/api/upload
+# Start the server
+npm start
 ```
 
-## 📚 Documentation
+## 📋 Prerequisites
 
-### For New Developers
-- **[Developer Onboarding](./DEVELOPER_ONBOARDING.md)** - Complete setup and first job processing
-- **[OpenAPI Specification](./openapi.yaml)** - Full API documentation
+- **Node.js** (v16 or higher) - [Download here](https://nodejs.org/)
+- **npm** (comes with Node.js)
 
-### For Operations
-- **[API Runbook](./API_RUNBOOK.md)** - Common failures and solutions
-- **[Monitoring & Alerts](./MONITORING_ALERTS_SLOS.md)** - Alert configuration and SLOs
-- **[Load Testing](./LOAD_TESTING.md)** - Performance testing procedures
-
-### For Architects
-- **[Architecture](./CONTAINERIZATION.md)** - System design and deployment
-- **[Production Deployment](./PRODUCTION_DEPLOYMENT.md)** - Production setup guide
-
-## 🏗️ Architecture
+## 🏗️ Project Structure
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                        Client                               │
-└─────────────────────────────────────────────────────────────┘
-                              │
-                              ▼
-┌─────────────────────────────────────────────────────────────┐
-│                    API Server (Node.js)                     │
-│  • Upload endpoint                                          │
-│  • Presign URL generation                                   │
-│  • Job status tracking                                      │
-│  • Metrics & monitoring                                     │
-└─────────────────────────────────────────────────────────────┘
-                              │
-        ┌─────────────────────┼─────────────────────┐
-        ▼                     ▼                     ▼
-    ┌────────┐           ┌────────┐           ┌────────┐
-    │ Redis  │           │ Postgres│           │ MinIO  │
-    │ Queue  │           │ Database│           │Storage │
-    └────────┘           └────────┘           └────────┘
-        │
-        ▼
-┌─────────────────────────────────────────────────────────────┐
-│                   Worker (Python)                           │
-│  • Job processing                                           │
-│  • Malware scanning                                         │
-│  • Thumbnail generation                                     │
-│  • Result storage                                           │
-└─────────────────────────────────────────────────────────────┘
-        │
-        ▼
-┌─────────────────────────────────────────────────────────────┐
-│              Monitoring & Observability                     │
-│  • Prometheus (metrics)                                     │
-│  • Grafana (dashboards)                                     │
-│  • Jaeger (tracing)                                         │
-│  • AlertManager (alerts)                                    │
-└─────────────────────────────────────────────────────────────┘
+/mnt/okcomputer/output/
+├── server.js           ← Express server
+├── package.json        ← Dependencies
+├── start.sh            ← Linux/Mac startup script
+├── start.bat           ← Windows startup script
+├── README.md           ← This file
+├── index.html          ← Landing page
+├── signup.html         ← Sign up page
+├── login.html          ← Login page
+├── dashboard.html      ← User dashboard
+├── upload.html         ← File upload page
+├── detection.html      ← Panel detection page
+├── editor.html         ← Animation editor
+├── export.html         ← Export page
+├── pricing.html        ← Pricing plans
+├── main.js             ← Main JavaScript
+├── public/             ← Static assets (CSS, images)
+└── resources/          ← Additional resources
 ```
 
-## 🔑 Key Features
+## 🌐 Accessing the Application
 
-### ✅ Distributed Processing
-- Scalable job queue (Redis)
-- Multiple workers for parallel processing
-- Idempotent job processing
-- Automatic retry with exponential backoff
+Once the server is running, open your browser and go to:
 
-### ✅ Security
-- Malware scanning (ClamAV)
-- File validation (extension, MIME type, size)
-- Rate limiting per user
-- Access key rotation
-- TLS/HTTPS support
+**http://localhost:3000**
 
-### ✅ Monitoring & Observability
-- Prometheus metrics collection
-- Grafana dashboards
-- Jaeger distributed tracing
-- Structured JSON logging
-- Real-time alerts with remediation steps
+You should see the MangaMotion AI landing page with all features working.
 
-### ✅ Service Level Objectives
-- Availability SLO (99.5% uptime)
-- Error rate SLO (<5% failures)
-- Latency SLO (P95 <5s)
-- Throughput SLO (>10 jobs/min)
-- Error budget tracking
+## 📄 Available Pages
 
-### ✅ Production Ready
-- Docker containerization
-- Kubernetes deployment ready
-- Health checks
-- Graceful shutdown
-- Comprehensive error handling
+- `/` - Home/Landing page
+- `/signup` - User registration
+- `/login` - User login
+- `/dashboard` - User dashboard
+- `/upload` - File upload interface
+- `/detection` - AI panel detection
+- `/editor` - Animation editor
+- `/export` - Export options
+- `/pricing` - Pricing plans
 
-## 📊 System Components
+## 🔧 API Endpoints
 
-### API Server (Node.js)
-- Express.js REST API
-- Multipart file upload
-- S3 presigned URL generation
-- Job status tracking
-- Metrics collection
+- `GET /api/status` - Server health check
+- `POST /api/upload` - File upload endpoint
+- `GET /api/projects` - List user projects
 
-**Location:** `mangamotion/backend/src/server.js`
+## 🛠️ Development
 
-### Worker (Python)
-- Job processing
-- Malware scanning
-- Thumbnail generation
-- Result storage
-
-**Location:** `mangamotion/worker/`
-
-### Database (PostgreSQL)
-- Job storage
-- User tracking
-- Failed job tracking
-
-**Location:** Configured in `docker-compose.yml`
-
-### Queue (Redis)
-- Job queue
-- Rate limiting
-- Cache
-
-**Location:** Configured in `docker-compose.yml`
-
-### Storage (MinIO)
-- S3-compatible object storage
-- File uploads
-- Processed results
-
-**Location:** Configured in `docker-compose.yml`
-
-## 🔌 API Endpoints
-
-### Upload & Processing
-- `POST /api/upload` - Upload files and create job
-- `GET /api/status/{jobId}` - Get job status
-- `POST /api/presign` - Get presigned S3 URL
-
-### Monitoring
-- `GET /api/metrics` - Metrics (JSON)
-- `GET /metrics` - Metrics (Prometheus)
-- `GET /api/alerts` - Alert statistics
-- `GET /api/alerts/active` - Active alerts
-- `GET /api/health` - Health check
-
-### SLOs
-- `GET /api/slos` - SLO status
-- `GET /api/slos/violations` - SLO violations
-- `GET /api/slos/error-budget` - Error budget
-- `GET /api/slos/uptime-budget` - Uptime budget
-
-See [openapi.yaml](./openapi.yaml) for complete API specification.
-
-## 🚀 Deployment
-
-### Local Development
+### Installing Dependencies
 ```bash
-docker-compose up -d
+npm install
 ```
 
-### Docker Compose (Staging)
+### Running in Development Mode
 ```bash
-docker-compose -f docker-compose.yml up -d
+npm run dev
 ```
 
-### Kubernetes (Production)
-See [KUBERNETES_DEPLOYMENT.md](./KUBERNETES_DEPLOYMENT.md)
-
-### AWS/Azure/GCP
-See [PRODUCTION_DEPLOYMENT.md](./PRODUCTION_DEPLOYMENT.md)
-
-## 📈 Monitoring
-
-### Dashboards
-- **Grafana:** http://localhost:3001 (admin/admin)
-- **Prometheus:** http://localhost:9090
-- **Jaeger:** http://localhost:16686
-
-### Metrics
+### Production Start
 ```bash
-# View metrics
-curl http://localhost:3000/api/metrics | jq .
-
-# View alerts
-curl http://localhost:3000/api/alerts/active | jq .
-
-# View SLOs
-curl http://localhost:3000/api/slos | jq .
+npm start
 ```
 
-## 🧪 Testing
+## 🎨 Features
 
-### Unit Tests
-```bash
-npm test
-```
+- **AI Panel Detection**: Automatically detects manga panels with 99% accuracy
+- **Voice Generation**: 50+ AI voices with emotion matching
+- **Smart Animation**: Motion that adapts to scene emotion
+- **Custom Styling**: Full customization of animation styles
+- **Social Media Ready**: Optimized export for all platforms
+- **Cloud Processing**: Fast, secure processing
 
-### Integration Tests
-```bash
-npm test -- --testPathPattern=integration
-```
+## 📱 Responsive Design
 
-### Load Testing
-```bash
-bash load-tests/run-all-tests.sh
-```
+The application is fully responsive and works on:
+- Desktop computers
+- Tablets
+- Mobile phones
 
-## 🔧 Configuration
+## 🐛 Troubleshooting
 
-### Environment Variables
-```bash
-# API
-PORT=3000
-NODE_ENV=development
+### Server won't start
+- Check Node.js installation: `node --version`
+- Ensure you're in the correct directory
+- Try reinstalling dependencies: `rm -rf node_modules && npm install`
 
-# Database
-POSTGRES_USER=mmuser
-POSTGRES_PASSWORD=mmsecret
-POSTGRES_DB=mangamotion
+### Pages show 404
+- Verify HTML files are in root directory
+- Check file names match exactly
+- Restart the server
 
-# Storage
-S3_ENDPOINT=http://minio:9000
-S3_BUCKET=mm-bucket
+### Styles not loading
+- Check `public/css/` folder exists
+- Verify CSS files are present
+- Clear browser cache
 
-# Queue
-REDIS_URL=redis://redis:6379
+### Port already in use
+- Use different port: `PORT=3001 npm start`
+- Kill existing process: `lsof -ti:3000 | xargs kill -9`
 
-# Alerts
-ALERT_QUEUE_LENGTH_WARNING=100
-ALERT_FAILED_JOBS_RATE_WARNING=0.05
-ALERT_STORAGE_WARNING=80
+## 📞 Support
 
-# Monitoring
-TRACING_ENABLED=true
-METRICS_ENABLED=true
-```
-
-See `.env.example` for complete configuration.
-
-## 📋 Project Structure
-
-```
-mangamotion/
-├── backend/                    # Node.js API
-│   ├── src/
-│   │   ├── server.js          # Express app
-│   │   ├── config.js          # Configuration
-│   │   ├── queue/             # Job queue
-│   │   ├── metrics.js         # Prometheus metrics
-│   │   ├── alert-manager.js   # Alerts
-│   │   ├── slo.js             # SLOs
-│   │   └── ...
-│   ├── package.json
-│   └── Dockerfile
-│
-├── worker/                     # Python worker
-│   ├── thumbnail_worker.py
-│   ├── prometheus_metrics.py
-│   └── Dockerfile
-│
-├── docs/                       # Documentation
-│   ├── DEVELOPER_ONBOARDING.md
-│   ├── API_RUNBOOK.md
-│   ├── openapi.yaml
-│   └── ...
-│
-├── load-tests/                 # Load testing
-│   ├── concurrent-uploads.js
-│   ├── presign-uploads.js
-│   ├── worker-processing.js
-│   └── ...
-│
-├── docker-compose.yml          # Local development
-└── README.md                   # This file
-```
-
-## 🆘 Troubleshooting
-
-### Services won't start
-```bash
-# Check Docker
-docker ps
-
-# Remove old containers
-docker-compose down -v
-
-# Start fresh
-docker-compose up -d
-```
-
-### API not responding
-```bash
-# Check logs
-docker logs mangamotion-api
-
-# Restart
-docker-compose restart api
-
-# Test
-curl http://localhost:3000/api/health
-```
-
-### Jobs not processing
-```bash
-# Check worker
-docker logs mangamotion-worker
-
-# Check queue
-redis-cli LLEN ai-job:queue
-
-# Restart worker
-docker-compose restart worker
-```
-
-See [API_RUNBOOK.md](./API_RUNBOOK.md) for detailed troubleshooting.
-
-## 📖 Learning Path
-
-1. **Start Here:** [Developer Onboarding](./DEVELOPER_ONBOARDING.md)
-2. **Understand APIs:** [OpenAPI Specification](./openapi.yaml)
-3. **Handle Issues:** [API Runbook](./API_RUNBOOK.md)
-4. **Monitor System:** [Monitoring & Alerts](./MONITORING_ALERTS_SLOS.md)
-5. **Test Performance:** [Load Testing](./LOAD_TESTING.md)
-6. **Deploy:** [Production Deployment](./PRODUCTION_DEPLOYMENT.md)
-
-## 🤝 Contributing
-
-1. Create feature branch: `git checkout -b feature/my-feature`
-2. Make changes and test: `npm test`
-3. Commit: `git commit -am 'Add feature'`
-4. Push: `git push origin feature/my-feature`
-5. Create Pull Request
+For issues or questions:
+1. Check this README
+2. Review server.js for configuration
+3. Ensure all files are properly saved
 
 ## 📄 License
 
-MIT License - See LICENSE file for details
-
-## 🆘 Support
-
-### Documentation
-- [Developer Onboarding](./DEVELOPER_ONBOARDING.md)
-- [API Runbook](./API_RUNBOOK.md)
-- [OpenAPI Spec](./openapi.yaml)
-
-### Debugging
-```bash
-# Check all services
-docker-compose ps
-
-# View logs
-docker-compose logs -f
-
-# Test API
-curl http://localhost:3000/api/health
-```
-
-### Getting Help
-- Check documentation first
-- Review logs: `docker logs <service>`
-- Run tests: `npm test`
-- Load test: `bash load-tests/run-all-tests.sh`
-
-## 🎯 Next Steps
-
-1. **New Developer?** → Start with [Developer Onboarding](./DEVELOPER_ONBOARDING.md)
-2. **Need API Details?** → Check [OpenAPI Spec](./openapi.yaml)
-3. **Troubleshooting?** → See [API Runbook](./API_RUNBOOK.md)
-4. **Setting up Production?** → Read [Production Deployment](./PRODUCTION_DEPLOYMENT.md)
+MIT License - See package.json for details
 
 ---
 
-**Status:** ✅ Production Ready
-
-**Version:** 1.0.0
-
-**Last Updated:** 2024-01-01
-# MangaMotion-1
+**Happy animating! 🎬**

@@ -4,212 +4,151 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pricing - MangaMotion AI</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        body {
-            font-family: 'Inter', sans-serif;
-            background: #0F1724;
-            min-height: 100vh;
-            color: #E6EEF6;
-        }
-        
-        .pricing-card {
-            background: #0B1220;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            border-radius: 8px;
-        }
-        
-        .pricing-card:hover {
-            transform: translateY(-10px);
-            background: rgba(255, 51, 102, 0.1);
-            box-shadow: 0 25px 50px rgba(3, 6, 23, 0.6);
-            border-color: #FF3366;
-        }
-        
-        .pricing-card.featured {
-            border-color: rgba(255, 51, 102, 0.5);
-            background: rgba(255, 51, 102, 0.1);
-        }
-        
-        .pricing-card.featured::before {
-            content: 'POPULAR';
-            position: absolute;
-            top: 20px;
-            right: -30px;
-            background: linear-gradient(135deg, #FF3366 0%, #1F8FFF 100%);
-            color: white;
-            padding: 5px 40px;
-            font-size: 12px;
-            font-weight: bold;
-            transform: rotate(45deg);
-            letter-spacing: 1px;
-        }
-        
-        .price-amount {
-            font-size: 3rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, #FF3366 0%, #1F8FFF 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-        
-        .feature-item {
-            display: flex;
-            align-items: center;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .feature-item:last-child {
-            border-bottom: none;
-        }
-        
-        .feature-item.included {
-            color: #27AE60;
-        }
-        
-        .feature-item.excluded {
-            color: #94A3B8;
-        }
-        
-        .cta-button {
-            background: #FF3366;
-            border-radius: 12px;
-            height: 44px;
-            padding: 0 24px;
-            font-weight: 600;
-            font-size: 14px;
-            transition: all 0.3s ease;
-            border: none;
-            color: white;
-        }
-        
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 24px rgba(255, 51, 102, 0.4);
-            background: #ff1a53;
-        }
-        
-        .cta-button.outline {
-            background: transparent;
-            border: 2px solid rgba(255, 51, 102, 0.5);
-            color: #FF3366;
-        }
-        
-        .cta-button.outline:hover {
-            background: rgba(255, 51, 102, 0.1);
-            border-color: #FF3366;
-            color: white;
-        }
-        
-        .comparison-table {
-            background: #0B1220;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 8px;
-        }
-        
-        .table-header {
-            background: rgba(255, 51, 102, 0.2);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .floating-shapes {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: -1;
-        }
-        
-        .shape {
-            position: absolute;
-            opacity: 0.1;
-            animation: float 20s infinite linear;
-        }
-        
-        @keyframes float {
-            0% { transform: translateY(100vh) rotate(0deg); }
-            100% { transform: translateY(-100vh) rotate(360deg); }
-        }
-        
-        h1 {
-            font-weight: 800;
-            font-size: 48px;
-            line-height: 1.1;
-        }
-        
-        h2 {
-            font-weight: 700;
-            font-size: 36px;
-        }
-        
-        h3 {
-            font-weight: 700;
-            font-size: 28px;
-        }
-        
-        .text-muted {
-            color: #94A3B8;
-        }
-    </style>
-</head>
-<body class="min-h-screen text-white">
-    <!-- Floating Background Shapes -->
-    <div class="floating-shapes">
-        <div class="shape w-20 h-20 bg-purple-500 rounded-full" style="left: 10%; animation-delay: 0s;"></div>
-        <div class="shape w-16 h-16 bg-blue-500 rounded-lg" style="left: 80%; animation-delay: 5s;"></div>
-        <div class="shape w-24 h-24 bg-indigo-500 rounded-full" style="left: 60%; animation-delay: 10s;"></div>
-        <div class="shape w-12 h-12 bg-pink-500 rounded-full" style="left: 30%; animation-delay: 15s;"></div>
-    </div>
 
-    <!-- Navigation -->
-    <nav class="fixed top-0 w-full z-50 bg-black/20 backdrop-blur-md border-b border-white/10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center space-x-2">
-                    <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
-                        <i class="fas fa-play text-white text-sm"></i>
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preload" href="/public/css/design-system.css" as="style">
+    <link rel="preload" href="/public/css/main.css" as="style">
+    <link rel="preload" href="/public/css/animations.css" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" as="style">
+
+    <link rel="stylesheet" href="/public/css/design-system.css?v=2">
+    <link rel="stylesheet" href="/public/css/main.css?v=2">
+    <link rel="stylesheet" href="/public/css/animations.css?v=2">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="icon" type="image/svg+xml" href="/public/images/logo.svg">
+</head>
+<body class="dark-mode">
+    <!-- Skip to main content -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <!-- Innovative Navigation -->
+    <nav class="nav-modern">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <a href="index.html" class="logo-animated">
+                    <div class="logo-icon">
+                        <img src="/public/images/logo.svg" alt="MangaMotion Logo">
+                        <div class="logo-pulse"></div>
                     </div>
-                    <span class="text-xl font-bold">MangaMotion AI</span>
+                    <span class="logo-text">MangaMotion</span>
+                </a>
+            </div>
+
+            <div class="nav-main">
+                <div class="nav-links">
+                    <a href="index.html#features" class="nav-link" data-tooltip="Discover features">
+                        <i class="fas fa-sparkles"></i>
+                        <span>Features</span>
+                    </a>
+                    <a href="pricing.html" class="nav-link active" data-tooltip="View pricing">
+                        <i class="fas fa-crown"></i>
+                        <span>Pricing</span>
+                    </a>
+                    <a href="#api" class="nav-link" data-tooltip="API docs">
+                        <i class="fas fa-code"></i>
+                        <span>API</span>
+                    </a>
+                    <a href="#docs" class="nav-link" data-tooltip="Documentation">
+                        <i class="fas fa-book"></i>
+                        <span>Docs</span>
+                    </a>
                 </div>
-                <div class="flex items-center space-x-4">
-                    <a href="index.html" class="text-gray-300 hover:text-white transition-colors">Home</a>
-                    <a href="dashboard.html" class="text-gray-300 hover:text-white transition-colors">Dashboard</a>
-                    <a href="login.html" class="text-gray-300 hover:text-white transition-colors">Login</a>
+
+                <div class="nav-actions">
+                    <a href="login.html" class="btn btn-primary btn-glow">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Sign In
+                    </a>
                 </div>
+            </div>
+
+            <!-- Mobile Menu Trigger -->
+            <button class="mobile-menu-trigger" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
+
+        <!-- Mobile Menu Overlay -->
+        <div class="mobile-menu-overlay">
+            <div class="mobile-menu">
+                <div class="mobile-menu-header">
+                    <div class="logo-mobile">
+                        <img src="/public/images/logo.svg" alt="MangaMotion">
+                        <span>MangaMotion</span>
+                    </div>
+                    <button class="mobile-menu-close" aria-label="Close menu">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <nav class="mobile-nav">
+                    <a href="index.html#features" class="mobile-nav-link">
+                        <i class="fas fa-sparkles"></i>
+                        <span>Features</span>
+                    </a>
+                    <a href="pricing.html" class="mobile-nav-link active">
+                        <i class="fas fa-crown"></i>
+                        <span>Pricing</span>
+                    </a>
+                    <a href="#api" class="mobile-nav-link">
+                        <i class="fas fa-code"></i>
+                        <span>API</span>
+                    </a>
+                    <a href="#docs" class="mobile-nav-link">
+                        <i class="fas fa-book"></i>
+                        <span>Docs</span>
+                    </a>
+                    <div class="mobile-nav-divider"></div>
+                    <a href="login.html" class="mobile-nav-link primary">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Sign In</span>
+                    </a>
+                </nav>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="pt-32 pb-20 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-4xl mx-auto text-center">
-            <h1 class="text-5xl md:text-6xl font-black mb-6">
-                Simple, Creator-Friendly
-                <span class="block text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-blue-500">
-                    Pricing
-                </span>
-            </h1>
-            <p class="text-xl text-gray-300 mb-8">
-                Choose the perfect plan for your creative journey. No hidden fees, cancel anytime.
-            </p>
-            <div class="flex items-center justify-center space-x-4">
-                <span class="text-gray-400">Monthly</span>
-                <label class="relative inline-flex items-center cursor-pointer">
-                    <input type="checkbox" class="sr-only peer" id="billingToggle">
-                    <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
-                </label>
-                <span class="text-gray-400">Yearly <span class="text-green-400 text-sm">(Save 20%)</span></span>
+    <!-- Main Content -->
+    <main id="main-content">
+        <!-- Pricing Hero Section -->
+        <header class="hero-section" style="min-height: 70vh; background: linear-gradient(135deg, #0F0F23 0%, #1A1A2E 50%, #0F0F23 100%);">
+            <!-- Animated Background Elements -->
+            <div class="hero-bg-elements">
+                <div class="floating-shape shape-1"></div>
+                <div class="floating-shape shape-2"></div>
+                <div class="particle particle-1"></div>
+                <div class="particle particle-2"></div>
+                <div class="particle particle-3"></div>
             </div>
-        </div>
-    </section>
+
+            <!-- Gradient Overlay -->
+            <div class="hero-gradient-overlay"></div>
+
+            <div class="hero-container" style="align-items: center;">
+                <div class="hero-content" style="text-align: center; max-width: 600px;">
+                    <h1 class="hero-heading">
+                        Simple, Creator-Friendly <span class="hero-accent">Pricing</span>
+                    </h1>
+                    <p class="hero-subheading">
+                        Choose the perfect plan for your creative journey. No hidden fees, cancel anytime.
+                    </p>
+
+                    <div style="display: flex; align-items: center; justify-content: center; gap: 1rem; margin-top: 2rem;">
+                        <span style="color: #B8C5D6; font-weight: 500;">Monthly</span>
+                        <label style="position: relative; display: inline-flex; align-items: center; cursor: pointer;">
+                            <input type="checkbox" class="sr-only peer" id="billingToggle">
+                            <div style="width: 44px; height: 24px; background: rgba(138, 43, 226, 0.3); border-radius: 12px; position: relative; transition: all 0.3s ease;" class="peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                        </label>
+                        <span style="color: #B8C5D6; font-weight: 500;">Yearly <span style="color: #00FF7F; font-size: 0.9rem;">(Save 20%)</span></span>
+                    </div>
+                </div>
+            </div>
+        </header>
 
     <!-- Pricing Cards -->
     <section class="pb-20 px-4 sm:px-6 lg:px-8">
@@ -463,92 +402,305 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="py-12 px-4 sm:px-6 lg:px-8 border-t border-white/10">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="flex items-center space-x-2 mb-4 md:mb-0">
-                    <div class="w-8 h-8 bg-gradient-to-r from-purple-500 to-blue-500 rounded-lg flex items-center justify-center">
-                        <i class="fas fa-play text-white text-sm"></i>
+        <!-- Enhanced Cinematic Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <!-- Brand Section -->
+                <div class="footer-section footer-brand">
+                    <div class="footer-logo">
+                        <div class="logo-icon">
+                            <img src="/public/images/logo.svg" alt="MangaMotion Logo">
+                            <div class="logo-pulse"></div>
+                        </div>
+                        <span class="logo-text">MangaMotion</span>
                     </div>
-                    <span class="text-xl font-bold">MangaMotion AI</span>
+                    <p class="footer-description">Transform your manga into cinematic animations with AI-powered technology.</p>
+                    <div class="social-links">
+                        <a href="#" aria-label="Facebook" class="social-icon">
+                            <i class="fab fa-facebook-f"></i>
+                            <div class="social-glow"></div>
+                        </a>
+                        <a href="#" aria-label="Twitter" class="social-icon">
+                            <i class="fab fa-twitter"></i>
+                            <div class="social-glow"></div>
+                        </a>
+                        <a href="#" aria-label="Instagram" class="social-icon">
+                            <i class="fab fa-instagram"></i>
+                            <div class="social-glow"></div>
+                        </a>
+                        <a href="#" aria-label="YouTube" class="social-icon">
+                            <i class="fab fa-youtube"></i>
+                            <div class="social-glow"></div>
+                        </a>
+                        <a href="#" aria-label="Discord" class="social-icon">
+                            <i class="fab fa-discord"></i>
+                            <div class="social-glow"></div>
+                        </a>
+                    </div>
                 </div>
-                <div class="flex flex-wrap justify-center space-x-8 text-sm text-gray-400">
-                    <a href="#" class="hover:text-white transition-colors">Terms</a>
-                    <a href="#" class="hover:text-white transition-colors">Privacy</a>
-                    <a href="#" class="hover:text-white transition-colors">Support</a>
-                    <a href="#" class="hover:text-white transition-colors">Blog</a>
+
+                <!-- Product Section -->
+                <div class="footer-section">
+                    <h4 class="footer-heading">
+                        <i class="fas fa-rocket footer-icon"></i>
+                        Product
+                    </h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html#features" class="footer-link">
+                            <i class="fas fa-sparkles link-icon"></i>
+                            Features
+                        </a></li>
+                        <li><a href="pricing.html" class="footer-link">
+                            <i class="fas fa-crown link-icon"></i>
+                            Pricing
+                        </a></li>
+                        <li><a href="index.html#api" class="footer-link">
+                            <i class="fas fa-code link-icon"></i>
+                            API
+                        </a></li>
+                        <li><a href="index.html#docs" class="footer-link">
+                            <i class="fas fa-book link-icon"></i>
+                            Documentation
+                        </a></li>
+                    </ul>
+                </div>
+
+                <!-- Company Section -->
+                <div class="footer-section">
+                    <h4 class="footer-heading">
+                        <i class="fas fa-building footer-icon"></i>
+                        Company
+                    </h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">
+                            <i class="fas fa-info-circle link-icon"></i>
+                            About Us
+                        </a></li>
+                        <li><a href="#" class="footer-link">
+                            <i class="fas fa-blog link-icon"></i>
+                            Blog
+                        </a></li>
+                        <li><a href="#" class="footer-link">
+                            <i class="fas fa-briefcase link-icon"></i>
+                            Careers
+                        </a></li>
+                        <li><a href="#" class="footer-link">
+                            <i class="fas fa-envelope link-icon"></i>
+                            Contact
+                        </a></li>
+                    </ul>
+                </div>
+
+                <!-- Support Section -->
+                <div class="footer-section">
+                    <h4 class="footer-heading">
+                        <i class="fas fa-life-ring footer-icon"></i>
+                        Support
+                    </h4>
+                    <ul class="footer-links">
+                        <li><a href="#" class="footer-link">
+                            <i class="fas fa-question-circle link-icon"></i>
+                            Help Center
+                        </a></li>
+                        <li><a href="#" class="footer-link">
+                            <i class="fas fa-file-alt link-icon"></i>
+                            Documentation
+                        </a></li>
+                        <li><a href="#" class="footer-link">
+                            <i class="fas fa-users link-icon"></i>
+                            Community
+                        </a></li>
+                        <li><a href="#" class="footer-link">
+                            <i class="fas fa-server link-icon"></i>
+                            System Status
+                        </a></li>
+                    </ul>
+                </div>
+
+                <!-- Newsletter Section -->
+                <div class="footer-section footer-newsletter">
+                    <h4 class="footer-heading">
+                        <i class="fas fa-envelope footer-icon"></i>
+                        Stay Updated
+                    </h4>
+                    <p class="newsletter-description">Get the latest updates, features, and anime animation tips.</p>
+                    <div class="newsletter-signup">
+                        <form class="newsletter-form">
+                            <div class="input-group">
+                                <input type="email" placeholder="Enter your email" aria-label="Email address" class="newsletter-input">
+                                <button type="submit" class="newsletter-btn">
+                                    <i class="fas fa-paper-plane"></i>
+                                    <span>Subscribe</span>
+                                </button>
+                            </div>
+                        </form>
+                        <p class="newsletter-note">No spam, unsubscribe anytime.</p>
+                    </div>
                 </div>
             </div>
-            <div class="text-center mt-8 text-sm text-gray-500">
-                © 2024 MangaMotion AI. All rights reserved.
+
+            <!-- Enhanced Divider -->
+            <div class="footer-divider">
+                <div class="divider-line"></div>
+                <div class="divider-glow"></div>
             </div>
-        </div>
-    </footer>
+
+            <!-- Enhanced Bottom Section -->
+            <div class="footer-bottom">
+                <div class="footer-copyright">
+                    <p>&copy; 2024 MangaMotion AI. All rights reserved.</p>
+                    <div class="copyright-accent"></div>
+                </div>
+                <div class="footer-legal">
+                    <a href="#" class="legal-link">Privacy Policy</a>
+                    <span class="legal-separator">•</span>
+                    <a href="#" class="legal-link">Terms of Service</a>
+                    <span class="legal-separator">•</span>
+                    <a href="#" class="legal-link">Cookie Policy</a>
+                </div>
+                <div class="footer-badge">
+                    <span class="badge-text">Made with <i class="fas fa-heart heart-icon"></i> for anime creators</span>
+                </div>
+            </div>
+        </footer>
+    </main>
 
     <script>
-        const billingToggle = document.getElementById('billingToggle');
-        const creatorPrice = document.getElementById('creatorPrice');
-        const studioPrice = document.getElementById('studioPrice');
+        // Enhanced Navigation Functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu functionality
+            const mobileMenuTrigger = document.querySelector('.mobile-menu-trigger');
+            const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
+            const mobileMenuClose = document.querySelector('.mobile-menu-close');
 
-        billingToggle.addEventListener('change', function() {
-            if (this.checked) {
-                // Yearly pricing (20% discount)
-                creatorPrice.textContent = '₹399';
-                studioPrice.textContent = '₹2399';
-            } else {
-                // Monthly pricing
-                creatorPrice.textContent = '₹499';
-                studioPrice.textContent = '₹2999';
+            if (mobileMenuTrigger && mobileMenuOverlay) {
+                mobileMenuTrigger.addEventListener('click', () => {
+                    mobileMenuOverlay.classList.add('active');
+                });
+
+                mobileMenuClose.addEventListener('click', () => {
+                    mobileMenuOverlay.classList.remove('active');
+                });
+
+                mobileMenuOverlay.addEventListener('click', (e) => {
+                    if (e.target === mobileMenuOverlay) {
+                        mobileMenuOverlay.classList.remove('active');
+                    }
+                });
             }
-        });
 
-        function upgradeToCreator() {
-            // Simulate upgrade process
-            const button = event.target;
-            const originalText = button.innerHTML;
-            button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processing...';
-            button.disabled = true;
-            
-            setTimeout(() => {
-                alert('Redirecting to payment gateway...\n\nThis would normally open the Stripe checkout page.');
-                button.innerHTML = originalText;
-                button.disabled = false;
-            }, 2000);
-        }
+            // Newsletter form submission
+            const newsletterForm = document.querySelector('.newsletter-form');
+            if (newsletterForm) {
+                newsletterForm.addEventListener('submit', (e) => {
+                    e.preventDefault();
+                    const email = newsletterForm.querySelector('input').value;
+                    if (email) {
+                        const button = newsletterForm.querySelector('button');
+                        const originalText = button.textContent;
+                        button.textContent = 'Subscribed!';
+                        button.style.background = '#10B981';
 
-        function upgradeToStudio() {
-            // Simulate upgrade process
-            const button = event.target;
-            const originalText = button.innerHTML;
-            button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processing...';
-            button.disabled = true;
-            
-            setTimeout(() => {
-                alert('Redirecting to payment gateway...\n\nThis would normally open the Stripe checkout page.');
-                button.innerHTML = originalText;
-                button.disabled = false;
-            }, 2000);
-        }
+                        setTimeout(() => {
+                            button.textContent = originalText;
+                            button.style.background = '';
+                            newsletterForm.reset();
+                        }, 2000);
+                    }
+                });
+            }
 
-        // Animate pricing cards on load
-        anime({
-            targets: '.pricing-card',
-            opacity: [0, 1],
-            translateY: [50, 0],
-            duration: 800,
-            delay: anime.stagger(200),
-            easing: 'easeOutQuart'
-        });
+            // Billing toggle functionality
+            const billingToggle = document.getElementById('billingToggle');
+            const creatorPrice = document.getElementById('creatorPrice');
+            const studioPrice = document.getElementById('studioPrice');
 
-        // Animate comparison table
-        anime({
-            targets: '.comparison-table',
-            opacity: [0, 1],
-            scale: [0.95, 1],
-            duration: 1000,
-            delay: 600,
-            easing: 'easeOutQuart'
+            if (billingToggle) {
+                billingToggle.addEventListener('change', function() {
+                    if (this.checked) {
+                        // Yearly pricing (20% discount)
+                        if (creatorPrice) creatorPrice.textContent = '₹399';
+                        if (studioPrice) studioPrice.textContent = '₹2399';
+                    } else {
+                        // Monthly pricing
+                        if (creatorPrice) creatorPrice.textContent = '₹499';
+                        if (studioPrice) studioPrice.textContent = '₹2999';
+                    }
+                });
+            }
+
+            // Upgrade functions
+            window.upgradeToCreator = function() {
+                // Simulate upgrade process
+                const button = event.target;
+                const originalText = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processing...';
+                button.disabled = true;
+
+                setTimeout(() => {
+                    alert('Redirecting to payment gateway...\n\nThis would normally open the Stripe checkout page.');
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                }, 2000);
+            };
+
+            window.upgradeToStudio = function() {
+                // Simulate upgrade process
+                const button = event.target;
+                const originalText = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processing...';
+                button.disabled = true;
+
+                setTimeout(() => {
+                    alert('Redirecting to payment gateway...\n\nThis would normally open the Stripe checkout page.');
+                    button.innerHTML = originalText;
+                    button.disabled = false;
+                }, 2000);
+            };
+
+            // Add tooltip functionality
+            const navLinks = document.querySelectorAll('.nav-link[data-tooltip]');
+            navLinks.forEach(link => {
+                const tooltip = document.createElement('div');
+                tooltip.className = 'nav-tooltip';
+                tooltip.textContent = link.dataset.tooltip;
+                link.appendChild(tooltip);
+            });
+
+            // Add scroll effect to navigation
+            let lastScrollTop = 0;
+            const nav = document.querySelector('.nav-modern');
+
+            window.addEventListener('scroll', () => {
+                const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+                if (scrollTop > lastScrollTop && scrollTop > 100) {
+                    if (nav) nav.style.transform = 'translateY(-100%)';
+                } else {
+                    if (nav) nav.style.transform = 'translateY(0)';
+                }
+
+                lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+            });
+
+            // Intersection Observer for animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('animate-in');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe elements for animation
+            document.querySelectorAll('.pricing-card, .comparison-table').forEach(card => {
+                observer.observe(card);
+            });
         });
     </script>
 </body>
