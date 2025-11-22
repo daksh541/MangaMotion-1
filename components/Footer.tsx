@@ -19,6 +19,7 @@ const Footer: React.FC<FooterProps> = ({ variant = 'premium', mobileAccordion = 
   const [subscribed, setSubscribed] = useState(false);
   const [expandedSection, setExpandedSection] = useState<string | null>(null);
   const [focusedInput, setFocusedInput] = useState(false);
+  const [hoveredSocial, setHoveredSocial] = useState<string | null>(null);
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -195,8 +196,8 @@ const Footer: React.FC<FooterProps> = ({ variant = 'premium', mobileAccordion = 
                   required
                   className={`flex-1 bg-white/3 border rounded-lg px-4 py-3 text-white placeholder-gray-500 outline-none transition-all duration-300 ${
                     focusedInput
-                      ? 'border-purple-500/50 shadow-[0_0_12px_rgba(168,85,247,0.3)] bg-white/5'
-                      : 'border-white/10'
+                      ? 'border-purple-500/60 shadow-[0_0_20px_rgba(168,85,247,0.4)] bg-white/6 animate-pulse'
+                      : 'border-white/10 hover:border-white/20'
                   }`}
                   aria-label="Email address"
                 />
@@ -229,7 +230,15 @@ const Footer: React.FC<FooterProps> = ({ variant = 'premium', mobileAccordion = 
                   key={label}
                   href={href}
                   aria-label={label}
-                  className={`w-${isCompact ? '7' : '9'} h-${isCompact ? '7' : '9'} rounded-full bg-white/8 border border-white/10 flex items-center justify-center text-gray-400 hover:text-purple-400 hover:bg-purple-500/20 hover:border-purple-500/50 transition-all duration-200 hover:shadow-[0_0_12px_rgba(168,85,247,0.6)] hover:scale-105 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:ring-offset-2 focus:ring-offset-[#0F1419]`}
+                  onMouseEnter={() => setHoveredSocial(label)}
+                  onMouseLeave={() => setHoveredSocial(null)}
+                  className={`rounded-full bg-white/8 border border-white/10 flex items-center justify-center text-gray-400 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-purple-500/50 focus:ring-offset-2 focus:ring-offset-[#0F1419] ${
+                    isCompact ? 'w-7 h-7' : 'w-9 h-9'
+                  } ${
+                    hoveredSocial === label
+                      ? 'text-purple-400 bg-purple-500/20 border-purple-500/50 shadow-[0_0_20px_rgba(168,85,247,0.8)] scale-110'
+                      : 'hover:text-purple-400 hover:bg-purple-500/20 hover:border-purple-500/50 hover:shadow-[0_0_12px_rgba(168,85,247,0.6)] hover:scale-105'
+                  }`}
                 >
                   <Icon size={isCompact ? 16 : 20} />
                 </a>
