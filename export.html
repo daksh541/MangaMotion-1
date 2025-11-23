@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="/public/css/design-system.css?v=2">
     <link rel="stylesheet" href="/public/css/main.css?v=2">
     <link rel="stylesheet" href="/public/css/animations.css?v=2">
-    <link rel="stylesheet" href="/public/css/footer-enhanced.css?v=1">
+    <link rel="stylesheet" href="/public/css/footer-unified.css?v=1">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -419,72 +419,111 @@
         </div>
     </section>
 
-    <!-- Footer -->
+    <!-- Standardized MangaMotion Footer -->
     <footer class="footer">
-    <div class="footer-content">
-        <div class="footer-section">
-            <h4>MangaMotion</h4>
-            <p>Transform your manga into cinematic animations with AI-powered technology.</p>
-            <div class="social-links">
-                <a href="#" aria-label="Facebook" class="social-icon"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" aria-label="Twitter" class="social-icon"><i class="fab fa-twitter"></i></a>
-                <a href="#" aria-label="Instagram" class="social-icon"><i class="fab fa-instagram"></i></a>
-                <a href="#" aria-label="YouTube" class="social-icon"><i class="fab fa-youtube"></i></a>
+        <!-- Brand Section -->
+        <div class="footer-brand-section">
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <div class="logo-icon">
+                        <img src="/public/images/logo.svg" alt="MangaMotion Logo">
+                    </div>
+                    <span class="logo-text">MangaMotion</span>
+                </div>
+                <p class="footer-description">Transform your manga into cinematic animations with AI-powered technology.</p>
+                <div class="social-links">
+                    <a href="#" aria-label="Facebook" class="social-icon">
+                        <i class="fab fa-facebook-f"></i>
+                    </a>
+                    <a href="#" aria-label="Twitter" class="social-icon">
+                        <i class="fab fa-twitter"></i>
+                    </a>
+                    <a href="#" aria-label="Instagram" class="social-icon">
+                        <i class="fab fa-instagram"></i>
+                    </a>
+                    <a href="#" aria-label="YouTube" class="social-icon">
+                        <i class="fab fa-youtube"></i>
+                    </a>
+                    <a href="#" aria-label="Discord" class="social-icon">
+                        <i class="fab fa-discord"></i>
+                    </a>
+                </div>
             </div>
         </div>
 
-        <div class="footer-section">
-            <h4>Product</h4>
-            <ul class="footer-links">
-                <li><a href="index.html#features">Features</a></li>
-                <li><a href="pricing.html">Pricing</a></li>
-                <li><a href="#api">API</a></li>
-                <li><a href="#docs">Docs</a></li>
-            </ul>
+        <!-- Links Section -->
+        <div class="footer-links-section">
+            <div class="footer-column">
+                <h3 class="footer-heading">
+                    <span class="heading-icon">♦</span>Product
+                </h3>
+                <ul class="footer-links">
+                    <li><a href="index.html#features" class="footer-link">Features</a></li>
+                    <li><a href="pricing.html" class="footer-link">Pricing</a></li>
+                    <li><a href="index.html#api" class="footer-link">API</a></li>
+                    <li><a href="index.html#docs" class="footer-link">Documentation</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3 class="footer-heading">
+                    <span class="heading-icon">♦</span>Company
+                </h3>
+                <ul class="footer-links">
+                    <li><a href="#" class="footer-link">About Us</a></li>
+                    <li><a href="#" class="footer-link">Blog</a></li>
+                    <li><a href="#" class="footer-link">Careers</a></li>
+                    <li><a href="#" class="footer-link">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-column">
+                <h3 class="footer-heading">
+                    <span class="heading-icon">♦</span>Support
+                </h3>
+                <ul class="footer-links">
+                    <li><a href="#" class="footer-link">Help Center</a></li>
+                    <li><a href="#" class="footer-link">Documentation</a></li>
+                    <li><a href="#" class="footer-link">Community</a></li>
+                    <li><a href="#" class="footer-link">System Status</a></li>
+                </ul>
+            </div>
         </div>
 
-        <div class="footer-section">
-            <h4>Company</h4>
-            <ul class="footer-links">
-                <li><a href="#">About</a></li>
-                <li><a href="#">Blog</a></li>
-                <li><a href="#">Careers</a></li>
-                <li><a href="#">Contact</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-section">
-            <h4>Support</h4>
-            <ul class="footer-links">
-                <li><a href="#">Help Center</a></li>
-                <li><a href="#">Documentation</a></li>
-                <li><a href="#">Community</a></li>
-                <li><a href="#">Status</a></li>
-            </ul>
-        </div>
-
-        <div class="footer-section">
-            <h4>Stay Updated</h4>
-            <p>Get the latest updates and features.</p>
-            <div class="newsletter-signup">
+        <!-- Newsletter Section -->
+        <div class="footer-newsletter-section">
+            <div class="newsletter-box">
+                <h3 class="newsletter-title">
+                    <span class="newsletter-icon">✉</span>Stay Updated
+                </h3>
+                <p class="newsletter-description">Get the latest updates, features, and anime animation tips.</p>
                 <form class="newsletter-form">
-                    <input type="email" placeholder="Enter your email" aria-label="Email address">
-                    <button type="submit">Subscribe</button>
+                    <input 
+                        type="email" 
+                        placeholder="Enter your email" 
+                        class="newsletter-input" 
+                        required
+                        aria-label="Email address"
+                    >
+                    <button type="submit" class="newsletter-btn">
+                        <i class="fas fa-paper-plane"></i>Subscribe
+                    </button>
                 </form>
+                <p class="newsletter-note">No spam, unsubscribe anytime.</p>
             </div>
         </div>
-    </div>
 
-    <div class="footer-divider"></div>
-
-    <div class="footer-bottom">
-        <p>&copy; 2024 MangaMotion AI. All rights reserved.</p>
-        <div class="footer-legal">
-            <a href="#">Privacy Policy</a>
-            <a href="#">Terms of Service</a>
-            <a href="#">Cookie Policy</a>
+        <!-- Bottom Section -->
+        <div class="footer-bottom">
+            <p class="footer-copyright">&copy; 2024 MangaMotion. All rights reserved.</p>
+            <div class="footer-legal">
+                <a href="#" class="legal-link">Privacy Policy</a>
+                <span class="legal-separator">•</span>
+                <a href="#" class="legal-link">Terms of Service</a>
+                <span class="legal-separator">•</span>
+                <a href="#" class="legal-link">Cookie Policy</a>
+            </div>
         </div>
-    </div>
     </footer>
     </main>
 
