@@ -7,7 +7,15 @@ import {
   Instagram,
   ChevronDown,
   Send,
-} from 'lucide-react';
+import {
+  Mail as MailIcon,
+  Github as GithubIcon,
+  Twitter as TwitterIcon,
+  Linkedin as LinkedinIcon,
+  Instagram as InstagramIcon,
+  ChevronDown as ChevronDownIcon,
+  Send as SendIcon,
+} from '@lucide/react';
 
 interface FooterProps {
   variant?: 'compact' | 'premium';
