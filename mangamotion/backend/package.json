@@ -32,7 +32,11 @@
     "amqplib": "^0.10.3",
     "better-sqlite3": "^8.5.0",
     "dotenv": "^16.0.0",
-    "minio": "^7.0.18"
+    "minio": "^7.0.18",
+    "bcrypt": "^5.1.0",
+    "jsonwebtoken": "^9.0.0",
+    "cookie-parser": "^1.4.6",
+    "ws": "^8.14.0"
   },
   "devDependencies": {
     "jest": "^29.0.0",

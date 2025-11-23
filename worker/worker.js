@@ -33,10 +33,12 @@ async function start() {
 
       try {
         const data = JSON.parse(msg.content.toString());
-        const { jobId, filePath, prompt } = data;
+        const { jobId, filePath, prompt, testFileUrl, style, seed } = data;
         console.log(`[Worker] Received job ${jobId}`);
-        console.log(`[Worker]   - File: ${filePath}`);
+        console.log(`[Worker]   - File: ${filePath || '(none - prompt-only)'}`);
         console.log(`[Worker]   - Prompt: ${prompt || '(none)'}`);
+        console.log(`[Worker]   - Style: ${style || '(default)'}`);
+        console.log(`[Worker]   - Seed: ${seed || '(random)'}`);
 
         // Update job -> processing
         const now = new Date().toISOString();
@@ -54,17 +56,33 @@ async function start() {
           fs.mkdirSync(tempDir, { recursive: true });
         }
 
-        const ext = path.extname(filePath);
-        const localInput = path.join(tempDir, `${jobId}_input${ext}`);
+        // Determine source file: use filePath if provided (upload), otherwise use testFileUrl (prompt-only)
+        let localInput;
+        const sourceFile = filePath || testFileUrl;
+        const ext = path.extname(sourceFile);
+        localInput = path.join(tempDir, `${jobId}_input${ext}`);
 
-        console.log(`[Worker] Downloading ${filePath} to ${localInput}`);
-        await new Promise((resolve, reject) => {
-          minioClient.fGetObject(BUCKET, filePath, localInput, function (err) {
-            if (err) return reject(err);
-            resolve();
+        if (filePath) {
+          // Download from MinIO (file upload case)
+          console.log(`[Worker] Downloading ${filePath} to ${localInput}`);
+          await new Promise((resolve, reject) => {
+            minioClient.fGetObject(BUCKET, filePath, localInput, function (err) {
+              if (err) return reject(err);
+              resolve();
+            });
           });
-        });
-        console.log(`[Worker] Download complete`);
+          console.log(`[Worker] Download complete`);
+        } else if (testFileUrl) {
+          // Use local test file (prompt-only case)
+          console.log(`[Worker] Using test file: ${testFileUrl}`);
+          if (!fs.existsSync(testFileUrl)) {
+            throw new Error(`Test file not found: ${testFileUrl}`);
+          }
+          fs.copyFileSync(testFileUrl, localInput);
+          console.log(`[Worker] Test file copied to ${localInput}`);
+        } else {
+          throw new Error('No file source provided (filePath or testFileUrl required)');
+        }
 
         // Simulate processing work (replace with real AI pipeline)
         console.log(`[Worker] Simulating processing for job ${jobId}...`);

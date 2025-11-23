@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const multer = require('multer');
+const cookieParser = require('cookie-parser');
 const { queueAdd, queueScan, getJobStatus } = require('./queue/queues');
 const { createPresign } = require('./s3');
 const { v4: uuidv4 } = require('uuid');
@@ -31,6 +32,7 @@ if (!fs.existsSync(config.UPLOAD_DIR)) fs.mkdirSync(config.UPLOAD_DIR, { recursi
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
 
 // Add tracing middleware
 app.use(tracingMiddleware);
@@ -391,6 +393,22 @@ app.get('/api/billing/all-users', async (req, res) => {
 // ===== Upload → Enqueue → Respond Endpoints =====
 const uploadEnqueueRouter = require('./routes/upload-enqueue');
 app.use('/api', uploadEnqueueRouter);
+
+// ===== Generate from Prompt → Enqueue Endpoints =====
+const generateFromPromptRouter = require('./routes/generate-from-prompt');
+app.use('/api', generateFromPromptRouter);
+
+// ===== Authentication Endpoints =====
+const authRouter = require('./auth/routes');
+app.use(authRouter);
+
+// ===== User Jobs Endpoints =====
+const userJobsRouter = require('./routes/user-jobs');
+app.use(userJobsRouter);
+
+// ===== Credits Endpoints =====
+const creditsRouter = require('./credits/routes');
+app.use(creditsRouter);
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
