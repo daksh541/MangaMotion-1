@@ -229,16 +229,16 @@
                 <!-- Enhanced Upload Section -->
                 <div class="mb-8">
                     <!-- Drag and Drop Zone -->
-                    <div id="upload-zone" class="border-2 border-dashed border-primary/30 rounded-2xl p-12 text-center transition-all duration-300 hover:border-primary/60 hover:bg-primary/5 mb-8">
+                    <div id="upload-zone" class="border-2 border-dashed border-primary/30 rounded-2xl p-12 text-center transition-all duration-300 hover:border-primary/60 hover:bg-primary/5 mb-8 cursor-pointer group">
                         <div class="max-w-md mx-auto">
-                            <div class="w-20 h-20 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-primary/20">
+                            <div class="w-20 h-20 bg-gradient-to-br from-primary/10 to-secondary/10 rounded-2xl flex items-center justify-center mx-auto mb-6 border border-primary/20 group-hover:scale-110 transition-transform duration-300">
                                 <i class="fas fa-cloud-upload-alt text-3xl text-primary"></i>
                             </div>
                             <h3 class="text-xl font-bold mb-2">Drag & Drop Manga Pages Here</h3>
                             <p class="text-gray-400 text-sm mb-6">Or click to browse files (JPG, PNG, WEBP)</p>
                             <input type="file" id="file-input" class="hidden" multiple accept="image/jpeg,image/png,image/webp">
                             <button id="select-files" class="px-6 py-3 bg-gradient-to-r from-primary to-secondary text-white rounded-xl font-medium hover:opacity-90 transition-all transform hover:scale-105 active:scale-95 shadow-lg hover:shadow-primary/30">
-                                Select Files
+                                <i class="fas fa-folder-open mr-2"></i>Select Files
                             </button>
                             <button id="try-demo" class="mt-4 px-6 py-2 text-sm text-primary hover:text-white font-medium transition-colors">
                                 <i class="fas fa-magic mr-2"></i>Try a Demo Project (No Upload Needed)
@@ -246,16 +246,46 @@
                         </div>
                     </div>
 
-                    <!-- File Preview Area -->
-                    <div id="file-preview" class="hidden">
-                        <div class="flex justify-between items-center mb-4">
-                            <h4 class="font-medium text-white">Selected Files</h4>
-                            <div class="text-sm text-gray-400">
-                                <span id="file-count">0</span> files • <span id="total-size">0 MB</span>
+                    <!-- Upload Progress Section -->
+                    <div id="upload-progress" class="hidden mb-8">
+                        <div class="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
+                            <div class="flex items-center justify-between mb-4">
+                                <h4 class="font-medium text-white">Uploading Files</h4>
+                                <span id="upload-percentage" class="text-sm text-primary font-medium">0%</span>
+                            </div>
+                            <div class="w-full bg-white/10 rounded-full h-2 overflow-hidden">
+                                <div id="upload-bar" class="bg-gradient-to-r from-primary to-secondary h-full rounded-full transition-all duration-300" style="width: 0%"></div>
+                            </div>
+                            <div class="mt-4 space-y-2">
+                                <div id="upload-status" class="text-sm text-textMuted">Preparing files...</div>
+                                <div id="upload-details" class="text-xs text-gray-500"></div>
                             </div>
                         </div>
-                        <div id="file-list" class="space-y-3 max-h-64 overflow-y-auto pr-2 custom-scrollbar">
-                            <!-- Files will be added here dynamically -->
+                    </div>
+
+                    <!-- File Preview Area -->
+                    <div id="file-preview" class="hidden mb-8">
+                        <div class="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10">
+                            <div class="flex justify-between items-center mb-6">
+                                <div>
+                                    <h4 class="font-medium text-white mb-1">Selected Files</h4>
+                                    <p class="text-xs text-gray-500">Ready to upload</p>
+                                </div>
+                                <div class="text-right">
+                                    <div class="text-sm text-primary font-medium">
+                                        <span id="file-count">0</span> files
+                                    </div>
+                                    <div class="text-xs text-gray-500">
+                                        <span id="total-size">0 MB</span> total
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="file-list" class="space-y-2 max-h-80 overflow-y-auto pr-2 custom-scrollbar">
+                                <!-- Files will be added here dynamically -->
+                            </div>
+                            <button id="clear-files" class="mt-4 w-full px-4 py-2 text-sm text-gray-400 hover:text-red-400 border border-white/10 hover:border-red-400/30 rounded-lg transition-colors">
+                                <i class="fas fa-trash mr-2"></i>Clear All Files
+                            </button>
                         </div>
                     </div>
 
@@ -264,15 +294,27 @@
                         <div class="flex items-center justify-between cursor-pointer group" id="pro-tips-toggle">
                             <div class="flex items-center">
                                 <i class="fas fa-lightbulb text-yellow-400 mr-2"></i>
-                                <span class="font-medium text-white">Pro Tips</span>
+                                <span class="font-medium text-white">Pro Tips for Best Results</span>
                             </div>
                             <i class="fas fa-chevron-down text-gray-500 text-xs transform transition-transform duration-200 group-hover:text-white" id="pro-tips-icon"></i>
                         </div>
-                        <div id="pro-tips-content" class="mt-3 text-sm text-gray-400 space-y-2 hidden">
-                            <p>• For best results, use high-quality images (min 1000px on the shortest side)</p>
-                            <p>• Keep file names in the correct order (e.g., page01.jpg, page02.jpg)</p>
-                            <p>• Supported formats: JPG, PNG, WEBP (Max 50MB per file)</p>
-                            <p>• Upload in the correct reading order (left to right, top to bottom)</p>
+                        <div id="pro-tips-content" class="mt-4 text-sm text-gray-400 space-y-3 hidden">
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-green-400 mt-0.5 flex-shrink-0"></i>
+                                <p>Use high-quality images (minimum 1000px on the shortest side)</p>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-green-400 mt-0.5 flex-shrink-0"></i>
+                                <p>Name files in order (e.g., page01.jpg, page02.jpg) for automatic sequencing</p>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-green-400 mt-0.5 flex-shrink-0"></i>
+                                <p>Supported formats: JPG, PNG, WEBP (Max 50MB per file)</p>
+                            </div>
+                            <div class="flex items-start space-x-3">
+                                <i class="fas fa-check-circle text-green-400 mt-0.5 flex-shrink-0"></i>
+                                <p>Upload pages in reading order (left to right, top to bottom)</p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -508,6 +550,15 @@
             const caseStudyCarousel = document.getElementById('caseStudyCarousel');
             const prevCaseBtn = document.getElementById('prevCase');
             const nextCaseBtn = document.getElementById('nextCase');
+            const uploadProgress = document.getElementById('upload-progress');
+            const uploadBar = document.getElementById('upload-bar');
+            const uploadPercentage = document.getElementById('upload-percentage');
+            const uploadStatus = document.getElementById('upload-status');
+            const uploadDetails = document.getElementById('upload-details');
+            const clearFilesBtn = document.getElementById('clear-files');
+            
+            // Store selected files
+            let selectedFiles = [];
 
             // Case studies data
             const caseStudies = [
@@ -662,17 +713,14 @@
                 handleFiles({ target: { files } });
             }
 
-            function handleFiles(e) {
-                const files = e.target.files;
-                if (files.length === 0) return;
-
+            function updateFileDisplay() {
                 // Show file preview
                 filePreview.classList.remove('hidden');
                 fileList.innerHTML = '';
                 
                 let totalFileSize = 0;
                 
-                Array.from(files).forEach((file, index) => {
+                selectedFiles.forEach((file, index) => {
                     // Calculate file size
                     const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
                     totalFileSize += parseFloat(fileSizeMB);
@@ -681,16 +729,16 @@
                     const fileItem = document.createElement('div');
                     fileItem.className = 'flex items-center justify-between p-3 bg-slate-800/50 rounded-xl border border-white/5 hover:border-primary/30 transition-colors';
                     fileItem.innerHTML = `
-                        <div class="flex items-center space-x-3">
-                            <div class="w-10 h-10 bg-slate-700/50 rounded-lg flex items-center justify-center text-gray-400">
+                        <div class="flex items-center space-x-3 flex-1">
+                            <div class="w-10 h-10 bg-slate-700/50 rounded-lg flex items-center justify-center text-gray-400 flex-shrink-0">
                                 <i class="fas fa-file-image"></i>
                             </div>
-                            <div>
-                                <p class="text-sm font-medium truncate max-w-[180px]" title="${file.name}">${file.name}</p>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-medium truncate" title="${file.name}">${file.name}</p>
                                 <p class="text-xs text-gray-500">${fileSizeMB} MB</p>
                             </div>
                         </div>
-                        <button class="text-gray-400 hover:text-red-400 transition-colors" data-index="${index}">
+                        <button class="text-gray-400 hover:text-red-400 transition-colors flex-shrink-0 ml-2" data-index="${index}">
                             <i class="fas fa-times"></i>
                         </button>
                     `;
@@ -698,11 +746,11 @@
                 });
 
                 // Update file count and total size
-                fileCount.textContent = files.length;
+                fileCount.textContent = selectedFiles.length;
                 totalSize.textContent = `${totalFileSize.toFixed(2)} MB`;
-                fileStatus.textContent = `${files.length} ${files.length === 1 ? 'file' : 'files'} selected`;
+                fileStatus.textContent = `${selectedFiles.length} ${selectedFiles.length === 1 ? 'file' : 'files'} selected`;
                 fileStatus.classList.remove('hidden');
-                nextButton.disabled = files.length === 0;
+                nextButton.disabled = selectedFiles.length === 0;
 
                 // Add event listeners to remove buttons
                 document.querySelectorAll('#file-list button').forEach(btn => {
@@ -714,23 +762,30 @@
                 });
             }
 
+            function handleFiles(e) {
+                const files = e.target.files;
+                if (files.length === 0) return;
+
+                // Add files to selectedFiles array
+                selectedFiles = Array.from(files);
+                updateFileDisplay();
+            }
+
             function removeFile(index) {
-                // This is a simplified version - in a real app, you'd update the FileList
-                const items = fileList.querySelectorAll('.bg-slate-800\/50');
-                if (items[index]) {
-                    items[index].classList.add('opacity-0', 'h-0', 'p-0', 'border-0', 'm-0');
-                    setTimeout(() => {
-                        items[index].remove();
-                        const newCount = fileList.children.length;
-                        fileCount.textContent = newCount;
-                        fileStatus.textContent = `${newCount} ${newCount === 1 ? 'file' : 'files'} selected`;
-                        nextButton.disabled = newCount === 0;
-                        
-                        if (newCount === 0) {
-                            filePreview.classList.add('hidden');
-                        }
-                    }, 300);
+                selectedFiles.splice(index, 1);
+                if (selectedFiles.length === 0) {
+                    filePreview.classList.add('hidden');
+                } else {
+                    updateFileDisplay();
                 }
+            }
+
+            function clearAllFiles() {
+                selectedFiles = [];
+                filePreview.classList.add('hidden');
+                fileInput.value = '';
+                fileStatus.classList.add('hidden');
+                nextButton.disabled = true;
             }
 
             // Try Demo functionality
@@ -742,46 +797,47 @@
 
                 // Simulate loading
                 setTimeout(() => {
-                    // In a real app, this would load a demo project
+                    // Create demo file objects
                     const demoFiles = [
-                        { name: 'demo-page-01.jpg', size: 1024 * 1024 * 1.5 },
-                        { name: 'demo-page-02.jpg', size: 1024 * 1024 * 1.2 },
-                        { name: 'demo-page-03.jpg', size: 1024 * 1024 * 1.7 }
+                        { name: 'demo-page-01.jpg', size: 1024 * 1024 * 1.5, isDemo: true },
+                        { name: 'demo-page-02.jpg', size: 1024 * 1024 * 1.2, isDemo: true },
+                        { name: 'demo-page-03.jpg', size: 1024 * 1024 * 1.7, isDemo: true }
                     ];
 
+                    // Set selected files
+                    selectedFiles = demoFiles;
+                    
                     // Show file preview
                     filePreview.classList.remove('hidden');
                     fileList.innerHTML = '';
 
                     let totalFileSize = 0;
 
-                    demoFiles.forEach((file, index) => {
+                    selectedFiles.forEach((file, index) => {
                         const fileSizeMB = (file.size / (1024 * 1024)).toFixed(2);
                         totalFileSize += parseFloat(fileSizeMB);
 
                         const fileItem = document.createElement('div');
                         fileItem.className = 'flex items-center justify-between p-3 bg-slate-800/50 rounded-xl border border-white/5 hover:border-primary/30 transition-colors';
                         fileItem.innerHTML = `
-                            <div class="flex items-center space-x-3">
-                                <div class="w-10 h-10 bg-slate-700/50 rounded-lg flex items-center justify-center text-gray-400">
+                            <div class="flex items-center space-x-3 flex-1">
+                                <div class="w-10 h-10 bg-slate-700/50 rounded-lg flex items-center justify-center text-gray-400 flex-shrink-0">
                                     <i class="fas fa-file-image"></i>
                                 </div>
-                                <div>
-                                    <p class="text-sm font-medium truncate max-w-[180px]" title="${file.name}">${file.name}</p>
+                                <div class="flex-1 min-w-0">
+                                    <p class="text-sm font-medium truncate" title="${file.name}">${file.name}</p>
                                     <p class="text-xs text-gray-500">${fileSizeMB} MB</p>
                                 </div>
                             </div>
-                            <div class="text-xs px-2 py-1 bg-green-900/30 text-green-400 rounded">
-                                Demo
-                            </div>
+                            ${file.isDemo ? '<div class="text-xs px-2 py-1 bg-green-900/30 text-green-400 rounded flex-shrink-0">Demo</div>' : '<button class="text-gray-400 hover:text-red-400 transition-colors flex-shrink-0 ml-2" data-index="' + index + '"><i class="fas fa-times"></i></button>'}
                         `;
                         fileList.appendChild(fileItem);
                     });
 
                     // Update file count and total size
-                    fileCount.textContent = demoFiles.length;
+                    fileCount.textContent = selectedFiles.length;
                     totalSize.textContent = `${totalFileSize.toFixed(2)} MB`;
-                    fileStatus.textContent = `${demoFiles.length} ${demoFiles.length === 1 ? 'file' : 'files'} selected`;
+                    fileStatus.textContent = `${selectedFiles.length} ${selectedFiles.length === 1 ? 'file' : 'files'} selected`;
                     fileStatus.classList.remove('hidden');
                     nextButton.disabled = false;
 
@@ -799,12 +855,13 @@
                 tryDemoBtn.click();
             }
             
+            // Add clear files button handler
+            clearFilesBtn.addEventListener('click', clearAllFiles);
+
             // Next button click handler
             nextButton.addEventListener('click', async () => {
                 try {
-                    // Get uploaded files
-                    const files = fileInput.files;
-                    if (!files || files.length === 0) {
+                    if (!selectedFiles || selectedFiles.length === 0) {
                         alert('Please upload at least one file first');
                         return;
                     }
@@ -814,22 +871,74 @@
                     nextButton.innerHTML = `
                         <span class="flex items-center">
                             <i class="fas fa-circle-notch fa-spin mr-2"></i>
-                            <span>Processing...</span>
+                            <span>Uploading...</span>
                         </span>
                     `;
                     nextButton.disabled = true;
+                    uploadZone.style.pointerEvents = 'none';
+                    uploadZone.style.opacity = '0.5';
+
+                    // Show upload progress
+                    uploadProgress.classList.remove('hidden');
+                    uploadStatus.textContent = 'Preparing files...';
+                    uploadDetails.textContent = '';
 
                     // Prepare files data for storage
                     const fileData = [];
-                    for (let i = 0; i < files.length; i++) {
-                        const file = files[i];
-                        fileData.push({
-                            name: file.name,
-                            size: file.size,
-                            type: file.type,
-                            lastModified: file.lastModified
-                        });
+                    let uploadedSize = 0;
+                    const totalSize = selectedFiles.reduce((sum, f) => sum + f.size, 0);
+
+                    // Simulate file upload with progress
+                    for (let i = 0; i < selectedFiles.length; i++) {
+                        const file = selectedFiles[i];
+                        
+                        // Skip demo files
+                        if (file.isDemo) {
+                            fileData.push({
+                                name: file.name,
+                                size: file.size,
+                                type: 'image/jpeg',
+                                lastModified: Date.now(),
+                                isDemo: true
+                            });
+                            uploadedSize += file.size;
+                        } else {
+                            // Simulate uploading real files
+                            uploadStatus.textContent = `Uploading file ${i + 1} of ${selectedFiles.length}`;
+                            uploadDetails.textContent = `${file.name}`;
+
+                            // Simulate upload progress
+                            await new Promise(resolve => {
+                                let progress = 0;
+                                const interval = setInterval(() => {
+                                    progress += Math.random() * 30;
+                                    if (progress > 100) progress = 100;
+                                    
+                                    const currentProgress = ((uploadedSize + (file.size * progress / 100)) / totalSize) * 100;
+                                    uploadBar.style.width = currentProgress + '%';
+                                    uploadPercentage.textContent = Math.round(currentProgress) + '%';
+                                    
+                                    if (progress >= 100) {
+                                        clearInterval(interval);
+                                        uploadedSize += file.size;
+                                        resolve();
+                                    }
+                                }, 100);
+                            });
+
+                            fileData.push({
+                                name: file.name,
+                                size: file.size,
+                                type: file.type || 'image/jpeg',
+                                lastModified: file.lastModified || Date.now()
+                            });
+                        }
                     }
+
+                    // Final progress update
+                    uploadBar.style.width = '100%';
+                    uploadPercentage.textContent = '100%';
+                    uploadStatus.textContent = 'Processing files...';
 
                     // Create project object
                     const project = {
@@ -847,7 +956,7 @@
                             height: 720 
                         },
                         currentStep: 'upload',
-                        status: 'processing'
+                        status: 'completed'
                     };
                     
                     // Save project to localStorage
@@ -855,10 +964,10 @@
                     
                     // Track the event if analytics is available
                     if (window.trackEvent) {
-                        window.trackEvent('upload_next_clicked', { fileCount: files.length });
+                        window.trackEvent('upload_completed', { fileCount: selectedFiles.length, totalSize: totalSize });
                     }
                     
-                    // Simulate processing time (in a real app, this would be an actual file upload/processing)
+                    // Wait a moment before navigating
                     await new Promise(resolve => setTimeout(resolve, 1000));
                     
                     // Navigate to the next page
@@ -869,8 +978,11 @@
                     alert('An error occurred. Please try again.');
                     
                     // Reset button state
-                    nextButton.innerHTML = 'Continue to Review <i class="fas fa-arrow-right ml-2"></i>';
+                    nextButton.innerHTML = '<span class="flex items-center"><span>Continue to Review</span><i class="fas fa-arrow-right ml-2"></i></span>';
                     nextButton.disabled = false;
+                    uploadZone.style.pointerEvents = 'auto';
+                    uploadZone.style.opacity = '1';
+                    uploadProgress.classList.add('hidden');
                 }
             });
 
