@@ -388,6 +388,10 @@ app.get('/api/billing/all-users', async (req, res) => {
   }
 });
 
+// ===== Upload → Enqueue → Respond Endpoints =====
+const uploadEnqueueRouter = require('./routes/upload-enqueue');
+app.use('/api', uploadEnqueueRouter);
+
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   const metrics = getMetricsSummary();

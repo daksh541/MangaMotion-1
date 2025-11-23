@@ -8,7 +8,9 @@
     "test": "jest --coverage",
     "test:watch": "jest --watch",
     "test:unit": "jest --testPathPattern=\\.unit\\.test\\.js",
-    "test:integration": "jest --testPathPattern=\\.test\\.js --testPathIgnorePatterns=\\.unit\\.test\\.js"
+    "test:integration": "jest --testPathPattern=\\.test\\.js --testPathIgnorePatterns=\\.unit\\.test\\.js",
+    "migrate": "node src/migrate.js",
+    "worker": "node ../worker/worker.js"
   },
   "dependencies": {
     "express": "^4.18.2",
@@ -26,7 +28,11 @@
     "@opentelemetry/core": "^1.17.0",
     "@opentelemetry/propagator-jaeger": "^1.17.0",
     "@opentelemetry/instrumentation": "^0.41.0",
-    "@opentelemetry/exporter-jaeger": "^2.1.0"
+    "@opentelemetry/exporter-jaeger": "^2.1.0",
+    "amqplib": "^0.10.3",
+    "better-sqlite3": "^8.5.0",
+    "dotenv": "^16.0.0",
+    "minio": "^7.0.18"
   },
   "devDependencies": {
     "jest": "^29.0.0",
