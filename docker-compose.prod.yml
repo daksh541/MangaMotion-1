@@ -99,6 +99,14 @@ services:
       JWT_SECRET: ${JWT_SECRET:-change-me-in-production}
       JWT_REFRESH_SECRET: ${JWT_REFRESH_SECRET:-change-me-in-production}
       STRIPE_WEBHOOK_SECRET: ${STRIPE_WEBHOOK_SECRET:-whsec_test}
+      STRIPE_PUBLISHABLE_KEY: ${STRIPE_PUBLISHABLE_KEY}
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+      SENTRY_DSN: ${SENTRY_DSN}
+      SENTRY_ENVIRONMENT: production
+      SENTRY_TRACES_SAMPLE_RATE: 0.1
+      LOG_LEVEL: ${LOG_LEVEL:-warn}
+      RATE_LIMIT_JOBS_PER_MINUTE: ${RATE_LIMIT_JOBS_PER_MINUTE:-5}
+      WORKER_SECRET: ${WORKER_SECRET}
     depends_on:
       postgres:
         condition: service_healthy
@@ -111,13 +119,16 @@ services:
     ports:
       - "3000:3000"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
+      test: ["CMD", "sh", "-c", "node ../scripts/check-db.js && curl -f http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 15s
+      retries: 3
+      start_period: 60s
     networks:
       - mangamotion
     restart: unless-stopped
+    volumes:
+      - ./scripts:/app/scripts:ro
 
   # Worker Process
   worker:
