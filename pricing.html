@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/public/css/design-system.css?v=2">
     <link rel="stylesheet" href="/public/css/main.css?v=2">
     <link rel="stylesheet" href="/public/css/animations.css?v=2">
+    <link rel="stylesheet" href="/public/css/pricing.css?v=1">
     <link rel="stylesheet" href="/public/css/footer-unified.css?v=1">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap">
@@ -151,133 +152,158 @@
             </div>
         </header>
 
-    <!-- Pricing Cards -->
-    <section class="pb-20 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-7xl mx-auto">
-            <div class="grid md:grid-cols-3 gap-8">
+    <!-- Pricing Cards Section -->
+    <section class="pricing-section">
+        <div class="pricing-container">
+            <!-- Pricing Header -->
+            <div class="pricing-header">
+                <h2>Simple, Transparent Pricing</h2>
+                <p>Choose the perfect plan for your creative journey. No hidden fees, cancel anytime.</p>
+            </div>
+
+            <!-- Billing Toggle -->
+            <div class="billing-toggle-wrapper">
+                <span class="billing-label">Monthly</span>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="billingToggle">
+                    <span class="toggle-slider"></span>
+                    <div class="toggle-switch-bg"></div>
+                </label>
+                <span class="billing-label">Yearly <span class="savings-badge">Save 20%</span></span>
+            </div>
+
+            <!-- Pricing Cards Grid -->
+            <div class="pricing-cards-grid">
                 <!-- Free Plan -->
-                <div class="pricing-card rounded-2xl p-8">
-                    <div class="text-center mb-8">
-                        <h3 class="text-2xl font-bold mb-2">Free</h3>
-                        <div class="price-amount mb-2">₹0</div>
-                        <p class="text-gray-400">Forever</p>
+                <div class="pricing-card">
+                    <div class="card-header">
+                        <h3 class="plan-name">Free</h3>
+                        <div class="plan-price">
+                            <span class="price-currency">₹</span>
+                            <span class="price-amount">0</span>
+                        </div>
+                        <p class="plan-description">Forever free, no credit card required</p>
                     </div>
                     
-                    <div class="space-y-4 mb-8">
-                        <div class="feature-item included">
-                            <i class="fas fa-check mr-3"></i>
+                    <div class="features-list">
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
                             <span>720p exports</span>
                         </div>
-                        <div class="feature-item included">
-                            <i class="fas fa-check mr-3"></i>
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
                             <span>3 AI voices</span>
                         </div>
-                        <div class="feature-item included">
-                            <i class="fas fa-check mr-3"></i>
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
                             <span>Basic motion styles</span>
                         </div>
-                        <div class="feature-item included">
-                            <i class="fas fa-check mr-3"></i>
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
                             <span>Auto panel detection</span>
                         </div>
-                        <div class="feature-item included">
-                            <i class="fas fa-check mr-3"></i>
-                            <span>Watermark included</span>
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
+                            <span>Community support</span>
                         </div>
                         <div class="feature-item excluded">
-                            <i class="fas fa-times mr-3"></i>
+                            <div class="feature-icon">✕</div>
                             <span>Priority support</span>
                         </div>
                     </div>
                     
-                    <button onclick="window.location.href='dashboard.html'" class="cta-button outline w-full py-4 rounded-xl text-white font-bold">
-                        Current Plan
+                    <button onclick="window.location.href='dashboard.html'" class="card-cta outline">
+                        Get Started
                     </button>
                 </div>
 
-                <!-- Creator Plan -->
-                <div class="pricing-card featured rounded-2xl p-8">
-                    <div class="text-center mb-8">
-                        <h3 class="text-2xl font-bold mb-2">Creator</h3>
-                        <div class="price-amount mb-2">
-                            <span id="creatorPrice">₹499</span>
+                <!-- Creator Plan (Featured) -->
+                <div class="pricing-card featured">
+                    <div class="card-header">
+                        <h3 class="plan-name">Creator</h3>
+                        <div class="plan-price">
+                            <span class="price-currency">₹</span>
+                            <span class="price-amount" id="creatorPrice">499</span>
+                            <span class="price-period">/ mo</span>
                         </div>
-                        <p class="text-gray-400">Per month</p>
+                        <p class="plan-description">Perfect for individual creators</p>
                     </div>
                     
-                    <div class="space-y-4 mb-8">
-                        <div class="feature-item included">
-                            <i class="fas fa-check mr-3"></i>
+                    <div class="features-list">
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
                             <span>1080p exports</span>
                         </div>
-                        <div class="feature-item included">
-                            <i class="fas fa-check mr-3"></i>
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
                             <span>10 AI voices</span>
                         </div>
-                        <div class="feature-item included">
-                            <i class="fas fa-check mr-3"></i>
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
                             <span>All motion styles</span>
                         </div>
-                        <div class="feature-item included">
-                            <i class="fas fa-check mr-3"></i>
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
                             <span>No watermark</span>
                         </div>
-                        <div class="feature-item included">
-                            <i class="fas fa-check mr-3"></i>
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
                             <span>Priority processing</span>
                         </div>
-                        <div class="feature-item included">
-                            <i class="fas fa-check mr-3"></i>
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
                             <span>Email support</span>
                         </div>
                     </div>
                     
-                    <button onclick="upgradeToCreator()" class="cta-button w-full py-4 rounded-xl text-white font-bold">
-                        <i class="fas fa-rocket mr-2"></i>
-                        Upgrade to Creator
+                    <button onclick="upgradeToCreator()" class="card-cta primary">
+                        <i class="fas fa-rocket" style="margin-right: 0.5rem;"></i>
+                        Upgrade Now
                     </button>
                 </div>
 
                 <!-- Studio Plan -->
-                <div class="pricing-card rounded-2xl p-8">
-                    <div class="text-center mb-8">
-                        <h3 class="text-2xl font-bold mb-2">Studio</h3>
-                        <div class="price-amount mb-2">
-                            <span id="studioPrice">₹2999</span>
+                <div class="pricing-card">
+                    <div class="card-header">
+                        <h3 class="plan-name">Studio</h3>
+                        <div class="plan-price">
+                            <span class="price-currency">₹</span>
+                            <span class="price-amount" id="studioPrice">2999</span>
+                            <span class="price-period">/ mo</span>
                         </div>
-                        <p class="text-gray-400">Per month</p>
+                        <p class="plan-description">For professional studios & teams</p>
                     </div>
                     
-                    <div class="space-y-4 mb-8">
-                        <div class="feature-item included">
-                            <i class="fas fa-check mr-3"></i>
+                    <div class="features-list">
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
                             <span>4K exports</span>
                         </div>
-                        <div class="feature-item included">
-                            <i class="fas fa-check mr-3"></i>
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
                             <span>All AI voices</span>
                         </div>
-                        <div class="feature-item included">
-                            <i class="fas fa-check mr-3"></i>
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
                             <span>Custom voice training</span>
                         </div>
-                        <div class="feature-item included">
-                            <i class="fas fa-check mr-3"></i>
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
                             <span>No watermark</span>
                         </div>
-                        <div class="feature-item included">
-                            <i class="fas fa-check mr-3"></i>
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
                             <span>Team collaboration</span>
                         </div>
-                        <div class="feature-item included">
-                            <i class="fas fa-check mr-3"></i>
+                        <div class="feature-item">
+                            <div class="feature-icon">✓</div>
                             <span>24/7 priority support</span>
                         </div>
                     </div>
                     
-                    <button onclick="upgradeToStudio()" class="cta-button w-full py-4 rounded-xl text-white font-bold">
-                        <i class="fas fa-crown mr-2"></i>
-                        Upgrade to Studio
+                    <button onclick="upgradeToStudio()" class="card-cta primary">
+                        <i class="fas fa-crown" style="margin-right: 0.5rem;"></i>
+                        Upgrade Now
                     </button>
                 </div>
             </div>
@@ -285,118 +311,154 @@
     </section>
 
     <!-- Detailed Comparison -->
-    <section class="pb-20 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-6xl mx-auto">
-            <h2 class="text-4xl font-bold text-center mb-16">Compare All Features</h2>
+    <section class="pricing-section">
+        <div class="pricing-container">
+            <h2 class="comparison-title">Compare All Features</h2>
             
-            <div class="comparison-table rounded-2xl overflow-hidden">
-                <div class="table-header p-6">
-                    <div class="grid grid-cols-4 gap-4">
-                        <div class="font-bold">Features</div>
-                        <div class="text-center font-bold">Free</div>
-                        <div class="text-center font-bold text-purple-400">Creator</div>
-                        <div class="text-center font-bold text-orange-400">Studio</div>
-                    </div>
+            <div class="comparison-table">
+                <div class="table-header">
+                    <div class="table-header-cell">Features</div>
+                    <div class="table-header-cell">Free</div>
+                    <div class="table-header-cell">Creator</div>
+                    <div class="table-header-cell">Studio</div>
                 </div>
                 
-                <div class="p-6 space-y-4">
-                    <!-- Export Quality -->
-                    <div class="grid grid-cols-4 gap-4 py-3 border-b border-white/10">
-                        <div>Export Quality</div>
-                        <div class="text-center">720p</div>
-                        <div class="text-center">Up to 1080p</div>
-                        <div class="text-center">Up to 4K</div>
-                    </div>
-                    
-                    <!-- AI Voices -->
-                    <div class="grid grid-cols-4 gap-4 py-3 border-b border-white/10">
-                        <div>AI Voices</div>
-                        <div class="text-center">3</div>
-                        <div class="text-center">10</div>
-                        <div class="text-center">All + Custom</div>
-                    </div>
-                    
-                    <!-- Motion Styles -->
-                    <div class="grid grid-cols-4 gap-4 py-3 border-b border-white/10">
-                        <div>Motion Styles</div>
-                        <div class="text-center">Basic</div>
-                        <div class="text-center">All</div>
-                        <div class="text-center">All + Custom</div>
-                    </div>
-                    
-                    <!-- Watermark -->
-                    <div class="grid grid-cols-4 gap-4 py-3 border-b border-white/10">
-                        <div>Watermark</div>
-                        <div class="text-center text-red-400">Yes</div>
-                        <div class="text-center text-green-400">No</div>
-                        <div class="text-center text-green-400">No</div>
-                    </div>
-                    
-                    <!-- Processing Priority -->
-                    <div class="grid grid-cols-4 gap-4 py-3 border-b border-white/10">
-                        <div>Processing Priority</div>
-                        <div class="text-center">Standard</div>
-                        <div class="text-center text-green-400">High</div>
-                        <div class="text-center text-green-400">Highest</div>
-                    </div>
-                    
-                    <!-- Team Collaboration -->
-                    <div class="grid grid-cols-4 gap-4 py-3 border-b border-white/10">
-                        <div>Team Collaboration</div>
-                        <div class="text-center text-red-400">No</div>
-                        <div class="text-center text-red-400">No</div>
-                        <div class="text-center text-green-400">Yes</div>
-                    </div>
-                    
-                    <!-- Support -->
-                    <div class="grid grid-cols-4 gap-4 py-3">
-                        <div>Support</div>
-                        <div class="text-center">Community</div>
-                        <div class="text-center">Email</div>
-                        <div class="text-center">24/7 Priority</div>
-                    </div>
+                <!-- Export Quality -->
+                <div class="table-row">
+                    <div class="table-cell">Export Quality</div>
+                    <div class="table-cell">720p</div>
+                    <div class="table-cell">Up to 1080p</div>
+                    <div class="table-cell">Up to 4K</div>
+                </div>
+                
+                <!-- AI Voices -->
+                <div class="table-row">
+                    <div class="table-cell">AI Voices</div>
+                    <div class="table-cell">3</div>
+                    <div class="table-cell">10</div>
+                    <div class="table-cell">All + Custom</div>
+                </div>
+                
+                <!-- Motion Styles -->
+                <div class="table-row">
+                    <div class="table-cell">Motion Styles</div>
+                    <div class="table-cell">Basic</div>
+                    <div class="table-cell">All</div>
+                    <div class="table-cell">All + Custom</div>
+                </div>
+                
+                <!-- Watermark -->
+                <div class="table-row">
+                    <div class="table-cell">Watermark</div>
+                    <div class="table-cell"><span class="feature-cross">✕</span></div>
+                    <div class="table-cell"><span class="feature-check">✓</span></div>
+                    <div class="table-cell"><span class="feature-check">✓</span></div>
+                </div>
+                
+                <!-- Processing Priority -->
+                <div class="table-row">
+                    <div class="table-cell">Processing Priority</div>
+                    <div class="table-cell">Standard</div>
+                    <div class="table-cell"><span style="color: #00FF7F; font-weight: 600;">High</span></div>
+                    <div class="table-cell"><span style="color: #00FF7F; font-weight: 600;">Highest</span></div>
+                </div>
+                
+                <!-- Team Collaboration -->
+                <div class="table-row">
+                    <div class="table-cell">Team Collaboration</div>
+                    <div class="table-cell"><span class="feature-cross">✕</span></div>
+                    <div class="table-cell"><span class="feature-cross">✕</span></div>
+                    <div class="table-cell"><span class="feature-check">✓</span></div>
+                </div>
+                
+                <!-- Support -->
+                <div class="table-row">
+                    <div class="table-cell">Support</div>
+                    <div class="table-cell">Community</div>
+                    <div class="table-cell">Email</div>
+                    <div class="table-cell">24/7 Priority</div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- FAQ Section -->
-    <section class="pb-20 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-4xl mx-auto">
-            <h2 class="text-4xl font-bold text-center mb-16">Frequently Asked Questions</h2>
+    <section class="pricing-section">
+        <div class="pricing-container">
+            <h2 class="faq-title">Frequently Asked Questions</h2>
             
-            <div class="space-y-6">
-                <div class="pricing-card rounded-xl p-6">
-                    <h3 class="text-xl font-bold mb-3">Can I cancel anytime?</h3>
-                    <p class="text-gray-400">Yes, you can cancel your subscription at any time. You'll continue to have access until the end of your billing period.</p>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span class="faq-question-text">Can I cancel anytime?</span>
+                        <div class="faq-toggle-icon">▼</div>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="faq-answer-text">Yes, you can cancel your subscription at any time. You'll continue to have access until the end of your billing period. No questions asked, no hidden fees.</p>
+                    </div>
                 </div>
                 
-                <div class="pricing-card rounded-xl p-6">
-                    <h3 class="text-xl font-bold mb-3">What happens to my projects if I downgrade?</h3>
-                    <p class="text-gray-400">Your projects remain accessible, but you'll be limited to the features of your new plan. 4K projects will be available in 1080p.</p>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span class="faq-question-text">What happens to my projects if I downgrade?</span>
+                        <div class="faq-toggle-icon">▼</div>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="faq-answer-text">Your projects remain accessible, but you'll be limited to the features of your new plan. 4K projects will be available in 1080p, and some advanced features may be disabled.</p>
+                    </div>
                 </div>
                 
-                <div class="pricing-card rounded-xl p-6">
-                    <h3 class="text-xl font-bold mb-3">Is there a free trial?</h3>
-                    <p class="text-gray-400">We offer a free plan that includes basic features. Paid plans don't have a trial period but can be cancelled anytime.</p>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span class="faq-question-text">Is there a free trial?</span>
+                        <div class="faq-toggle-icon">▼</div>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="faq-answer-text">We offer a free plan that includes basic features. Paid plans don't have a trial period but can be cancelled anytime. Start with the free plan to explore MangaMotion.</p>
+                    </div>
                 </div>
                 
-                <div class="pricing-card rounded-xl p-6">
-                    <h3 class="text-xl font-bold mb-3">Do you offer refunds?</h3>
-                    <p class="text-gray-400">We offer refunds within 7 days of purchase if you're not satisfied with our service.</p>
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span class="faq-question-text">Do you offer refunds?</span>
+                        <div class="faq-toggle-icon">▼</div>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="faq-answer-text">We offer refunds within 7 days of purchase if you're not satisfied with our service. Contact our support team for assistance with refund requests.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span class="faq-question-text">Can I upgrade or downgrade anytime?</span>
+                        <div class="faq-toggle-icon">▼</div>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="faq-answer-text">Yes! You can upgrade or downgrade your plan at any time. Changes take effect immediately, and we'll prorate your billing accordingly.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span class="faq-question-text">What payment methods do you accept?</span>
+                        <div class="faq-toggle-icon">▼</div>
+                    </div>
+                    <div class="faq-answer">
+                        <p class="faq-answer-text">We accept all major credit cards, debit cards, and digital payment methods through our secure Stripe payment gateway. Your payment information is always encrypted.</p>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer CTA -->
-    <section class="pb-20 px-4 sm:px-6 lg:px-8">
-        <div class="max-w-4xl mx-auto text-center">
-            <div class="pricing-card rounded-2xl p-12">
-                <h2 class="text-3xl font-bold mb-4">Ready to Create Amazing Motion Manga?</h2>
-                <p class="text-gray-400 text-lg mb-8">Join thousands of creators already using MangaMotion AI</p>
-                <button onclick="window.location.href='dashboard.html'" class="cta-button px-12 py-4 rounded-xl text-white font-bold text-lg">
-                    <i class="fas fa-rocket mr-2"></i>
+    <section class="pricing-section">
+        <div class="pricing-container">
+            <div class="pricing-cta-card">
+                <h2>Ready to Create Amazing Motion Manga?</h2>
+                <p>Join thousands of creators already using MangaMotion AI to bring their manga to life</p>
+                <button onclick="window.location.href='dashboard.html'" class="pricing-cta-button">
+                    <i class="fas fa-rocket" style="margin-right: 0.5rem;"></i>
                     Start Creating Now
                 </button>
             </div>
@@ -556,7 +618,7 @@
                 });
             }
 
-            // Billing toggle functionality
+            // Billing toggle functionality with smooth animation
             const billingToggle = document.getElementById('billingToggle');
             const creatorPrice = document.getElementById('creatorPrice');
             const studioPrice = document.getElementById('studioPrice');
@@ -565,27 +627,70 @@
                 billingToggle.addEventListener('change', function() {
                     if (this.checked) {
                         // Yearly pricing (20% discount)
-                        if (creatorPrice) creatorPrice.textContent = '₹399';
-                        if (studioPrice) studioPrice.textContent = '₹2399';
+                        if (creatorPrice) {
+                            creatorPrice.style.opacity = '0.5';
+                            setTimeout(() => {
+                                creatorPrice.textContent = '399';
+                                creatorPrice.style.opacity = '1';
+                            }, 150);
+                        }
+                        if (studioPrice) {
+                            studioPrice.style.opacity = '0.5';
+                            setTimeout(() => {
+                                studioPrice.textContent = '2399';
+                                studioPrice.style.opacity = '1';
+                            }, 150);
+                        }
                     } else {
                         // Monthly pricing
-                        if (creatorPrice) creatorPrice.textContent = '₹499';
-                        if (studioPrice) studioPrice.textContent = '₹2999';
+                        if (creatorPrice) {
+                            creatorPrice.style.opacity = '0.5';
+                            setTimeout(() => {
+                                creatorPrice.textContent = '499';
+                                creatorPrice.style.opacity = '1';
+                            }, 150);
+                        }
+                        if (studioPrice) {
+                            studioPrice.style.opacity = '0.5';
+                            setTimeout(() => {
+                                studioPrice.textContent = '2999';
+                                studioPrice.style.opacity = '1';
+                            }, 150);
+                        }
                     }
                 });
             }
+
+            // FAQ Accordion functionality
+            const faqItems = document.querySelectorAll('.faq-item');
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                question.addEventListener('click', () => {
+                    const isActive = item.classList.contains('active');
+                    
+                    // Close all other items
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current item
+                    item.classList.toggle('active');
+                });
+            });
 
             // Upgrade functions
             window.upgradeToCreator = function() {
                 // Simulate upgrade process
                 const button = event.target;
-                const originalText = button.innerHTML;
-                button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processing...';
+                const originalHTML = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right: 0.5rem;"></i>Processing...';
                 button.disabled = true;
 
                 setTimeout(() => {
                     alert('Redirecting to payment gateway...\n\nThis would normally open the Stripe checkout page.');
-                    button.innerHTML = originalText;
+                    button.innerHTML = originalHTML;
                     button.disabled = false;
                 }, 2000);
             };
@@ -593,13 +698,13 @@
             window.upgradeToStudio = function() {
                 // Simulate upgrade process
                 const button = event.target;
-                const originalText = button.innerHTML;
-                button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Processing...';
+                const originalHTML = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-spinner fa-spin" style="margin-right: 0.5rem;"></i>Processing...';
                 button.disabled = true;
 
                 setTimeout(() => {
                     alert('Redirecting to payment gateway...\n\nThis would normally open the Stripe checkout page.');
-                    button.innerHTML = originalText;
+                    button.innerHTML = originalHTML;
                     button.disabled = false;
                 }, 2000);
             };
@@ -646,6 +751,12 @@
             // Observe elements for animation
             document.querySelectorAll('.pricing-card, .comparison-table').forEach(card => {
                 observer.observe(card);
+            });
+
+            // Add smooth transitions to price amounts
+            const priceAmounts = document.querySelectorAll('.price-amount');
+            priceAmounts.forEach(price => {
+                price.style.transition = 'opacity 0.3s ease';
             });
         });
     </script>
