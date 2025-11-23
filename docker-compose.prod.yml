@@ -147,6 +147,12 @@ services:
       MINIO_BUCKET: ${MINIO_BUCKET:-mangamotion}
       MODEL_ADAPTER_TYPE: ${MODEL_ADAPTER_TYPE:-mock}
       REDIS_URL: redis://:${REDIS_PASSWORD:-redis}@redis:6379
+      SENTRY_DSN: ${SENTRY_DSN}
+      SENTRY_ENVIRONMENT: production
+      WORKER_SECRET: ${WORKER_SECRET}
+      WORKER_CONCURRENCY: ${WORKER_CONCURRENCY:-2}
+      MAX_JOB_DURATION: ${MAX_JOB_DURATION:-600}
+      COST_PER_JOB_LIMIT: ${COST_PER_JOB_LIMIT:-0.50}
     depends_on:
       rabbitmq:
         condition: service_healthy
@@ -159,6 +165,12 @@ services:
     networks:
       - mangamotion
     restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "sh", "-c", "ps aux | grep worker.py | grep -v grep || exit 1"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
 
   # Nginx Reverse Proxy
   nginx:
